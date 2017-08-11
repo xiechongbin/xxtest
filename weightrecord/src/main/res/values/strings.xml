@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">weightrecord</string>
+    <!--单位-->
+    <string name="weight_unit">体重单位</string>
+    <string name="height_unit">身高单位</string>
+    <string name="e_kg">kg</string>
+    <string name="c_kg">千克</string>
+    <string name="e_lb">lb</string>
+    <string name="c_lb">磅</string>
+    <string name="e_st">st</string>
+    <string name="c_st">英石</string>
+    <string name="e_cm">cm</string>
+    <string name="c_cm">厘米</string>
+    <string name="e_in">in</string>
+    <string name="c_in">英寸</string>
 </resources>
