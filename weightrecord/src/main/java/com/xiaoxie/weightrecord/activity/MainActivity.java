@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.view.CircleView;
+import com.xiaoxie.weightrecord.view.DashBoardView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private CircleView ll_kg;
@@ -18,8 +19,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_intro_first);
-        initView();
+        //setContentView(R.layout.layout_intro_first);
+        setContentView(R.layout.layout_intro_two);
+      //  initView();
+        //setContentView(new DashBoardView(this));
     }
 
     private void initView() {

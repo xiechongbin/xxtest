@@ -6,4 +6,31 @@
     <color name="color_27ae60">#27ae60</color>
     <color name="color_41f28c">#41f28c</color>
     <color name="color_f3a11e">#f3a11e</color>
+    <color name="color_2ecc71">#2ecc71</color>
+    <color name="color_6bc792">#6bc792</color>
+    <color name="color_aadfce">#aadfce</color>
+
+    <declare-styleable name="SeekCircle">
+        <attr name="max" format="integer" value="100" />
+        <attr name="progress" format="integer" value="0" />
+        <attr name="startColor" format="color" />
+        <attr name="endColor" format="color" />
+        <attr name="inactiveColor" format="color" />
+        <attr name="ringBias" format="float" />
+        <attr name="sectionRatio" format="float" />
+    </declare-styleable>
+    <declare-styleable name="CircularRing">
+        <attr name="roundColor" format="color" />
+        <attr name="roundProgressColor" format="color" />
+        <attr name="circleRoundWidth" format="dimension" />
+        <attr name="circleWidth" format="dimension" />
+        <attr name="circleTextColor" format="color" />
+        <attr name="circleNumber" format="integer" />
+        <attr name="circleTextSize" format="dimension" />
+        <attr name="circleColor1" format="color" />
+        <attr name="circleColor2" format="color" />
+        <attr name="circleColor3" format="color" />
+        <attr name="circleColor4" format="color" />
+        <attr name="circleColor5" format="color" />
+    </declare-styleable>
 </resources>
