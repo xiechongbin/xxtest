@@ -1,13 +1,11 @@
 package com.xiaoxie.weightrecord.activity;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.view.CircleView;
-import com.xiaoxie.weightrecord.view.DashBoardView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private CircleView ll_kg;
@@ -20,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.layout_intro_first);
-        setContentView(R.layout.layout_intro_two);
+        setContentView(R.layout.layout_intro_second);
       //  initView();
         //setContentView(new DashBoardView(this));
     }
