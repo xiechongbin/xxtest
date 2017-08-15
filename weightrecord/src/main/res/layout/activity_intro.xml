@@ -1,40 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/viewpager"
     tools:context="com.xiaoxie.weightrecord.activity.introActivity">
 
-    <LinearLayout
-        android:layout_marginBottom="1dp"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content">
+
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@android:color/darker_gray"
+        android:layout_gravity="center_vertical|bottom"
+        android:alpha="0.4"
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/bt_back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_arrow_back_white"/>
+            android:id="@+id/img_back"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_white" />
 
         <ImageView
             android:id="@+id/img_fistpage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/img_secondpages"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-              />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/bt_next"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_arrow_forward_white_24dp"/>
+            android:id="@+id/img_next"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_forward_white_24dp" />
     </LinearLayout>
 
-</android.support.v4.view.ViewPager>
+</FrameLayout>

@@ -9,7 +9,7 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="2dp"
         android:gravity="center_horizontal"
         android:text="测试"
         android:textColor="@android:color/white"
@@ -18,7 +18,8 @@
     <FrameLayout
         android:id="@+id/fm"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="210dp"
+        android:layout_below="@id/tv_title">
 
         <com.xiaoxie.weightrecord.view.DashBoardView
             android:id="@+id/dashboardView"
@@ -39,7 +40,7 @@
             android:id="@+id/weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="120dp"
             android:gravity="center_horizontal"
             android:text="100"
             android:textColor="@android:color/white"
@@ -83,6 +84,7 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/tv_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--"
@@ -105,6 +107,7 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/tv_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--"
@@ -122,11 +125,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="身高"
+                android:text="性别"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/tv_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--"
@@ -149,6 +153,7 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/tv_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--"

@@ -68,14 +68,14 @@ public class DashBoardView extends LinearLayout {
         paint_outside.setAntiAlias(true);//抗锯齿
         paint_outside.setStyle(Paint.Style.STROKE);
 
-        RectF rectF = new RectF(WIDTH / 6, 0, (WIDTH / 3) * 2 + WIDTH / 6, (WIDTH / 3) * 2);//绘制矩形区域
+        RectF rectF = new RectF(WIDTH / 6, 3, (WIDTH / 3) * 2 + WIDTH / 6, (WIDTH / 3) * 2);//绘制矩形区域
         //canvas.drawRect(rectF, paint_outside);
         canvas.drawArc(rectF, 150, 240, false, paint_outside);//绘制外圈
 
         Paint paint_inner = new Paint(paint_outside);
         paint_inner.setColor(getResources().getColor(R.color.color_6bc792));
         paint_inner.setStrokeWidth(12);
-        RectF rectF_inner = new RectF(WIDTH / 6 + 20, 20, (WIDTH / 3) * 2 - 20 + WIDTH / 6, (WIDTH / 3) * 2 - 20);//绘制矩形区域
+        RectF rectF_inner = new RectF(WIDTH / 6 + 20, 23, (WIDTH / 3) * 2 - 20 + WIDTH / 6, (WIDTH / 3) * 2 - 20);//绘制矩形区域
         canvas.drawArc(rectF_inner, 150, 240, false, paint_inner);//绘制内圈
         canvas.save();
 
@@ -102,14 +102,5 @@ public class DashBoardView extends LinearLayout {
         canvas.restore();
 
     }
-
-    /**
-     * 初始化
-     */
-    private void init(Context context, AttributeSet set) {
-        TypedArray typedArray = context.obtainStyledAttributes(set, R.styleable.CircleRelativeLayoutLayout);
-
-    }
-
 
 }
