@@ -114,11 +114,11 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
         intro_second = layoutInflater.inflate(R.layout.layout_intro_second, null);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        ll_kg = (CircleView) intro_first.findViewById(R.id.ll_kg);
-        ll_lb = (CircleView) intro_first.findViewById(R.id.ll_lb);
-        ll_st = (CircleView) intro_first.findViewById(R.id.ll_st);
-        ll_cm = (CircleView) intro_first.findViewById(R.id.ll_cm);
-        ll_in = (CircleView) intro_first.findViewById(R.id.ll_in);
+        ll_kg = intro_first.findViewById(R.id.ll_kg);
+        ll_lb = intro_first.findViewById(R.id.ll_lb);
+        ll_st = intro_first.findViewById(R.id.ll_st);
+        ll_cm = intro_first.findViewById(R.id.ll_cm);
+        ll_in = intro_first.findViewById(R.id.ll_in);
 
         img_back = (ImageView) findViewById(R.id.img_back);
         img_dot1 = (ImageView) findViewById(R.id.img_fistpage);
@@ -150,15 +150,15 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initSecondPage() {
-        ll_sex = (LinearLayout) intro_second.findViewById(R.id.ll_sex);
-        ll_weight = (LinearLayout) intro_second.findViewById(R.id.ll_weight);
-        ll_height = (LinearLayout) intro_second.findViewById(R.id.ll_height);
-        ll_birthday = (LinearLayout) intro_second.findViewById(R.id.ll_birthday);
+        ll_sex = intro_second.findViewById(R.id.ll_sex);
+        ll_weight = intro_second.findViewById(R.id.ll_weight);
+        ll_height = intro_second.findViewById(R.id.ll_height);
+        ll_birthday = intro_second.findViewById(R.id.ll_birthday);
 
-        tv_sex = (TextView) intro_second.findViewById(R.id.tv_sex);
-        tv_weight = (TextView) intro_second.findViewById(R.id.tv_weight);
-        tv_height = (TextView) intro_second.findViewById(R.id.tv_height);
-        tv_birthday = (TextView) intro_second.findViewById(R.id.tv_birthday);
+        tv_sex = intro_second.findViewById(R.id.tv_sex);
+        tv_weight = intro_second.findViewById(R.id.tv_weight);
+        tv_height = intro_second.findViewById(R.id.tv_height);
+        tv_birthday = intro_second.findViewById(R.id.tv_birthday);
 
         ll_sex.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
@@ -228,8 +228,10 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
                 showSexDialog();
                 break;
             case R.id.ll_birthday:
+                showBirthdayDialog();
                 break;
             case R.id.ll_height:
+                showHeightDialog();
                 break;
             case R.id.ll_weight:
                 showWeightDialog();
@@ -277,6 +279,45 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
         builder.create().show();
     }
 
+    /**
+     * 身高展示对话框
+     */
+    private void showHeightDialog() {
+        final CustomDialog.HeightBuilder builder = new CustomDialog.HeightBuilder(this);
+        builder.setOnHeightDialogOnclickListener(new CustomDialog.HeightBuilder.HeightDialogOnClickListener() {
+            @Override
+            public void OnConfirmed(String height) {
+                if (TextUtils.isEmpty(height))
+                    return;
+                tv_height.setText(height);
+            }
+
+            @Override
+            public void OnCanceled() {
+            }
+        });
+        builder.create().show();
+    }
+
+    /**
+     * 身高展示对话框
+     */
+    private void showBirthdayDialog() {
+        final CustomDialog.BirthdayBuilder builder = new CustomDialog.BirthdayBuilder(this);
+        builder.setOnBirthdayDialogOnclickListener(new CustomDialog.BirthdayBuilder.BirthdayDialogOnClickListener() {
+            @Override
+            public void OnConfirmed(String date) {
+                if (TextUtils.isEmpty(date))
+                    return;
+                tv_birthday.setText(date);
+            }
+
+            @Override
+            public void OnCanceled() {
+            }
+        });
+        builder.create().show();
+    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

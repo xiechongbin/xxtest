@@ -1,23 +1,23 @@
 package com.xiaoxie.weightrecord.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.ViewPager;
+import android.view.Window;
+import android.widget.GridLayout;
 
 import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.view.CalendarView;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends Activity {
+    private CalendarView calendarView;
+    private GridLayout gridLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.layout_intro_first);
-        setContentView(R.layout.layout_intro_second);
-      //  initView();
-        //setContentView(new DashBoardView(this));
-    }
-
-    private void initView() {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_main);
 
     }
 

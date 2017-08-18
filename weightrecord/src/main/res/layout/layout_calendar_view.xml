@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/color_009688"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="1987"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="8月16日周日"
+            android:textColor="@android:color/white"
+            android:textSize="35sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_year"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:divider="@android:color/transparent"
+        android:visibility="gone"/>
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_calendarview_cancel"
+            style="@style/style_calendar_keyboard"
+            android:layout_marginLeft="150dp"
+            android:text="取消"
+            android:textColor="@color/color_009688" />
+
+        <Button
+            android:id="@+id/bt_calendarview_confirm"
+            style="@style/style_calendar_keyboard"
+            android:layout_marginLeft="25dp"
+            android:text="确定"
+            android:textColor="@color/color_009688" />
+
+    </LinearLayout>
+</LinearLayout>
