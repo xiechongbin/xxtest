@@ -5,32 +5,34 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:paddingLeft="10dp"
+        android:textSize="20sp"
         android:text="性别" />
 
     <RadioGroup
         android:id="@+id/radiogroup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <RadioButton
             android:id="@+id/man"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="男性" />
 
 
         <RadioButton
             android:id="@+id/woman"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="女性" />
     </RadioGroup>
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
@@ -38,6 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:layout_marginLeft="100dp"
+            android:textColor="@color/color_009688"
             android:text="取消" />
 
         <Button
@@ -45,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:textColor="@color/color_009688"
             android:text="确定" />
 
 

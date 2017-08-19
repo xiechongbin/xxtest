@@ -15,4 +15,6 @@
     <string name="c_in">英寸</string>
     <string name="back"><![CDATA[<]]></string>
     <string name="next"><![CDATA[>]]></string>
+
+    <string name="outrange">超过长度限制</string>
 </resources>

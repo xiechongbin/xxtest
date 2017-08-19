@@ -263,8 +263,8 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
      * 体重展示对话框
      */
     private void showWeightDialog() {
-        final CustomDialog.WeightBuilder builder = new CustomDialog.WeightBuilder(this);
-        builder.setOnWeightDialogOnclickListener(new CustomDialog.WeightBuilder.WeightDialogOnClickListener() {
+        final CustomDialog.WeightAndHeightBuilder builder = new CustomDialog.WeightAndHeightBuilder(this);
+        builder.setOnWeightDialogOnclickListener(new CustomDialog.WeightAndHeightBuilder.WeightDialogOnClickListener() {
             @Override
             public void OnConfirmed(String weight) {
                 if (TextUtils.isEmpty(weight))
@@ -283,8 +283,8 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
      * 身高展示对话框
      */
     private void showHeightDialog() {
-        final CustomDialog.HeightBuilder builder = new CustomDialog.HeightBuilder(this);
-        builder.setOnHeightDialogOnclickListener(new CustomDialog.HeightBuilder.HeightDialogOnClickListener() {
+        final CustomDialog.WeightAndHeightBuilder builder = new CustomDialog.WeightAndHeightBuilder(this, true);
+        builder.setOnWeightDialogOnclickListener(new CustomDialog.WeightAndHeightBuilder.WeightDialogOnClickListener() {
             @Override
             public void OnConfirmed(String height) {
                 if (TextUtils.isEmpty(height))
