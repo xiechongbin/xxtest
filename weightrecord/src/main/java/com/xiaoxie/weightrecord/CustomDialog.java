@@ -1,25 +1,19 @@
 package com.xiaoxie.weightrecord;
 
 import android.app.Dialog;
-import android.app.admin.DeviceAdminInfo;
 import android.content.Context;
 import android.support.annotation.IdRes;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.PixelCopy;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,13 +24,11 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.xiaoxie.weightrecord.adapter.YearSelectAdapter;
+import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * desc:对话框工具类
@@ -58,19 +50,19 @@ public class CustomDialog extends Dialog {
     }
 
     public static class SexBuilder implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
-        private CustomDialog SexDialog;
-        private RadioButton radioButton_man;
-        private RadioButton radioButton_woman;
+        private CustomDialog sexDialog;
         private Button mBtnConfirm;
         private Button mBtnCancel;
-        private SexDialogOnClickListener listener;
         private RadioGroup group;
+        private RadioButton radioButton_man;
+        private RadioButton radioButton_woman;
+        private SexDialogOnClickListener listener;
+        private Context context;
         private String sex;
 
         public SexBuilder(Context context) {
             initView(context);
         }
-
 
         public interface SexDialogOnClickListener {
             void OnConfirmed(String sex);
@@ -80,6 +72,25 @@ public class CustomDialog extends Dialog {
 
         public void setOnSexDialogOnclickListener(SexDialogOnClickListener listener) {
             this.listener = listener;
+        }
+
+        private void initView(Context context) {
+            this.context = context;
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            sexDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_sex, null);
+            sexDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            group = (RadioGroup) layout.findViewById(R.id.radiogroup);
+            radioButton_man = (RadioButton) layout.findViewById(R.id.man);
+            radioButton_woman = (RadioButton) layout.findViewById(R.id.woman);
+            mBtnConfirm = (Button) layout.findViewById(R.id.confirm);
+            mBtnCancel = (Button) layout.findViewById(R.id.cancel);
+            radioButton_man.setOnClickListener(this);
+            radioButton_woman.setOnClickListener(this);
+            mBtnConfirm.setOnClickListener(this);
+            mBtnCancel.setOnClickListener(this);
+            group.setOnCheckedChangeListener(this);
         }
 
         @Override
@@ -108,48 +119,29 @@ public class CustomDialog extends Dialog {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
             if (i == R.id.man) {
-                sex = "男";
+                sex = context.getText(R.string.man).toString();
             } else if (i == R.id.woman) {
-                sex = "女";
+                sex = context.getText(R.string.woman).toString();
             } else {
                 sex = "";
             }
         }
 
-
-        private void initView(Context context) {
-            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            SexDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
-            View layout = mInflater.inflate(R.layout.layout_dialog_sex, null);
-            SexDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-            group = (RadioGroup) layout.findViewById(R.id.radiogroup);
-            radioButton_man = (RadioButton) layout.findViewById(R.id.man);
-            radioButton_woman = (RadioButton) layout.findViewById(R.id.woman);
-            mBtnConfirm = (Button) layout.findViewById(R.id.confirm);
-            mBtnCancel = (Button) layout.findViewById(R.id.cancel);
-            radioButton_man.setOnClickListener(this);
-            radioButton_woman.setOnClickListener(this);
-            mBtnConfirm.setOnClickListener(this);
-            mBtnCancel.setOnClickListener(this);
-            group.setOnCheckedChangeListener(this);
-        }
-
         private void dismiss() {
-            if (SexDialog != null && SexDialog.isShowing())
-                SexDialog.dismiss();
+            if (sexDialog != null && sexDialog.isShowing())
+                sexDialog.dismiss();
         }
 
         public Dialog create() {
-            return SexDialog;
+            return sexDialog;
         }
 
         public void show() {
-            SexDialog.show();
+            sexDialog.show();
         }
 
         public CustomDialog getAlertDialog() {
-            return SexDialog;
+            return sexDialog;
         }
     }
 
@@ -173,7 +165,7 @@ public class CustomDialog extends Dialog {
         private TextView tvWeight;
         private TextView tvUnit;
         private String value = "";
-        private WeightDialogOnClickListener listener;
+        private DialogClickListener listener;
         private boolean isHeight = false;
 
         public WeightAndHeightBuilder(Context context) {
@@ -185,13 +177,7 @@ public class CustomDialog extends Dialog {
             initView(context);
         }
 
-        public interface WeightDialogOnClickListener {
-            void OnConfirmed(String weight);
-
-            void OnCanceled();
-        }
-
-        public void setOnWeightDialogOnclickListener(WeightDialogOnClickListener listener) {
+        public void setOnWeightDialogOnclickListener(DialogClickListener listener) {
             this.listener = listener;
         }
 
@@ -325,15 +311,16 @@ public class CustomDialog extends Dialog {
         private Button bCancel;
         private TextView tvYear;
         private TextView tvDate;
-        private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
-        private BirthdayDialogOnClickListener listener;
-        private String date1;
-        private String date2;
         private MaterialCalendarView materialCalendarView;
         private ListView mListView;
-        private int year;
         private LinearLayout layout_year_select;
+
+        private DialogClickListener listener;
         private YearSelectAdapter adapter;
+        private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
+        private int year;
+        private String date1;
+        private String date2;
 
         public BirthdayBuilder(Context context) {
             initView(context);
@@ -352,17 +339,19 @@ public class CustomDialog extends Dialog {
             tvYear = layout.findViewById(R.id.tvYear);
             tvDate = layout.findViewById(R.id.tvDate);
             layout_year_select = layout.findViewById(R.id.ll_year_select);
+            mListView = layout.findViewById(R.id.list_year);
             bConfirm.setOnClickListener(this);
             bCancel.setOnClickListener(this);
             tvYear.setOnClickListener(this);
             materialCalendarView.setOnDateChangedListener(this);
             materialCalendarView.setOnMonthChangedListener(this);
-            mListView = layout.findViewById(R.id.list_year);
             mListView.setOnItemClickListener(this);
             adapter = new YearSelectAdapter(context);
             mListView.setAdapter(adapter);
-            int currentyear = Calendar.getInstance().get(Calendar.YEAR);
-            mListView.setSelection(currentyear);//设置当前位置
+
+            int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+            tvYear.setText(currentYear+"");
+            mListView.setSelection(currentYear);//设置当前位置
         }
 
         @Override
@@ -394,13 +383,7 @@ public class CustomDialog extends Dialog {
             materialCalendarView.setCurrentDate(calendar);
         }
 
-        public interface BirthdayDialogOnClickListener {
-            void OnConfirmed(String date);
-
-            void OnCanceled();
-        }
-
-        public void setOnBirthdayDialogOnclickListener(BirthdayDialogOnClickListener listener) {
+        public void setOnBirthdayDialogOnclickListener(DialogClickListener listener) {
             this.listener = listener;
         }
 

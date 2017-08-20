@@ -14,40 +14,46 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@android:color/darker_gray"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical|bottom"
         android:alpha="0.4"
+        android:background="@color/color_f3a11e"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1"
             android:src="@drawable/ic_arrow_back_white" />
 
-        <ImageView
-            android:id="@+id/img_fistpage"
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignLeft="@id/img_back"
+            android:layout_weight="1">
 
-        <ImageView
-            android:id="@+id/img_secondpages"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/img_fistpage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/img_secondpages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/img_fistpage" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/img_next"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:src="@drawable/ic_arrow_forward_white_24dp" />
     </LinearLayout>
 

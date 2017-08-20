@@ -12,7 +12,7 @@
         android:layout_marginTop="40dp"
         android:text="@string/weight_unit"
         android:textColor="@color/color_41f28c"
-        android:textSize="25dp" />
+        android:textSize="23dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,8 +23,8 @@
 
         <com.xiaoxie.weightrecord.view.CircleView
             android:id="@+id/ll_kg"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -33,21 +33,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/e_kg"
                 android:textColor="@android:color/white"
-                android:textSize="35dp"/>
+                android:textSize="35dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/c_kg"
                 android:textColor="@android:color/white"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
 
         </com.xiaoxie.weightrecord.view.CircleView>
 
         <com.xiaoxie.weightrecord.view.CircleView
             android:id="@+id/ll_lb"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -56,21 +56,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/e_lb"
                 android:textColor="@android:color/white"
-                android:textSize="35dp"/>
+                android:textSize="35dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/c_lb"
                 android:textColor="@android:color/white"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
 
         </com.xiaoxie.weightrecord.view.CircleView>
 
         <com.xiaoxie.weightrecord.view.CircleView
             android:id="@+id/ll_st"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/e_st"
                 android:textColor="@android:color/white"
-                android:textSize="35dp"/>
+                android:textSize="35dp" />
 
             <TextView
 
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/c_st"
                 android:textColor="@android:color/white"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
 
         </com.xiaoxie.weightrecord.view.CircleView>
 
@@ -97,10 +97,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="@string/height_unit"
         android:textColor="@color/color_41f28c"
-        android:layout_marginTop="25dp"
-        android:textSize="25dp" />
+        android:textSize="23dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -110,8 +110,8 @@
 
         <com.xiaoxie.weightrecord.view.CircleView
             android:id="@+id/ll_cm"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -120,21 +120,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/e_cm"
                 android:textColor="@android:color/white"
-                android:textSize="35dp"/>
+                android:textSize="35dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/c_cm"
                 android:textColor="@android:color/white"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
 
         </com.xiaoxie.weightrecord.view.CircleView>
 
         <com.xiaoxie.weightrecord.view.CircleView
             android:id="@+id/ll_in"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -143,14 +143,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/e_in"
                 android:textColor="@android:color/white"
-                android:textSize="35dp"/>
+                android:textSize="35dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/c_in"
                 android:textColor="@android:color/white"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
 
         </com.xiaoxie.weightrecord.view.CircleView>
     </LinearLayout>

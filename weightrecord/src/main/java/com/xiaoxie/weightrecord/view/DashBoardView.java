@@ -21,6 +21,7 @@ public class DashBoardView extends LinearLayout {
 
     private float RECT_WHTDH;//矩形宽
     private float RECT_HEIGHT;//矩形高
+    private Canvas canvas;
 
 
     /**
@@ -57,33 +58,33 @@ public class DashBoardView extends LinearLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        this.canvas = canvas;
         WIDTH = getWidth();
         HEIGHT = getHeight();
         canvas.drawColor(getResources().getColor(R.color.color_27ae60));//绘制背景
         Paint paint_outside = new Paint();
-        paint_outside.setColor(getResources().getColor(R.color.color_2ecc71));
+        paint_outside.setColor(getResources().getColor(R.color.color_6bc792));
         paint_outside.setStrokeWidth(8);
         paint_outside.setStrokeCap(Paint.Cap.ROUND);
         paint_outside.setStrokeJoin(Paint.Join.ROUND);
         paint_outside.setAntiAlias(true);//抗锯齿
         paint_outside.setStyle(Paint.Style.STROKE);
 
-        RectF rectF = new RectF(WIDTH / 6, 3, (WIDTH / 3) * 2 + WIDTH / 6, (WIDTH / 3) * 2);//绘制矩形区域
-        //canvas.drawRect(rectF, paint_outside);
+        RectF rectF = new RectF(WIDTH / 6 + 30, 3 + 30, (WIDTH / 3) * 2 + WIDTH / 6 - 30, (WIDTH / 3) * 2 - 30);//绘制矩形区域
         canvas.drawArc(rectF, 150, 240, false, paint_outside);//绘制外圈
 
         Paint paint_inner = new Paint(paint_outside);
         paint_inner.setColor(getResources().getColor(R.color.color_6bc792));
-        paint_inner.setStrokeWidth(12);
-        RectF rectF_inner = new RectF(WIDTH / 6 + 20, 23, (WIDTH / 3) * 2 - 20 + WIDTH / 6, (WIDTH / 3) * 2 - 20);//绘制矩形区域
+        paint_inner.setStrokeWidth(13);
+        RectF rectF_inner = new RectF(WIDTH / 6 + 50, 53, (WIDTH / 3) * 2 - 50 + WIDTH / 6, (WIDTH / 3) * 2 - 50);//绘制矩形区域
         canvas.drawArc(rectF_inner, 150, 240, false, paint_inner);//绘制内圈
         canvas.save();
 
         canvas.translate(WIDTH / 2, WIDTH / 3);//将画布移到中心
-        float y = 230;
+        float y = 199;
         int count = 60; //总刻度数
         Paint paint_scale = new Paint();
-        paint_scale.setStrokeWidth(5);
+        paint_scale.setStrokeWidth(2);
         paint_scale.setColor(getResources().getColor(R.color.color_aadfce));
 
         Paint paint_text = new Paint();
@@ -98,9 +99,21 @@ public class DashBoardView extends LinearLayout {
             }
             canvas.rotate(360 / count, 0f, 0f); //旋转画纸
         }
-
         canvas.restore();
 
+    }
+
+    public void setProgess(float value) {
+        RectF rectF = new RectF(WIDTH / 6 + 30, 3 + 30, (WIDTH / 3) * 2 + WIDTH / 6 - 30, (WIDTH / 3) * 2 - 30);//绘制矩形区域
+        Paint paint_outside = new Paint();
+        paint_outside.setColor(getResources().getColor(R.color.color_2ecc71));
+        paint_outside.setStrokeWidth(8);
+        paint_outside.setStrokeCap(Paint.Cap.ROUND);
+        paint_outside.setStrokeJoin(Paint.Join.ROUND);
+        paint_outside.setAntiAlias(true);//抗锯齿
+        paint_outside.setStyle(Paint.Style.STROKE);
+        canvas.drawArc(rectF, 150, (value/60)*360, false, paint_outside);//绘制外圈
+        this.invalidate();
     }
 
 }

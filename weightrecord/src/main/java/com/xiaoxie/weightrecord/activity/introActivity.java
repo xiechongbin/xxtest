@@ -1,33 +1,43 @@
 package com.xiaoxie.weightrecord.activity;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.BlockedNumberContract;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoxie.weightrecord.CustomDialog;
 import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.bean.PersonData;
+import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 import com.xiaoxie.weightrecord.view.CircleView;
+import com.xiaoxie.weightrecord.view.DashBoardView;
 
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-public class introActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+public class introActivity extends Activity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private View intro_first;
     private View intro_second;
     private ViewPager viewPager;
@@ -55,11 +65,21 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
     private TextView tv_height;
     private TextView tv_weight;
     private TextView tv_birthday;
+    private TextView tv_bmi;
+    private PersonData personData;
+    private DashBoardView dashBoardView;
+
+    private myHandler handler = new myHandler(this);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //取消标题栏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //取消状态栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_intro);
         initFirstPage();
         initSecondPage();
@@ -103,6 +123,7 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
             }
         };
         viewPager.setAdapter(adapter);
+        personData = new PersonData();
     }
 
     /**
@@ -159,6 +180,8 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
         tv_weight = intro_second.findViewById(R.id.tv_weight);
         tv_height = intro_second.findViewById(R.id.tv_height);
         tv_birthday = intro_second.findViewById(R.id.tv_birthday);
+        tv_bmi = intro_second.findViewById(R.id.tv_bmi);
+        dashBoardView = intro_second.findViewById(R.id.dashboardView);
 
         ll_sex.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
@@ -250,6 +273,7 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
                 if (TextUtils.isEmpty(sex))
                     return;
                 tv_sex.setText(sex);
+                personData.setSex(sex);
             }
 
             @Override
@@ -264,12 +288,14 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
      */
     private void showWeightDialog() {
         final CustomDialog.WeightAndHeightBuilder builder = new CustomDialog.WeightAndHeightBuilder(this);
-        builder.setOnWeightDialogOnclickListener(new CustomDialog.WeightAndHeightBuilder.WeightDialogOnClickListener() {
+        builder.setOnWeightDialogOnclickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String weight) {
                 if (TextUtils.isEmpty(weight))
                     return;
                 tv_weight.setText(weight);
+                personData.setWeight(Float.valueOf(weight));
+                startAnimation();
             }
 
             @Override
@@ -284,12 +310,14 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
      */
     private void showHeightDialog() {
         final CustomDialog.WeightAndHeightBuilder builder = new CustomDialog.WeightAndHeightBuilder(this, true);
-        builder.setOnWeightDialogOnclickListener(new CustomDialog.WeightAndHeightBuilder.WeightDialogOnClickListener() {
+        builder.setOnWeightDialogOnclickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String height) {
                 if (TextUtils.isEmpty(height))
                     return;
                 tv_height.setText(height);
+                personData.setHeight(Float.valueOf(height));
+                startAnimation();
             }
 
             @Override
@@ -300,16 +328,17 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * 身高展示对话框
+     * 生日展示对话框
      */
     private void showBirthdayDialog() {
         final CustomDialog.BirthdayBuilder builder = new CustomDialog.BirthdayBuilder(this);
-        builder.setOnBirthdayDialogOnclickListener(new CustomDialog.BirthdayBuilder.BirthdayDialogOnClickListener() {
+        builder.setOnBirthdayDialogOnclickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String date) {
                 if (TextUtils.isEmpty(date))
                     return;
                 tv_birthday.setText(date);
+                personData.setBirthday(date);
             }
 
             @Override
@@ -317,6 +346,58 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         builder.create().show();
+    }
+
+    /**
+     * 开始动画
+     */
+    private void startAnimation() {
+        if (personData.getWeight() <= 0 || personData.getHeight() <= 0)
+            return;
+        personData.setBmi(calcuateBMI(personData.getWeight(), personData.getHeight()));
+        final float bmi = personData.getBmi();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                float tmp = 0;
+                while (tmp < bmi) {
+                    try {
+                        tmp = tmp + 0.5f;
+                        Message message = new Message();
+                        Bundle bundle = new Bundle();
+                        message.what = 100;
+                        bundle.putFloat("bmi", tmp);
+                        message.setData(bundle);
+                        Thread.sleep(10);
+                        handler.sendMessage(message);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (tmp >= bmi) {
+                    Message message = new Message();
+                    Bundle bundle = new Bundle();
+                    message.what = 101;
+                    bundle.putFloat("bmi", bmi);
+                    message.setData(bundle);
+                    handler.sendMessage(message);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 计算bmi公式
+     *
+     * @param weight
+     * @param height
+     * @return
+     */
+    private float calcuateBMI(float weight, float height) {
+        height = height / 100;
+        float bmi = weight / (height * height);
+        Log.d("bmi", "weight = " + weight + ">>height = " + height + ">>bmi = " + bmi);
+        return bmi;
     }
 
     @Override
@@ -340,5 +421,30 @@ public class introActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    public class myHandler extends Handler {
+        WeakReference<introActivity> reference;
+
+        public myHandler(introActivity activity) {
+            reference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            final introActivity activity = reference.get();
+            if (activity != null) {
+                if (msg.what == 100) {
+                    Bundle bundle = msg.getData();
+                    activity.tv_bmi.setText(bundle.getFloat("bmi") + "");
+                } else if (msg.what == 101) {
+                    Bundle bundle = msg.getData();
+                    float bmi = bundle.getFloat("bmi");
+                    activity.tv_bmi.setText(bmi + "");
+                    activity.dashBoardView.setProgess(bmi);
+                }
+            }
+        }
     }
 }

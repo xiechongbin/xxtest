@@ -17,4 +17,12 @@
     <string name="next"><![CDATA[>]]></string>
 
     <string name="outrange">超过长度限制</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string name="current_weight">您目前的体重状况</string>
+    <string name="personal_data">请先设置您的个人资料</string>
+    <string name="height">身高</string>
+    <string name="weight">体重</string>
+    <string name="sex">性别</string>
+    <string name="birthday">生日</string>
 </resources>

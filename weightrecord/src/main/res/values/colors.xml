@@ -5,13 +5,15 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_27ae60">#27ae60</color>
     <color name="color_41f28c">#41f28c</color>
-    <color name="color_f3a11e">#f3a11e</color>
+    <color name="color_f3a11e">#1b0d02</color>
     <color name="color_2ecc71">#2ecc71</color>
     <color name="color_6bc792">#6bc792</color>
     <color name="color_aadfce">#aadfce</color>
     <color name="color_33b5e5">#33b5e5</color>
     <color name="color_009688">#009688</color>
-    <color name="color_696969">#696969</color>
+    <color name="color_696969">#d7d4d4</color>
+    <color name="color_249956">#249956</color>
+    <color name="color_3de885">#3de885</color>
 
     <declare-styleable name="SeekCircle">
         <attr name="max" format="integer" value="100" />

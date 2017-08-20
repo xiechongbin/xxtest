@@ -9,40 +9,43 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="48dp"
         android:gravity="center_horizontal"
-        android:text="测试"
+        android:text="@string/current_weight"
         android:textColor="@android:color/white"
-        android:textSize="35sp" />
+        android:textSize="23sp"
+        android:textStyle="bold" />
 
     <FrameLayout
         android:id="@+id/fm"
         android:layout_width="match_parent"
         android:layout_height="210dp"
-        android:layout_below="@id/tv_title">
+        android:layout_below="@id/tv_title"
+        android:layout_marginTop="15dp">
 
         <com.xiaoxie.weightrecord.view.DashBoardView
             android:id="@+id/dashboardView"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="10dp"></com.xiaoxie.weightrecord.view.DashBoardView>
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="70dp"
             android:gravity="center_horizontal"
             android:text="BMI"
             android:textColor="@android:color/white"
-            android:textSize="25sp" />
+            android:textSize="17sp" />
 
         <TextView
-            android:id="@+id/weight"
+            android:id="@+id/tv_bmi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:gravity="center_horizontal"
             android:text="100"
+            android:maxLength="5"
             android:textColor="@android:color/white"
             android:textSize="40sp" />
     </FrameLayout>
@@ -53,18 +56,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fm"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:text="个人资料"
-        android:textColor="@android:color/white"
-        android:textSize="30sp" />
+        android:text="@string/personal_data"
+        android:textColor="@color/color_aadfce"
+        android:textSize="15sp" />
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/health_weight"
         android:background="@android:color/transparent"
         android:columnCount="2"
+        android:layout_marginTop="16dp"
         android:horizontalSpacing="10px"
         android:rowCount="2"
         android:verticalSpacing="10px">
@@ -72,16 +77,17 @@
         <LinearLayout
             android:id="@+id/ll_weight"
             android:layout_width="200dp"
-            android:layout_height="80dp"
+            android:layout_height="85dp"
             android:gravity="center"
+            android:background="@drawable/shape_personal_data"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="重量"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:text="@string/weight"
+                android:textColor="@color/color_3de885"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_weight"
@@ -89,22 +95,23 @@
                 android:layout_height="wrap_content"
                 android:text="--"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_height"
             android:layout_width="200dp"
-            android:layout_height="80dp"
+            android:layout_height="85dp"
             android:gravity="center"
+            android:background="@drawable/shape_personal_data"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="身高"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:text="@string/height"
+                android:textColor="@color/color_3de885"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_height"
@@ -112,22 +119,23 @@
                 android:layout_height="wrap_content"
                 android:text="--"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_sex"
             android:layout_width="200dp"
-            android:layout_height="80dp"
+            android:layout_height="85dp"
             android:gravity="center"
+            android:background="@drawable/shape_personal_data"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="性别"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:text="@string/sex"
+                android:textColor="@color/color_3de885"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_sex"
@@ -135,22 +143,23 @@
                 android:layout_height="wrap_content"
                 android:text="--"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_birthday"
             android:layout_width="200dp"
-            android:layout_height="80dp"
+            android:layout_height="85dp"
             android:gravity="center"
+            android:background="@drawable/shape_personal_data"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="生日"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:text="@string/birthday"
+                android:textColor="@color/color_3de885"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_birthday"
@@ -158,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:text="--"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
         </LinearLayout>
 
 
