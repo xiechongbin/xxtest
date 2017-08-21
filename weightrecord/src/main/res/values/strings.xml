@@ -25,4 +25,13 @@
     <string name="weight">体重</string>
     <string name="sex">性别</string>
     <string name="birthday">生日</string>
+
+
+    <string name="dataNull">您的健康数据为空,请输入您的健康数据</string>
+    <string name="weight_incorrect">体重不正确</string>
+    <string name="height_incorrect">身高不正确</string>
+    <string name="sex_incorrect">性别不正确</string>
+    <string name="birthday_incorrect">生日不正确</string>
+    <string name="bmi_incorrect">bmi不正确</string>
+    <string name="data_confirmed">数据完整</string>
 </resources>

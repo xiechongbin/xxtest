@@ -1,6 +1,8 @@
 package com.xiaoxie.weightrecord.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,9 +25,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaoxie.weightrecord.CustomDialog;
 import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.Utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.bean.PersonData;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 import com.xiaoxie.weightrecord.view.CircleView;
@@ -83,6 +87,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         initFirstPage();
         initSecondPage();
         initData();
+        Log.d("weightrecode","first:"+viewPager.getCurrentItem()+"");
 
     }
 
@@ -244,6 +249,20 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
                 break;
             case R.id.img_next:
                 viewPager.setCurrentItem(1);
+                Log.d("weightrecode","next:"+viewPager.getCurrentItem()+"");
+                if (viewPager.getCurrentItem() == 0) {
+                    viewPager.setCurrentItem(1);
+                } else {
+                    if (isDataConfirmed()) {
+                        SharePrefenceUtils.setBoolean(this, SharePrefenceUtils.KEY_IS_FIRST_LOAD, true);//控制是否进入introActivity
+                        Intent intent = new Intent();
+                        intent.setClass(introActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, witchIsIncorrect(), Toast.LENGTH_SHORT).show();//弹出哪项数据不正确对话框
+                    }
+                }
+
                 break;
             case R.id.ll_sex:
                 showSexDialog();
@@ -258,6 +277,49 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
                 showWeightDialog();
                 break;
         }
+    }
+
+    /**
+     * 判断数据是否完整
+     *
+     * @return
+     */
+    private boolean isDataConfirmed() {
+        if (personData == null) {
+            return false;
+        }
+        if (!TextUtils.isEmpty(personData.getSex()) && !TextUtils.isEmpty(personData.getBirthday()) && personData.getWeight() > 0 && personData.getHeight() > 0 && personData.getBmi() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 判断是哪项数据有问题
+     *
+     * @return
+     */
+    private CharSequence witchIsIncorrect() {
+        if (personData == null) {
+            return getText(R.string.dataNull);
+        }
+        if (personData.getWeight() <= 0) {
+            return getText(R.string.weight_incorrect);
+        }
+        if (personData.getHeight() <= 0) {
+            return getText(R.string.height_incorrect);
+        }
+        if (TextUtils.isEmpty(personData.getSex())) {
+            return getText(R.string.sex_incorrect);
+        }
+        if (TextUtils.isEmpty(personData.getBirthday())) {
+            return getText(R.string.birthday_incorrect);
+        }
+        if (personData.getBmi() <= 0) {
+            return getText(R.string.bmi_incorrect);
+        }
+        return getText(R.string.data_confirmed);
     }
 
     /**
