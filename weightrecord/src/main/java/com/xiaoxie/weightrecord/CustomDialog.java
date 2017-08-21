@@ -228,7 +228,7 @@ public class CustomDialog extends Dialog {
 
         @Override
         public void onClick(View view) {
-            if (!TextUtils.isEmpty(value) && value.length() > 5 && (view.getId() != R.id.bt_delete)) {
+            if (!TextUtils.isEmpty(value) && value.length() > 5 && (view.getId() != R.id.bt_delete)&& (view.getId() != R.id.bt_cancel)) {
                 Toast.makeText(context, context.getText(R.string.outrange), Toast.LENGTH_SHORT).show();
                 return;
             }

@@ -65,7 +65,6 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
     private TextView tv_height;
     private TextView tv_weight;
     private TextView tv_birthday;
-    private TextView tv_bmi;
     private PersonData personData;
     private DashBoardView dashBoardView;
 
@@ -180,7 +179,6 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         tv_weight = intro_second.findViewById(R.id.tv_weight);
         tv_height = intro_second.findViewById(R.id.tv_height);
         tv_birthday = intro_second.findViewById(R.id.tv_birthday);
-        tv_bmi = intro_second.findViewById(R.id.tv_bmi);
         dashBoardView = intro_second.findViewById(R.id.dashboardView);
 
         ll_sex.setOnClickListener(this);
@@ -356,7 +354,8 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
             return;
         personData.setBmi(calcuateBMI(personData.getWeight(), personData.getHeight()));
         final float bmi = personData.getBmi();
-        new Thread(new Runnable() {
+        dashBoardView.setProgress(bmi);
+/*        new Thread(new Runnable() {
             @Override
             public void run() {
                 float tmp = 0;
@@ -383,7 +382,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
                     handler.sendMessage(message);
                 }
             }
-        }).start();
+        }).start();*/
     }
 
     /**
@@ -437,12 +436,9 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
             if (activity != null) {
                 if (msg.what == 100) {
                     Bundle bundle = msg.getData();
-                    activity.tv_bmi.setText(bundle.getFloat("bmi") + "");
                 } else if (msg.what == 101) {
                     Bundle bundle = msg.getData();
                     float bmi = bundle.getFloat("bmi");
-                    activity.tv_bmi.setText(bmi + "");
-                    activity.dashBoardView.setProgess(bmi);
                 }
             }
         }

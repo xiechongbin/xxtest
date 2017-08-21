@@ -22,4 +22,14 @@
         <item name="android:layout_height">50dp</item>
         <item name="android:background">@null</item>
     </style>
+
+    <style name="Style_Personal_Data_Choose_layout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:background">@drawable/shape_personal_data</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 </resources>

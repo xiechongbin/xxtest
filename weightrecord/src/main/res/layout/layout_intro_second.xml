@@ -19,35 +19,15 @@
     <FrameLayout
         android:id="@+id/fm"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="250dp"
         android:layout_below="@id/tv_title"
         android:layout_marginTop="15dp">
 
         <com.xiaoxie.weightrecord.view.DashBoardView
             android:id="@+id/dashboardView"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
-            android:gravity="center_horizontal"
-            android:text="BMI"
-            android:textColor="@android:color/white"
-            android:textSize="17sp" />
-
-        <TextView
-            android:id="@+id/tv_bmi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:gravity="center_horizontal"
-            android:text="100"
-            android:maxLength="5"
-            android:textColor="@android:color/white"
-            android:textSize="40sp" />
     </FrameLayout>
 
 
@@ -56,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fm"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="@string/personal_data"
         android:textColor="@color/color_aadfce"
@@ -65,22 +45,20 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/health_weight"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/health_weight"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:columnCount="2"
-        android:layout_marginTop="16dp"
         android:horizontalSpacing="10px"
         android:rowCount="2"
         android:verticalSpacing="10px">
 
         <LinearLayout
             android:id="@+id/ll_weight"
-            android:layout_width="200dp"
-            android:layout_height="85dp"
-            android:gravity="center"
-            android:background="@drawable/shape_personal_data"
-            android:orientation="vertical">
+            style="@style/Style_Personal_Data_Choose_layout">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,11 +78,7 @@
 
         <LinearLayout
             android:id="@+id/ll_height"
-            android:layout_width="200dp"
-            android:layout_height="85dp"
-            android:gravity="center"
-            android:background="@drawable/shape_personal_data"
-            android:orientation="vertical">
+            style="@style/Style_Personal_Data_Choose_layout">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -124,11 +98,7 @@
 
         <LinearLayout
             android:id="@+id/ll_sex"
-            android:layout_width="200dp"
-            android:layout_height="85dp"
-            android:gravity="center"
-            android:background="@drawable/shape_personal_data"
-            android:orientation="vertical">
+            style="@style/Style_Personal_Data_Choose_layout">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -148,11 +118,7 @@
 
         <LinearLayout
             android:id="@+id/ll_birthday"
-            android:layout_width="200dp"
-            android:layout_height="85dp"
-            android:gravity="center"
-            android:background="@drawable/shape_personal_data"
-            android:orientation="vertical">
+            style="@style/Style_Personal_Data_Choose_layout">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -169,9 +135,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="22sp" />
         </LinearLayout>
-
-
     </GridLayout>
-
 
 </RelativeLayout>

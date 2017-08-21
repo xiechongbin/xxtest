@@ -14,6 +14,9 @@
     <color name="color_696969">#d7d4d4</color>
     <color name="color_249956">#249956</color>
     <color name="color_3de885">#3de885</color>
+    <color name="yellow">#e8df3d</color>
+    <color name="gray">#818180</color>
+    <color name="red">#f0081b</color>
 
     <declare-styleable name="SeekCircle">
         <attr name="max" format="integer" value="100" />
