@@ -1,6 +1,7 @@
 package com.xiaoxie.weightrecord.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,10 +10,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.BlockedNumberContract;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -35,11 +37,9 @@ import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 import com.xiaoxie.weightrecord.view.CircleView;
 import com.xiaoxie.weightrecord.view.DashBoardView;
 
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class introActivity extends Activity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private View intro_first;
@@ -60,20 +60,12 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
     private Bitmap bitmap_25;
     private Bitmap bitmap_30;
 
-    private LinearLayout ll_weight;
-    private LinearLayout ll_height;
-    private LinearLayout ll_sex;
-    private LinearLayout ll_birthday;
-
     private TextView tv_sex;
     private TextView tv_height;
     private TextView tv_weight;
     private TextView tv_birthday;
     private PersonData personData;
     private DashBoardView dashBoardView;
-
-    private myHandler handler = new myHandler(this);
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +79,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         initFirstPage();
         initSecondPage();
         initData();
-        Log.d("weightrecode","first:"+viewPager.getCurrentItem()+"");
+        Log.d("weightrecode", "first:" + viewPager.getCurrentItem() + "");
 
     }
 
@@ -137,7 +129,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         LayoutInflater layoutInflater = getLayoutInflater().from(this);
         intro_first = layoutInflater.inflate(R.layout.layout_intro_first, null);
         intro_second = layoutInflater.inflate(R.layout.layout_intro_second, null);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
 
         ll_kg = intro_first.findViewById(R.id.ll_kg);
         ll_lb = intro_first.findViewById(R.id.ll_lb);
@@ -145,16 +137,16 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         ll_cm = intro_first.findViewById(R.id.ll_cm);
         ll_in = intro_first.findViewById(R.id.ll_in);
 
-        img_back = (ImageView) findViewById(R.id.img_back);
-        img_dot1 = (ImageView) findViewById(R.id.img_fistpage);
-        img_dot2 = (ImageView) findViewById(R.id.img_secondpages);
-        img_next = (ImageView) findViewById(R.id.img_next);
+        img_back = findViewById(R.id.img_back);
+        img_dot1 = findViewById(R.id.img_fistpage);
+        img_dot2 = findViewById(R.id.img_secondpages);
+        img_next = findViewById(R.id.img_next);
 
-        ll_kg.setColor(this.getResources().getColor(R.color.color_f3a11e));
-        ll_lb.setColor(this.getResources().getColor(R.color.color_27ae60));
-        ll_st.setColor(this.getResources().getColor(R.color.color_27ae60));
-        ll_cm.setColor(this.getResources().getColor(R.color.color_27ae60));
-        ll_in.setColor(this.getResources().getColor(R.color.color_27ae60));
+        ll_kg.setColor(getColor(this, R.color.color_f3a11e));
+        ll_lb.setColor(getColor(this, R.color.color_27ae60));
+        ll_st.setColor(getColor(this, R.color.color_27ae60));
+        ll_cm.setColor(getColor(this, R.color.color_27ae60));
+        ll_in.setColor(getColor(this, R.color.color_27ae60));
 
         ll_kg.setOnClickListener(this);
         ll_lb.setOnClickListener(this);
@@ -165,7 +157,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         img_back.setOnClickListener(this);
         img_next.setOnClickListener(this);
 
-        viewPager.setOnPageChangeListener(this);
+        viewPager.addOnPageChangeListener(this);
 
         img_back.setVisibility(View.INVISIBLE);
         bitmap_25 = creatBitmap(25, 25);
@@ -174,11 +166,14 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         img_dot2.setImageBitmap(bitmap_25);
     }
 
+    /**
+     * 初始化第二个界面
+     */
     private void initSecondPage() {
-        ll_sex = intro_second.findViewById(R.id.ll_sex);
-        ll_weight = intro_second.findViewById(R.id.ll_weight);
-        ll_height = intro_second.findViewById(R.id.ll_height);
-        ll_birthday = intro_second.findViewById(R.id.ll_birthday);
+        LinearLayout ll_sex = intro_second.findViewById(R.id.ll_sex);
+        LinearLayout ll_weight = intro_second.findViewById(R.id.ll_weight);
+        LinearLayout ll_height = intro_second.findViewById(R.id.ll_height);
+        LinearLayout ll_birthday = intro_second.findViewById(R.id.ll_birthday);
 
         tv_sex = intro_second.findViewById(R.id.tv_sex);
         tv_weight = intro_second.findViewById(R.id.tv_weight);
@@ -190,74 +185,84 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         ll_weight.setOnClickListener(this);
         ll_height.setOnClickListener(this);
         ll_birthday.setOnClickListener(this);
-    }
 
-    private Bitmap creatBitmap(int x, int y) {
-        Bitmap bitmap = Bitmap.createBitmap(x, y, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        RectF rectF = new RectF(rect);
-        paint.setAntiAlias(true);
-        paint.setColor(Color.WHITE);
-        canvas.drawOval(rectF, paint);
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return bitmap;
-
+        String sex = SharePrefenceUtils.getString(this, SharePrefenceUtils.KEY_SEX, "");
+        String birthday = SharePrefenceUtils.getString(this, SharePrefenceUtils.KEY_BIRTHDAY, "");
+        float weight = SharePrefenceUtils.getFloat(this, SharePrefenceUtils.KEY_INITIAL_WEIGHT, 0);
+        float height = SharePrefenceUtils.getFloat(this, SharePrefenceUtils.KEY_INITIAL_HEIGHT, 0);
+        float bmi = SharePrefenceUtils.getFloat(this, SharePrefenceUtils.KEY_INITIAL_BMI, 0);
+        tv_sex.setText(TextUtils.isEmpty(sex) ? "_" : sex);
+        tv_birthday.setText(TextUtils.isEmpty(birthday) ? "_" : birthday);
+        tv_weight.setText(weight <= 0 ? "_" : String.valueOf(weight));
+        tv_height.setText(height <= 0 ? "_" : String.valueOf(height));
+        if (bmi > 0) {
+            dashBoardView.setProgress(bmi);
+        }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_kg:
-                ll_kg.setColor(this.getResources().getColor(R.color.color_f3a11e));
-                ll_lb.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_st.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_cm.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_in.setColor(this.getResources().getColor(R.color.color_27ae60));
+                ll_kg.setColor(getColor(this, R.color.color_f3a11e));
+                ll_lb.setColor(getColor(this, R.color.color_27ae60));
+                ll_st.setColor(getColor(this, R.color.color_27ae60));
+                ll_cm.setColor(getColor(this, R.color.color_27ae60));
+                ll_in.setColor(getColor(this, R.color.color_27ae60));
                 break;
             case R.id.ll_lb:
-                ll_kg.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_lb.setColor(this.getResources().getColor(R.color.color_f3a11e));
-                ll_st.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_cm.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_in.setColor(this.getResources().getColor(R.color.color_27ae60));
+                ll_kg.setColor(getColor(this, R.color.color_27ae60));
+                ll_lb.setColor(getColor(this, R.color.color_f3a11e));
+                ll_st.setColor(getColor(this, R.color.color_27ae60));
+                ll_cm.setColor(getColor(this, R.color.color_27ae60));
+                ll_in.setColor(getColor(this, R.color.color_27ae60));
                 break;
             case R.id.ll_st:
-                ll_kg.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_lb.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_st.setColor(this.getResources().getColor(R.color.color_f3a11e));
-                ll_cm.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_in.setColor(this.getResources().getColor(R.color.color_27ae60));
+                ll_kg.setColor(getColor(this, R.color.color_27ae60));
+                ll_lb.setColor(getColor(this, R.color.color_27ae60));
+                ll_st.setColor(getColor(this, R.color.color_f3a11e));
+                ll_cm.setColor(getColor(this, R.color.color_27ae60));
+                ll_in.setColor(getColor(this, R.color.color_27ae60));
                 break;
             case R.id.ll_cm:
-                ll_kg.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_lb.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_st.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_cm.setColor(this.getResources().getColor(R.color.color_f3a11e));
-                ll_in.setColor(this.getResources().getColor(R.color.color_27ae60));
+                ll_kg.setColor(getColor(this, R.color.color_27ae60));
+                ll_lb.setColor(getColor(this, R.color.color_27ae60));
+                ll_st.setColor(getColor(this, R.color.color_27ae60));
+                ll_cm.setColor(getColor(this, R.color.color_f3a11e));
+                ll_in.setColor(getColor(this, R.color.color_27ae60));
                 break;
             case R.id.ll_in:
-                ll_kg.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_lb.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_st.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_cm.setColor(this.getResources().getColor(R.color.color_27ae60));
-                ll_in.setColor(this.getResources().getColor(R.color.color_f3a11e));
+                ll_kg.setColor(getColor(this, R.color.color_27ae60));
+                ll_lb.setColor(getColor(this, R.color.color_27ae60));
+                ll_st.setColor(getColor(this, R.color.color_27ae60));
+                ll_cm.setColor(getColor(this, R.color.color_27ae60));
+                ll_in.setColor(getColor(this, R.color.color_f3a11e));
                 break;
             case R.id.img_back:
                 viewPager.setCurrentItem(0);
                 break;
             case R.id.img_next:
-                viewPager.setCurrentItem(1);
-                Log.d("weightrecode","next:"+viewPager.getCurrentItem()+"");
+                Log.d("weightrecode", "next:" + viewPager.getCurrentItem() + "");
                 if (viewPager.getCurrentItem() == 0) {
+                    Log.d("weightrecode", "next1:" + viewPager.getCurrentItem() + "");
                     viewPager.setCurrentItem(1);
                 } else {
                     if (isDataConfirmed()) {
-                        SharePrefenceUtils.setBoolean(this, SharePrefenceUtils.KEY_IS_FIRST_LOAD, true);//控制是否进入introActivity
+                        Log.d("weightrecode", "save data:");
+                        SharedPreferences sp = SharePrefenceUtils.getSharePrefenses(this);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putBoolean(SharePrefenceUtils.KEY_IS_FIRST_LOAD, false);//控制是否进入introActivity
+                        editor.putFloat(SharePrefenceUtils.KEY_INITIAL_HEIGHT, personData.getHeight());
+                        editor.putFloat(SharePrefenceUtils.KEY_INITIAL_WEIGHT, personData.getWeight());
+                        editor.putFloat(SharePrefenceUtils.KEY_INITIAL_BMI, personData.getBmi());
+                        editor.putString(SharePrefenceUtils.KEY_SEX, personData.getSex());
+                        editor.putString(SharePrefenceUtils.KEY_BIRTHDAY, personData.getBirthday());
+                        editor.apply();
+
                         Intent intent = new Intent();
                         intent.setClass(introActivity.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(this, witchIsIncorrect(), Toast.LENGTH_SHORT).show();//弹出哪项数据不正确对话框
                     }
@@ -281,45 +286,92 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
 
     /**
      * 判断数据是否完整
-     *
-     * @return
      */
     private boolean isDataConfirmed() {
-        if (personData == null) {
-            return false;
-        }
-        if (!TextUtils.isEmpty(personData.getSex()) && !TextUtils.isEmpty(personData.getBirthday()) && personData.getWeight() > 0 && personData.getHeight() > 0 && personData.getBmi() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return (personData != null
+                && (!TextUtils.isEmpty(personData.getSex()))
+                && (!TextUtils.isEmpty(personData.getBirthday()))
+                && personData.getWeight() > 0
+                && personData.getHeight() > 0
+                && personData.getBmi() > 0);
     }
 
     /**
      * 判断是哪项数据有问题
-     *
-     * @return
      */
     private CharSequence witchIsIncorrect() {
         if (personData == null) {
             return getText(R.string.dataNull);
         }
         if (personData.getWeight() <= 0) {
-            return getText(R.string.weight_incorrect);
+            personData.setWeight(Float.valueOf(tv_weight.getText().toString()));
+            if (personData.getWeight() <= 0) {
+                return getText(R.string.weight_incorrect);
+            }
         }
         if (personData.getHeight() <= 0) {
-            return getText(R.string.height_incorrect);
+            personData.setHeight(Float.valueOf(tv_height.getText().toString()));
+            if (personData.getHeight() <= 0) {
+                return getText(R.string.height_incorrect);
+            }
         }
         if (TextUtils.isEmpty(personData.getSex())) {
-            return getText(R.string.sex_incorrect);
+            personData.setSex(tv_sex.getText().toString());
+            if (TextUtils.isEmpty(personData.getSex())) {
+                return getText(R.string.sex_incorrect);
+            }
         }
         if (TextUtils.isEmpty(personData.getBirthday())) {
-            return getText(R.string.birthday_incorrect);
+            personData.setBirthday(tv_birthday.getText().toString());
+            if (TextUtils.isEmpty(personData.getBirthday()))
+                return getText(R.string.birthday_incorrect);
         }
         if (personData.getBmi() <= 0) {
-            return getText(R.string.bmi_incorrect);
+            personData.setBmi(SharePrefenceUtils.getFloat(this, SharePrefenceUtils.KEY_INITIAL_BMI, 0));
+            if (personData.getBmi() <= 0) {
+                return getText(R.string.bmi_incorrect);
+            }
         }
         return getText(R.string.data_confirmed);
+    }
+
+    /**
+     * 设置下一步按钮图标
+     */
+    private void setNextButtonBackground() {
+        if (personData == null) {
+            return;
+        }
+        if (personData.getBmi() > 0 && personData.getWeight() > 0 && personData.getHeight() > 0 && !TextUtils.isEmpty(personData.getSex()) && !TextUtils.isEmpty(personData.getBirthday())) {
+            img_next.setBackgroundColor(getColor(this, R.color.yellow));
+            img_next.setImageResource(R.drawable.ic_done_white_36dp);
+        }
+    }
+
+    public int getColor(Context context, int id) {
+        final int version = Build.VERSION.SDK_INT;
+        if (version >= 23) {
+            return ContextCompat.getColor(context, id);
+        } else {
+            return context.getResources().getColor(id);
+        }
+    }
+
+    /**
+     * 创建bitmap
+     */
+    private Bitmap creatBitmap(int x, int y) {
+        Bitmap bitmap = Bitmap.createBitmap(x, y, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        RectF rectF = new RectF(rect);
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
+        canvas.drawOval(rectF, paint);
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return bitmap;
+
     }
 
     /**
@@ -334,6 +386,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
                     return;
                 tv_sex.setText(sex);
                 personData.setSex(sex);
+                setNextButtonBackground();
             }
 
             @Override
@@ -356,6 +409,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
                 tv_weight.setText(weight);
                 personData.setWeight(Float.valueOf(weight));
                 startAnimation();
+                setNextButtonBackground();
             }
 
             @Override
@@ -378,6 +432,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
                 tv_height.setText(height);
                 personData.setHeight(Float.valueOf(height));
                 startAnimation();
+                setNextButtonBackground();
             }
 
             @Override
@@ -399,6 +454,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
                     return;
                 tv_birthday.setText(date);
                 personData.setBirthday(date);
+                setNextButtonBackground();
             }
 
             @Override
@@ -449,10 +505,6 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
 
     /**
      * 计算bmi公式
-     *
-     * @param weight
-     * @param height
-     * @return
      */
     private float calcuateBMI(float weight, float height) {
         height = height / 100;
@@ -484,25 +536,16 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
 
     }
 
-    public class myHandler extends Handler {
+    private static class myHandler extends Handler {
         WeakReference<introActivity> reference;
 
-        public myHandler(introActivity activity) {
+        private myHandler(introActivity activity) {
             reference = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            final introActivity activity = reference.get();
-            if (activity != null) {
-                if (msg.what == 100) {
-                    Bundle bundle = msg.getData();
-                } else if (msg.what == 101) {
-                    Bundle bundle = msg.getData();
-                    float bmi = bundle.getFloat("bmi");
-                }
-            }
         }
     }
 }

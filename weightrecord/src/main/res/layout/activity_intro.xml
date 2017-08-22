@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_weight="1"
-            android:src="@drawable/ic_arrow_back_white" />
+            android:src="@drawable/ic_arrow_back_white_36dp" />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_arrow_forward_white_24dp" />
+            android:src="@drawable/ic_arrow_forward_white_36dp" />
     </LinearLayout>
 
 </FrameLayout>
