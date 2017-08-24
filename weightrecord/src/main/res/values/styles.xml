@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/HideLeftAndrRightEmptyArealStyle</item>
     </style>
 
     <style name="styleKeyboard">
@@ -17,6 +18,12 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <!--去除两边空白style-->
+    <style name="HideLeftAndrRightEmptyArealStyle" parent="Base.Widget.AppCompat.ActionBar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetEnd">0dp</item>
+    </style>
+    
     <style name="style_calendar_keyboard">
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>

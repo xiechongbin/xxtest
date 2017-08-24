@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     testCompile 'junit:junit:4.12'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
+    compile project(':SlidingMenu_lib')
 }

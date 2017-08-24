@@ -1,1 +1,1 @@
-include ':app', ':xxtest', ':weightrecord'
+include ':app', ':xxtest', ':weightrecord','SlidingMenu_lib'
