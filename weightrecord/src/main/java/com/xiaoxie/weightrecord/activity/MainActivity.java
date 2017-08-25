@@ -3,15 +3,18 @@ package com.xiaoxie.weightrecord.activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.print.PrintJob;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -24,9 +27,11 @@ import com.xiaoxie.weightrecord.fragment.PhotoFragment;
 import com.xiaoxie.weightrecord.fragment.ResourceFragment;
 import com.xiaoxie.weightrecord.fragment.WeightFragment;
 import com.xiaoxie.weightrecord.interfaces.ActionBarClickListener;
+import com.xiaoxie.weightrecord.interfaces.SlidingMenuClickListener;
 import com.xiaoxie.weightrecord.view.ActionbarView;
+import com.xiaoxie.weightrecord.view.SlidingMenuView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ActionBarClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ActionBarClickListener, SlidingMenuClickListener {
     private SlidingMenu slidingMenu;
     private LinearLayout ll_layout_bottomRar;
     private LinearLayout bottomBar_ll_weight;
@@ -35,11 +40,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout bottomBar_ll_calendar;
     private LinearLayout bottomBar_ll_resource;
 
+    private ImageView img_bottom_weight;
+    private ImageView img_bottom_photo;
+    private ImageView img_bottom_log;
+    private ImageView img_bottom_resource;
+    private ImageView img_bottom_calendar;
+
+    private TextView tv_bottom_weight;
+    private TextView tv_bottom_photo;
+    private TextView tv_bottom_log;
+    private TextView tv_bottom_calendar;
+    private TextView tv_bottom_resource;
+
     private Fragment weightFragment;
     private Fragment photoFragment;
     private Fragment logFragment;
     private Fragment calendarFragment;
     private Fragment resourceFragment;
+    private ActionBar actionBar;
+    private ActionbarView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setCustomActionBar();
         initViews();
         initSlidMenu();
+        initWeightFragment();//activity起来默认进入第一个fragment
     }
 
     /**
@@ -62,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void setCustomActionBar() {
         ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-        ActionbarView view = new ActionbarView(this);
-        ActionBar actionBar = getSupportActionBar();
+        view = new ActionbarView(this);
+        actionBar = getSupportActionBar();
         actionBar.setCustomView(view, layoutParams);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setDisplayShowCustomEnabled(true);
@@ -85,7 +105,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int width = wm.getDefaultDisplay().getWidth();
         slidingMenu.setBehindOffset(width / 5);
         slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
-        slidingMenu.setMenu(R.layout.layout_slidingmenu);
+        //slidingMenu.setMenu(R.layout.layout_slidingmenu);
+        SlidingMenuView view = new SlidingMenuView(this);
+        view.setOnSildingMenuClickListener(this);
+        slidingMenu.setMenu(view);
     }
 
     /**
@@ -99,6 +122,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bottomBar_ll_log = (LinearLayout) findViewById(R.id.bottomBar_ll_log);
         bottomBar_ll_resource = (LinearLayout) findViewById(R.id.bottomBar_ll_resource);
 
+        img_bottom_weight = (ImageView) findViewById(R.id.img_bottom_weight);
+        img_bottom_photo = (ImageView) findViewById(R.id.img_bottom_photo);
+        img_bottom_log = (ImageView) findViewById(R.id.img_bottom_log);
+        img_bottom_calendar = (ImageView) findViewById(R.id.img_bottom_calendar);
+        img_bottom_resource = (ImageView) findViewById(R.id.img_bottom_resource);
+
+        tv_bottom_weight = (TextView) findViewById(R.id.tv_bottom_weight);
+        tv_bottom_log = (TextView) findViewById(R.id.tv_bottom_log);
+        tv_bottom_calendar = (TextView) findViewById(R.id.tv_bottom_calendar);
+        tv_bottom_photo = (TextView) findViewById(R.id.tv_bottom_photo);
+        tv_bottom_resource = (TextView) findViewById(R.id.tv_bottom_resource);
+
         bottomBar_ll_weight.setOnClickListener(this);
         bottomBar_ll_photo.setOnClickListener(this);
         bottomBar_ll_calendar.setOnClickListener(this);
@@ -108,7 +143,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
+        int id = view.getId();
+        setSelectStyle(id);
+        switch (id) {
             case R.id.bottomBar_ll_weight:
                 initWeightFragment();
                 break;
@@ -132,13 +169,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             weightFragment = new WeightFragment();
         }
         if (weightFragment.isAdded()) {
-            Log.d("fragmenttest", "weight: showfragment");
             FragmentUtils.hideFragment(this, getShowingFragment());
             FragmentUtils.showFragment(this, weightFragment);
         } else {
-            Log.d("fragmenttest", "weight: addfragment");
             FragmentUtils.addFragment(this, R.id.fm_fragment_container, weightFragment, WeightFragment.class.getSimpleName());
         }
+        view.setWitchToShow(WeightFragment.class.getSimpleName());
     }
 
     private void initPhotoFragment() {
@@ -151,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             FragmentUtils.addFragment(this, R.id.fm_fragment_container, photoFragment, PhotoFragment.class.getSimpleName());
         }
+        view.setWitchToShow(PhotoFragment.class.getSimpleName());
     }
 
     private void initLogFragment() {
@@ -163,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             FragmentUtils.addFragment(this, R.id.fm_fragment_container, logFragment, LogFragment.class.getSimpleName());
         }
+        view.setWitchToShow(LogFragment.class.getSimpleName());
     }
 
     private void initCalendarFragment() {
@@ -175,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             FragmentUtils.addFragment(this, R.id.fm_fragment_container, calendarFragment, CalendarFragment.class.getSimpleName());
         }
+        view.setWitchToShow(CalendarFragment.class.getSimpleName());
     }
 
     private void initResourceFragment() {
@@ -187,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             FragmentUtils.addFragment(this, R.id.fm_fragment_container, resourceFragment, ResourceFragment.class.getSimpleName());
         }
+        view.setWitchToShow(ResourceFragment.class.getSimpleName());
     }
 
     private Fragment getShowingFragment() {
@@ -231,8 +271,108 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.img_cloud:
                 Toast.makeText(this, "img_cloud", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.img_more:
+            case R.id.img_personal_center:
                 Toast.makeText(this, "img_more", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private void setSelectStyle(int id) {
+
+        switch (id) {
+            case R.id.bottomBar_ll_weight:
+                img_bottom_weight.setImageResource(R.drawable.ic_weight_pressed);
+                img_bottom_log.setImageResource(R.drawable.ic_log_normal);
+                img_bottom_calendar.setImageResource(R.drawable.ic_calendar_normal);
+                img_bottom_photo.setImageResource(R.drawable.ic_photo_normal);
+                img_bottom_resource.setImageResource(R.drawable.ic_resource_normal);
+
+                tv_bottom_weight.setTextColor(getColor(this, R.color.color_1296db));
+                tv_bottom_log.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_photo.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_resource.setTextColor(getColor(this, R.color.color_9b9c9b));
+
+                break;
+            case R.id.bottomBar_ll_photo:
+                img_bottom_weight.setImageResource(R.drawable.ic_weight_normal);
+                img_bottom_log.setImageResource(R.drawable.ic_log_normal);
+                img_bottom_calendar.setImageResource(R.drawable.ic_calendar_normal);
+                img_bottom_photo.setImageResource(R.drawable.ic_photo_pressed);
+                img_bottom_resource.setImageResource(R.drawable.ic_resource_normal);
+
+                tv_bottom_weight.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_log.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_photo.setTextColor(getColor(this, R.color.color_1296db));
+                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_resource.setTextColor(getColor(this, R.color.color_9b9c9b));
+                break;
+            case R.id.bottomBar_ll_calendar:
+                img_bottom_weight.setImageResource(R.drawable.ic_weight_normal);
+                img_bottom_log.setImageResource(R.drawable.ic_log_normal);
+                img_bottom_calendar.setImageResource(R.drawable.ic_calendar_pressed);
+                img_bottom_photo.setImageResource(R.drawable.ic_photo_normal);
+                img_bottom_resource.setImageResource(R.drawable.ic_resource_normal);
+
+                tv_bottom_weight.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_log.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_photo.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_1296db));
+                tv_bottom_resource.setTextColor(getColor(this, R.color.color_9b9c9b));
+                break;
+            case R.id.bottomBar_ll_log:
+                img_bottom_weight.setImageResource(R.drawable.ic_weight_normal);
+                img_bottom_log.setImageResource(R.drawable.ic_log_pressed);
+                img_bottom_calendar.setImageResource(R.drawable.ic_calendar_normal);
+                img_bottom_photo.setImageResource(R.drawable.ic_photo_normal);
+                img_bottom_resource.setImageResource(R.drawable.ic_resource_normal);
+
+                tv_bottom_weight.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_log.setTextColor(getColor(this, R.color.color_1296db));
+                tv_bottom_photo.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_resource.setTextColor(getColor(this, R.color.color_9b9c9b));
+                break;
+            case R.id.bottomBar_ll_resource:
+                img_bottom_weight.setImageResource(R.drawable.ic_weight_normal);
+                img_bottom_log.setImageResource(R.drawable.ic_log_normal);
+                img_bottom_calendar.setImageResource(R.drawable.ic_calendar_normal);
+                img_bottom_photo.setImageResource(R.drawable.ic_photo_normal);
+                img_bottom_resource.setImageResource(R.drawable.ic_resource_pressed);
+
+                tv_bottom_weight.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_log.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_photo.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_resource.setTextColor(getColor(this, R.color.color_1296db));
+                break;
+        }
+
+
+    }
+
+    public int getColor(Context context, int id) {
+        final int version = Build.VERSION.SDK_INT;
+        if (version >= 23) {
+            return ContextCompat.getColor(context, id);
+        } else {
+            return context.getResources().getColor(id);
+        }
+    }
+
+    @Override
+    public void onSlidMenuClick(int id) {
+        switch (id) {
+            case R.id.ll_home:
+                hideOrShowSlidingMenu();
+                break;
+            case R.id.ll_weixin:
+                Toast.makeText(this, "已复制到剪切板", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ll_setting:
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
                 break;
         }
     }

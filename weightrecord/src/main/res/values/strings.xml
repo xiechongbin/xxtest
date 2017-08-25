@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">weightrecord</string>
+    <string name="app_name">体重监测</string>
     <!--单位-->
     <string name="weight_unit">体重单位</string>
     <string name="height_unit">身高单位</string>
@@ -1031,7 +1031,7 @@
     <string name="title_input_option">选择输入选项</string>
     <string name="title_input_weight">体重输入</string>
     <string name="title_introduction">介绍</string>
-    <string name="title_lang_set">设置语言</string>
+    <string name="title_lang_set">设置语身体言</string>
     <string name="title_measure">测量单位</string>
     <string name="title_overview">预览</string>
     <string name="title_photo">照片</string>
@@ -1133,5 +1133,6 @@
     <string name="msg_processing">正在处理…</string>
 
     <string name="gongzhonghao">weightrecord微信公众号</string>
+    <string name="monday">周一</string>
 
 </resources>

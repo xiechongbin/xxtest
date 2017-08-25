@@ -18,17 +18,19 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/color_3498db"
-                android:src="@drawable/ic_stat_scale" />
+                android:id="@+id/img_bottom_weight"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_weight_normal" />
 
             <TextView
+                android:id="@+id/tv_bottom_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp"
-                android:text="@string/label_weight" />
+                android:text="@string/label_weight"
+                android:textColor="@color/color_9b9c9b"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -40,15 +42,19 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_accessibility_grey_600_24dp" />
+                android:id="@+id/img_bottom_photo"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_photo_normal" />
 
             <TextView
+                android:id="@+id/tv_bottom_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="@string/title_photo" />
+                android:layout_gravity="center_horizontal"
+                android:text="@string/title_photo"
+                android:textColor="@color/color_9b9c9b"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,15 +66,19 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_accessibility_grey_600_24dp" />
+                android:id="@+id/img_bottom_log"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_log_normal" />
 
             <TextView
+                android:id="@+id/tv_bottom_log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/label_Log" />
+                android:text="@string/label_Log"
+                android:textColor="@color/color_9b9c9b"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -80,15 +90,19 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_accessibility_grey_600_24dp" />
+                android:id="@+id/img_bottom_calendar"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_calendar_normal" />
 
             <TextView
+                android:id="@+id/tv_bottom_calendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/title_calendar" />
+                android:text="@string/title_calendar"
+                android:textColor="@color/color_9b9c9b"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -100,15 +114,19 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_accessibility_grey_600_24dp" />
+                android:id="@+id/img_bottom_resource"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_resource_normal" />
 
             <TextView
+                android:id="@+id/tv_bottom_resource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/label_resource" />
+                android:text="@string/label_resource"
+                android:textColor="@color/color_9b9c9b"
+                android:textSize="10sp" />
         </LinearLayout>
     </RadioGroup>
 

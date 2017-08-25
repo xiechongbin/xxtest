@@ -20,6 +20,16 @@
     <color name="color_f3f3f3">#f3f3f3</color>
     <color name="color_6a6a6a">#6a6a6a</color>
     <color name="color_3498db">#3498db</color>
+    <color name="color_1296db">#1296db</color>
+    <color name="color_9b9c9b">#9b9c9b</color>
+
+    <color name="color_theme_green">#2ecc71</color>
+    <color name="color_theme_blue">#3498db</color>
+    <color name="color_theme_purple">#9b59b6</color>
+    <color name="color_theme_pink">#ef6ea3</color>
+    <color name="color_f2f2f2">#dfdcdc</color> <!--分割线-->
+    <color name="color_848484">#848484</color>
+
 
     <declare-styleable name="SeekCircle">
         <attr name="max" format="integer" value="100" />

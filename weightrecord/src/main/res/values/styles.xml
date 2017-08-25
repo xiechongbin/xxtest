@@ -23,7 +23,7 @@
         <item name="contentInsetStart">0dp</item>
         <item name="contentInsetEnd">0dp</item>
     </style>
-    
+
     <style name="style_calendar_keyboard">
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>
@@ -38,5 +38,14 @@
         <item name="android:background">@drawable/shape_personal_data</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="SettingTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/color_848484</item>
     </style>
 </resources>
