@@ -1,15 +1,18 @@
 package com.xiaoxie.weightrecord.adapter;
 
 import android.content.Context;
+import android.support.v4.util.Pools;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.interfaces.OnItemClickListener;
 
 /**
  * desc:
@@ -24,6 +27,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static int VIEW_TYPE_3 = 3;
     private static int VIEW_TYPE_4 = 4;
     private static int MAX_COUNT = 15;
+
+    private OnItemClickListener clickListener;
 
     public RecycleViewAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -48,7 +53,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof TitleViewHolder) {
             if (position == 0) {
                 ((TitleViewHolder) holder).tv_item0_title.setText(R.string.label_general);
@@ -103,8 +108,48 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((ThemeViewHolder) holder).theme_blue.setImageResource(R.color.color_theme_blue);
                 ((ThemeViewHolder) holder).theme_purple.setImageResource(R.color.color_theme_purple);
                 ((ThemeViewHolder) holder).theme_pink.setImageResource(R.color.color_theme_pink);
+                ((ThemeViewHolder) holder).theme_green.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (clickListener != null) {
+                            clickListener.onItemClick(position, R.id.img_item4_theme_green);
+                        }
+                    }
+                });
+                ((ThemeViewHolder) holder).theme_blue.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (clickListener != null) {
+                            clickListener.onItemClick(position, R.id.img_item4_theme_blue);
+                        }
+                    }
+                });
+                ((ThemeViewHolder) holder).theme_purple.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (clickListener != null) {
+                            clickListener.onItemClick(position, R.id.img_item4_theme_purple);
+                        }
+                    }
+                });
+                ((ThemeViewHolder) holder).theme_pink.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (clickListener != null) {
+                            clickListener.onItemClick(position, R.id.img_item4_theme_pink);
+                        }
+                    }
+                });
             }
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (clickListener != null) {
+                    clickListener.onItemClick(position, 0);
+                }
+            }
+        });
     }
 
     @Override
@@ -126,6 +171,11 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public int getItemCount() {
         return MAX_COUNT;
     }
+
+    public void setOnItemClickListener(OnItemClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
 
     class TitleViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_item0_title;

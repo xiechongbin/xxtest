@@ -5,14 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
+import android.widget.Toast;
 
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.adapter.RecycleViewAdapter;
+import com.xiaoxie.weightrecord.interfaces.OnItemClickListener;
 import com.xiaoxie.weightrecord.view.ActionbarView;
 import com.xiaoxie.weightrecord.view.RecycleViewDivider;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements OnItemClickListener{
     private RecyclerView recycleView;
     private RecycleViewAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -27,6 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
         recycleView.addItemDecoration(new RecycleViewDivider(this,LinearLayoutManager.HORIZONTAL,2,getColor(R.color.color_f2f2f2)));
         recycleView.setLayoutManager(layoutManager);
         adapter = new RecycleViewAdapter(this);
+        adapter.setOnItemClickListener(this);
         recycleView.setAdapter(adapter);
         setCustomActionBar();
     }
@@ -42,5 +46,10 @@ public class SettingsActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
+    }
+
+    @Override
+    public void onItemClick(int position,int id) {
+        Toast.makeText(this,"position = "+position+">>id = "+id,Toast.LENGTH_SHORT).show();
     }
 }
