@@ -1,4 +1,4 @@
-package com.xiaoxie.weightrecord.Utils;
+package com.xiaoxie.weightrecord.utils;
 
 import android.app.Activity;
 import android.app.Fragment;

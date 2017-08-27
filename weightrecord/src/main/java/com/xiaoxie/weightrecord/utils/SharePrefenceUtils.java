@@ -1,8 +1,7 @@
-package com.xiaoxie.weightrecord.Utils;
+package com.xiaoxie.weightrecord.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ProviderInfo;
 
 /**
  * desc:sp数据存储

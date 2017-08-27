@@ -6,10 +6,11 @@ import android.view.View;
 import com.xiaoxie.weightrecord.R;
 
 /**
- * desc:照片fragment
- * Created by xiaoxie on 2017/8/23.
+ * 设置界面备份导入导出fragment
+ * Created by gt on 2017/8/25.
  */
-public class LogFragment extends BaseFragment {
+
+public class BackupFragment extends BaseFragment {
     @Override
     protected int getLayoutId() {
         return R.layout.frag_backup_fragment;
@@ -17,10 +18,10 @@ public class LogFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-
     }
 
     @Override
     protected void initData() {
+
     }
 }

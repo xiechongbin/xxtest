@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,8 +18,8 @@ import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.xiaoxie.weightrecord.R;
-import com.xiaoxie.weightrecord.Utils.FragmentUtils;
-import com.xiaoxie.weightrecord.Utils.SharePrefenceUtils;
+import com.xiaoxie.weightrecord.utils.FragmentUtils;
+import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.fragment.CalendarFragment;
 import com.xiaoxie.weightrecord.fragment.LogFragment;
 import com.xiaoxie.weightrecord.fragment.PhotoFragment;

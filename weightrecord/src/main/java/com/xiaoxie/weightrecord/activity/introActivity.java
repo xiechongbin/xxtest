@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 import com.xiaoxie.weightrecord.CustomDialog;
 import com.xiaoxie.weightrecord.R;
-import com.xiaoxie.weightrecord.Utils.SharePrefenceUtils;
+import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.bean.PersonData;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 import com.xiaoxie.weightrecord.view.CircleView;
