@@ -53,7 +53,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        holder.itemView.setTag(position);
         if (holder instanceof TitleViewHolder) {
             if (position == 0) {
                 ((TitleViewHolder) holder).tv_item0_title.setText(R.string.label_general);
@@ -70,7 +71,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((CommonViewHolder) holder).tv_item1_title.setText(R.string.label_remind);
                 ((CommonViewHolder) holder).imageView.setImageResource(R.drawable.ic_entrance);
             } else if (position == 3) {
-                ((CommonViewHolder) holder).tv_item1_title.setText(R.string.label_backup);
+                ((CommonViewHolder) holder).tv_item1_title.setText(R.string.label_lang);
                 ((CommonViewHolder) holder).imageView.setImageResource(R.drawable.ic_entrance);
             }
         } else if (holder instanceof Common1ViewHolder) {
@@ -96,10 +97,40 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((SwitchViewHolder) holder).tv_item3_title.setText(R.string.label_lock);
             } else if (position == 6) {
                 ((SwitchViewHolder) holder).tv_item3_title.setText(R.string.label_fat_cat_auto);
+                ((SwitchViewHolder) holder).toggleButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (((SwitchViewHolder) holder).toggleButton.isChecked()) {
+                            // TODO: 2017/8/28
+                        } else {
+
+                        }
+                    }
+                });
             } else if (position == 7) {
                 ((SwitchViewHolder) holder).tv_item3_title.setText(R.string.label_bmr_cat_auto);
+                ((SwitchViewHolder) holder).toggleButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (((SwitchViewHolder) holder).toggleButton.isChecked()) {
+                            // TODO: 2017/8/28
+                        } else {
+
+                        }
+                    }
+                });
             } else if (position == 8) {
                 ((SwitchViewHolder) holder).tv_item3_title.setText(R.string.label_sound_effect);
+                ((SwitchViewHolder) holder).toggleButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (((SwitchViewHolder) holder).toggleButton.isChecked()) {
+                            // TODO: 2017/8/28
+                        } else {
+
+                        }
+                    }
+                });
             }
 
         } else if (holder instanceof ThemeViewHolder) {
@@ -176,7 +207,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.clickListener = clickListener;
     }
 
-
     class TitleViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_item0_title;
 
@@ -199,9 +229,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
-    class Common1ViewHolder extends RecyclerView.ViewHolder {
+    public class Common1ViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_item2_title;
-        private TextView tv_item2_content;
+        public TextView tv_item2_content;
         private ImageView imageView;
 
         public Common1ViewHolder(View itemView) {

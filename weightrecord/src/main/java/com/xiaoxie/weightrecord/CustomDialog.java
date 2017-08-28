@@ -23,6 +23,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
+import com.xiaoxie.weightrecord.adapter.CommonAdapter;
 import com.xiaoxie.weightrecord.adapter.YearSelectAdapter;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 
@@ -228,7 +229,7 @@ public class CustomDialog extends Dialog {
 
         @Override
         public void onClick(View view) {
-            if (!TextUtils.isEmpty(value) && value.length() > 5 && (view.getId() != R.id.bt_delete)&& (view.getId() != R.id.bt_cancel)) {
+            if (!TextUtils.isEmpty(value) && value.length() > 5 && (view.getId() != R.id.bt_delete) && (view.getId() != R.id.bt_cancel)) {
                 Toast.makeText(context, context.getText(R.string.outrange), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -350,7 +351,7 @@ public class CustomDialog extends Dialog {
             mListView.setAdapter(adapter);
 
             int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-            tvYear.setText(currentYear+"");
+            tvYear.setText(currentYear + "");
             mListView.setSelection(currentYear);//设置当前位置
         }
 
@@ -436,4 +437,254 @@ public class CustomDialog extends Dialog {
         }
     }
 
+    public static class CommonBuilder implements View.OnClickListener, AdapterView.OnItemClickListener {
+        private CustomDialog commonDialog;
+        private TextView lConfirm;
+        private TextView lCancel;
+        private TextView tv_title;
+        private ListView mListView;
+
+        private DialogClickListener listener;
+        private CommonAdapter adapter;
+        private int position;
+        private String[] strings;
+
+        public CommonBuilder(Context context) {
+            initView(context);
+        }
+
+        public CommonBuilder(Context context, String[] str) {
+            this.strings = str;
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            commonDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_common, null);
+            commonDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            lConfirm = layout.findViewById(R.id.tv_language_confirm);
+            lCancel = layout.findViewById(R.id.tv_language_cancel);
+            tv_title = layout.findViewById(R.id.tv_common_title);
+            mListView = layout.findViewById(R.id.common_list);
+            lConfirm.setOnClickListener(this);
+            lCancel.setOnClickListener(this);
+            mListView.setOnItemClickListener(this);
+            mListView.setDividerHeight(0);
+            adapter = new CommonAdapter(context, strings);
+            mListView.setAdapter(adapter);
+        }
+
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            this.position = i;
+        }
+
+        public void setOnLanguageDialogClickListener(DialogClickListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.tv_language_confirm:
+                    if (listener != null) {
+                        dismiss();
+                        listener.OnConfirmed((String) (adapter.getItem(position)));
+                    }
+                    break;
+                case R.id.tv_language_cancel:
+                    if (listener != null) {
+                        dismiss();
+                        listener.OnCanceled();
+                    }
+                    break;
+            }
+
+        }
+
+        private void dismiss() {
+            if (commonDialog != null && commonDialog.isShowing())
+                commonDialog.dismiss();
+        }
+
+        public CommonBuilder setTitle(String title) {
+            if (!TextUtils.isEmpty(title)) {
+                tv_title.setText(title);
+            }
+            return this;
+        }
+
+        public Dialog create() {
+            return commonDialog;
+        }
+
+        public void show() {
+            commonDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return commonDialog;
+        }
+    }
+
+    public static class UnitBuilder implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+        private CustomDialog unitDialog;
+        private TextView uConfirm;
+        private TextView uCancel;
+        private RadioGroup group_weight_unit;
+        private RadioGroup group_height_unit;
+
+        private String unit_weight;
+        private String unit_height;
+
+        private DialogClickListener listener;
+
+        public UnitBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            unitDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_unit, null);
+            unitDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            uConfirm = layout.findViewById(R.id.tv_unit_confirm);
+            uCancel = layout.findViewById(R.id.tv_unit_cancel);
+
+            group_weight_unit = layout.findViewById(R.id.group_weight_unit);
+            group_height_unit = layout.findViewById(R.id.group_height_unit);
+            uConfirm.setOnClickListener(this);
+            uCancel.setOnClickListener(this);
+
+            group_height_unit.setOnCheckedChangeListener(this);
+            group_weight_unit.setOnCheckedChangeListener(this);
+        }
+
+
+        public void setOnDialogClickListener(DialogClickListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onCheckedChanged(RadioGroup radioGroup, @IdRes int id) {
+            if (radioGroup.getId() == R.id.group_height_unit) {
+                if (id == R.id.rb_in) {
+                    unit_height = "in";
+                } else if (id == R.id.rb_cm) {
+                    unit_height = "cm";
+                }
+            } else if (radioGroup.getId() == R.id.group_weight_unit) {
+                if (id == R.id.rb_kg) {
+                    unit_weight = "kg";
+                } else if (id == R.id.rb_lb) {
+                    unit_weight = "lb";
+                } else if (id == R.id.rb_st) {
+                    unit_weight = "st";
+                }
+            }
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.tv_unit_confirm:
+                    if (listener != null) {
+                        dismiss();
+                        listener.OnConfirmed(unit_weight + "," + unit_height);
+                    }
+                    break;
+                case R.id.tv_unit_cancel:
+                    if (listener != null) {
+                        dismiss();
+                        listener.OnCanceled();
+                    }
+                    break;
+            }
+
+        }
+
+        private void dismiss() {
+            if (unitDialog != null && unitDialog.isShowing())
+                unitDialog.dismiss();
+        }
+
+
+        public Dialog create() {
+            return unitDialog;
+        }
+
+        public void show() {
+            unitDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return unitDialog;
+        }
+    }
+
+    public static class InputMethedBuilder implements View.OnClickListener {
+        private CustomDialog inputMethedDialog;
+        private TextView tv_roller_input;
+        private TextView tv_direct_input;
+
+        private DialogClickListener listener;
+
+        public InputMethedBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inputMethedDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_input_methed, null);
+            inputMethedDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            tv_roller_input = layout.findViewById(R.id.tv_roller_input);
+            tv_direct_input = layout.findViewById(R.id.tv_direct_input);
+
+            tv_direct_input.setOnClickListener(this);
+            tv_roller_input.setOnClickListener(this);
+        }
+
+        public void setOnDialogClickListener(DialogClickListener listener) {
+            this.listener = listener;
+        }
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.tv_roller_input:
+                    if (listener != null) {
+                        dismiss();
+                        listener.OnConfirmed(tv_roller_input.getText().toString());
+                    }
+                    break;
+                case R.id.tv_direct_input:
+                    if (listener != null) {
+                        dismiss();
+                        listener.OnConfirmed((tv_direct_input.getText().toString()));
+                    }
+                    break;
+            }
+
+        }
+
+        private void dismiss() {
+            if (inputMethedDialog != null && inputMethedDialog.isShowing())
+                inputMethedDialog.dismiss();
+        }
+
+
+        public Dialog create() {
+            return inputMethedDialog;
+        }
+
+        public void show() {
+            inputMethedDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return inputMethedDialog;
+        }
+    }
 }

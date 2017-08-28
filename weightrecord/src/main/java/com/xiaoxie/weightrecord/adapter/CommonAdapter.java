@@ -1,52 +1,38 @@
 package com.xiaoxie.weightrecord.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.xiaoxie.weightrecord.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * desc:年份选择
+ * desc:
  * Created by xiaoxie on 2017/8/18.
  */
-public class YearSelectAdapter extends BaseAdapter {
-    private List<Integer> list = new ArrayList<>();
+public class CommonAdapter extends BaseAdapter {
+    private String[] array;
     private Context context;
     private LayoutInflater inflater;
 
-    public YearSelectAdapter(Context context) {
+    public CommonAdapter(Context context, String[] array) {
         this.context = context;
-        initData();
+        this.array = array;
         inflater = LayoutInflater.from(context);
     }
 
-    private void initData() {
-        if (list == null) {
-            return;
-        }
-        list.clear();
-        for (int i = 1; i < 10000; i++) {
-            list.add(i);
-        }
-    }
-
-
     @Override
     public int getCount() {
-        return list.size();
+        return array.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return array[position];
     }
 
     @Override
@@ -59,19 +45,19 @@ public class YearSelectAdapter extends BaseAdapter {
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
-            Log.d("weightrecode", "position = " + position);
-            convertView = inflater.inflate(R.layout.layout_years_items, null);
-            holder.textView = (TextView) convertView.findViewById(R.id.tv_items_year);
+            convertView = inflater.inflate(R.layout.layout_common_item, null);
+            holder.textView = (TextView) convertView.findViewById(R.id.tv_common_item);
+            holder.radioButton = (RadioButton) convertView.findViewById(R.id.rb_select);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.textView.setText(String.valueOf(list.get(position)));
-        holder.textView.setTextSize(30);
+        holder.textView.setText(array[position]);
         return convertView;
     }
 
     public class ViewHolder {
         TextView textView;
+        RadioButton radioButton;
     }
 }

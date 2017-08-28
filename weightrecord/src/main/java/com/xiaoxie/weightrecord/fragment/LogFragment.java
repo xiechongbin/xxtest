@@ -12,7 +12,7 @@ import com.xiaoxie.weightrecord.R;
 public class LogFragment extends BaseFragment {
     @Override
     protected int getLayoutId() {
-        return R.layout.frag_backup_fragment;
+        return R.layout.frag_log_fragment;
     }
 
     @Override
