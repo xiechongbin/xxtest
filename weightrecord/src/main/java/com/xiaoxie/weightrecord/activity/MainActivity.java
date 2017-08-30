@@ -3,9 +3,7 @@ package com.xiaoxie.weightrecord.activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -18,8 +16,6 @@ import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.xiaoxie.weightrecord.R;
-import com.xiaoxie.weightrecord.utils.FragmentUtils;
-import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.fragment.CalendarFragment;
 import com.xiaoxie.weightrecord.fragment.LogFragment;
 import com.xiaoxie.weightrecord.fragment.PhotoFragment;
@@ -27,6 +23,9 @@ import com.xiaoxie.weightrecord.fragment.ResourceFragment;
 import com.xiaoxie.weightrecord.fragment.WeightFragment;
 import com.xiaoxie.weightrecord.interfaces.ActionBarClickListener;
 import com.xiaoxie.weightrecord.interfaces.SlidingMenuClickListener;
+import com.xiaoxie.weightrecord.utils.FragmentUtils;
+import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
+import com.xiaoxie.weightrecord.utils.Utils;
 import com.xiaoxie.weightrecord.view.ActionbarView;
 import com.xiaoxie.weightrecord.view.SlidingMenuView;
 
@@ -66,6 +65,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent();
             intent.setClass(this, introActivity.class);
             startActivity(intent);
+            finish();
+            return;
+        }
+        //如果是已经设置过密码 且已经解锁成功则进入解锁界面
+        if (SharePrefenceUtils.getBoolean(this, SharePrefenceUtils.KEY_HAS_PASSWORD, false) && getIntent().getBooleanExtra("unLockSuccess", true)) {
+            Intent intent1 = new Intent();
+            intent1.setClass(this, LockPatternActivity.class);
+            startActivity(intent1);
             finish();
             return;
         }
@@ -286,11 +293,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 img_bottom_photo.setImageResource(R.drawable.ic_photo_normal);
                 img_bottom_resource.setImageResource(R.drawable.ic_resource_normal);
 
-                tv_bottom_weight.setTextColor(getColor(this, R.color.color_1296db));
-                tv_bottom_log.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_photo.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_resource.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_weight.setTextColor(Utils.getColor(this, R.color.color_1296db));
+                tv_bottom_log.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_photo.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_calendar.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_resource.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
 
                 break;
             case R.id.bottomBar_ll_photo:
@@ -300,11 +307,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 img_bottom_photo.setImageResource(R.drawable.ic_photo_pressed);
                 img_bottom_resource.setImageResource(R.drawable.ic_resource_normal);
 
-                tv_bottom_weight.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_log.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_photo.setTextColor(getColor(this, R.color.color_1296db));
-                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_resource.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_weight.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_log.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_photo.setTextColor(Utils.getColor(this, R.color.color_1296db));
+                tv_bottom_calendar.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_resource.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
                 break;
             case R.id.bottomBar_ll_calendar:
                 img_bottom_weight.setImageResource(R.drawable.ic_weight_normal);
@@ -313,11 +320,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 img_bottom_photo.setImageResource(R.drawable.ic_photo_normal);
                 img_bottom_resource.setImageResource(R.drawable.ic_resource_normal);
 
-                tv_bottom_weight.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_log.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_photo.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_1296db));
-                tv_bottom_resource.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_weight.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_log.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_photo.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_calendar.setTextColor(Utils.getColor(this, R.color.color_1296db));
+                tv_bottom_resource.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
                 break;
             case R.id.bottomBar_ll_log:
                 img_bottom_weight.setImageResource(R.drawable.ic_weight_normal);
@@ -326,11 +333,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 img_bottom_photo.setImageResource(R.drawable.ic_photo_normal);
                 img_bottom_resource.setImageResource(R.drawable.ic_resource_normal);
 
-                tv_bottom_weight.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_log.setTextColor(getColor(this, R.color.color_1296db));
-                tv_bottom_photo.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_resource.setTextColor(getColor(this, R.color.color_9b9c9b));
+                tv_bottom_weight.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_log.setTextColor(Utils.getColor(this, R.color.color_1296db));
+                tv_bottom_photo.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_calendar.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_resource.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
                 break;
             case R.id.bottomBar_ll_resource:
                 img_bottom_weight.setImageResource(R.drawable.ic_weight_normal);
@@ -339,24 +346,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 img_bottom_photo.setImageResource(R.drawable.ic_photo_normal);
                 img_bottom_resource.setImageResource(R.drawable.ic_resource_pressed);
 
-                tv_bottom_weight.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_log.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_photo.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_calendar.setTextColor(getColor(this, R.color.color_9b9c9b));
-                tv_bottom_resource.setTextColor(getColor(this, R.color.color_1296db));
+                tv_bottom_weight.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_log.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_photo.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_calendar.setTextColor(Utils.getColor(this, R.color.color_9b9c9b));
+                tv_bottom_resource.setTextColor(Utils.getColor(this, R.color.color_1296db));
                 break;
         }
 
 
-    }
-
-    public int getColor(Context context, int id) {
-        final int version = Build.VERSION.SDK_INT;
-        if (version >= 23) {
-            return ContextCompat.getColor(context, id);
-        } else {
-            return context.getResources().getColor(id);
-        }
     }
 
     @Override

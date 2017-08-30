@@ -29,6 +29,7 @@
     <color name="color_theme_pink">#ef6ea3</color>
     <color name="color_f2f2f2">#dfdcdc</color> <!--分割线-->
     <color name="color_848484">#848484</color>
+    <color name="color_1d2126">#1d2126</color><!--解锁图案背景-->
 
 
     <declare-styleable name="SeekCircle">

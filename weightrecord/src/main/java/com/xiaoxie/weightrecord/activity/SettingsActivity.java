@@ -1,34 +1,30 @@
 package com.xiaoxie.weightrecord.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.xiaoxie.weightrecord.CustomDialog;
 import com.xiaoxie.weightrecord.R;
-import com.xiaoxie.weightrecord.fragment.ReminderSettingFragment;
-import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
-import com.xiaoxie.weightrecord.utils.FragmentUtils;
 import com.xiaoxie.weightrecord.adapter.RecycleViewAdapter;
 import com.xiaoxie.weightrecord.fragment.BackupFragment;
+import com.xiaoxie.weightrecord.fragment.ReminderSettingFragment;
+import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 import com.xiaoxie.weightrecord.interfaces.OnItemClickListener;
+import com.xiaoxie.weightrecord.utils.FragmentUtils;
+import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.view.ActionbarView;
 import com.xiaoxie.weightrecord.view.RecycleViewDivider;
-
-import java.util.Date;
 
 public class SettingsActivity extends AppCompatActivity implements OnItemClickListener {
     private RecyclerView recycleView;
@@ -36,11 +32,13 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
     private LinearLayoutManager layoutManager;
     private BackupFragment backupFragment;
     private ReminderSettingFragment reminderSettingFragment;
+    private boolean hasPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        hasPassword = SharePrefenceUtils.getBoolean(this, SharePrefenceUtils.KEY_HAS_PASSWORD, false);
         initRecycleView();
         setCustomActionBar();
     }
@@ -81,8 +79,8 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
             showLanguageDialog();//弹出语言选择对话框
         } else if (position == 4) {
             showWeekDialog(position);//弹出week选择对话框
-        } else if (position == 5) {
-            //图案锁
+        } else if (position == 5) {//图案锁
+            initLockView();
         } else if (position == 6) {
 
         } else if (position == 7) {
@@ -213,16 +211,57 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
     }
 
     /**
+     * 设置锁屏密码
+     */
+    private void initLockView() {
+        hasPassword = SharePrefenceUtils.getBoolean(this, SharePrefenceUtils.KEY_HAS_PASSWORD, false);
+        if (hasPassword) {
+            UpdateToggleButtonState(5, false);
+            SharePrefenceUtils.setBoolean(this, SharePrefenceUtils.KEY_HAS_PASSWORD, false);
+            SharePrefenceUtils.setString(this, SharePrefenceUtils.KEY_PASSWORD, "");//制空
+        } else {
+            Intent it = new Intent();
+            it.putExtra("isFromSetting", true);
+            it.setClass(SettingsActivity.this, LockPatternActivity.class);
+            startActivity(it);
+        }
+
+    }
+
+    /**
      * 更新ui
      */
     private void updateUI(int position, String str) {
         int first = layoutManager.findFirstVisibleItemPosition();
         if (position - first >= 0) {
             View v = recycleView.getChildAt(position - first);
+            if (v == null) {
+                return;
+            }
             RecyclerView.ViewHolder holder = recycleView.getChildViewHolder(v);
             if (holder instanceof RecycleViewAdapter.Common1ViewHolder) {
                 ((RecycleViewAdapter.Common1ViewHolder) holder).tv_item2_content.setText(str);//刷新界面的数据
             }
         }
+    }
+
+    private void UpdateToggleButtonState(int position, boolean state) {
+        int first = layoutManager.findFirstVisibleItemPosition();
+        if (position - first >= 0) {
+            View v = recycleView.getChildAt(position - first);
+            if (v == null) {
+                return;
+            }
+            RecyclerView.ViewHolder holder = recycleView.getChildViewHolder(v);
+            if (holder instanceof RecycleViewAdapter.SwitchViewHolder) {
+                ((RecycleViewAdapter.SwitchViewHolder) holder).toggleButton.setBackgroundResource(state ? R.drawable.switch_on : R.drawable.switch_off);//刷新界面的数据
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UpdateToggleButtonState(5, SharePrefenceUtils.getBoolean(this, SharePrefenceUtils.KEY_HAS_PASSWORD, false));
     }
 }

@@ -34,6 +34,7 @@ import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.bean.PersonData;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
+import com.xiaoxie.weightrecord.utils.Utils;
 import com.xiaoxie.weightrecord.view.CircleView;
 import com.xiaoxie.weightrecord.view.DashBoardView;
 
@@ -142,11 +143,11 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         img_dot2 = findViewById(R.id.img_secondpages);
         img_next = findViewById(R.id.img_next);
 
-        ll_kg.setColor(getColor(this, R.color.color_f3a11e));
-        ll_lb.setColor(getColor(this, R.color.color_27ae60));
-        ll_st.setColor(getColor(this, R.color.color_27ae60));
-        ll_cm.setColor(getColor(this, R.color.color_27ae60));
-        ll_in.setColor(getColor(this, R.color.color_27ae60));
+        ll_kg.setColor(Utils.getColor(this, R.color.color_f3a11e));
+        ll_lb.setColor(Utils.getColor(this, R.color.color_27ae60));
+        ll_st.setColor(Utils.getColor(this, R.color.color_27ae60));
+        ll_cm.setColor(Utils.getColor(this, R.color.color_27ae60));
+        ll_in.setColor(Utils.getColor(this, R.color.color_27ae60));
 
         ll_kg.setOnClickListener(this);
         ll_lb.setOnClickListener(this);
@@ -204,39 +205,39 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_kg:
-                ll_kg.setColor(getColor(this, R.color.color_f3a11e));
-                ll_lb.setColor(getColor(this, R.color.color_27ae60));
-                ll_st.setColor(getColor(this, R.color.color_27ae60));
-                ll_cm.setColor(getColor(this, R.color.color_27ae60));
-                ll_in.setColor(getColor(this, R.color.color_27ae60));
+                ll_kg.setColor(Utils.getColor(this, R.color.color_f3a11e));
+                ll_lb.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_st.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_cm.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_in.setColor(Utils.getColor(this, R.color.color_27ae60));
                 break;
             case R.id.ll_lb:
-                ll_kg.setColor(getColor(this, R.color.color_27ae60));
-                ll_lb.setColor(getColor(this, R.color.color_f3a11e));
-                ll_st.setColor(getColor(this, R.color.color_27ae60));
-                ll_cm.setColor(getColor(this, R.color.color_27ae60));
-                ll_in.setColor(getColor(this, R.color.color_27ae60));
+                ll_kg.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_lb.setColor(Utils.getColor(this, R.color.color_f3a11e));
+                ll_st.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_cm.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_in.setColor(Utils.getColor(this, R.color.color_27ae60));
                 break;
             case R.id.ll_st:
-                ll_kg.setColor(getColor(this, R.color.color_27ae60));
-                ll_lb.setColor(getColor(this, R.color.color_27ae60));
-                ll_st.setColor(getColor(this, R.color.color_f3a11e));
-                ll_cm.setColor(getColor(this, R.color.color_27ae60));
-                ll_in.setColor(getColor(this, R.color.color_27ae60));
+                ll_kg.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_lb.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_st.setColor(Utils.getColor(this, R.color.color_f3a11e));
+                ll_cm.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_in.setColor(Utils.getColor(this, R.color.color_27ae60));
                 break;
             case R.id.ll_cm:
-                ll_kg.setColor(getColor(this, R.color.color_27ae60));
-                ll_lb.setColor(getColor(this, R.color.color_27ae60));
-                ll_st.setColor(getColor(this, R.color.color_27ae60));
-                ll_cm.setColor(getColor(this, R.color.color_f3a11e));
-                ll_in.setColor(getColor(this, R.color.color_27ae60));
+                ll_kg.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_lb.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_st.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_cm.setColor(Utils.getColor(this, R.color.color_f3a11e));
+                ll_in.setColor(Utils.getColor(this, R.color.color_27ae60));
                 break;
             case R.id.ll_in:
-                ll_kg.setColor(getColor(this, R.color.color_27ae60));
-                ll_lb.setColor(getColor(this, R.color.color_27ae60));
-                ll_st.setColor(getColor(this, R.color.color_27ae60));
-                ll_cm.setColor(getColor(this, R.color.color_27ae60));
-                ll_in.setColor(getColor(this, R.color.color_f3a11e));
+                ll_kg.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_lb.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_st.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_cm.setColor(Utils.getColor(this, R.color.color_27ae60));
+                ll_in.setColor(Utils.getColor(this, R.color.color_f3a11e));
                 break;
             case R.id.img_back:
                 viewPager.setCurrentItem(0);
@@ -249,7 +250,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
                 } else {
                     if (isDataConfirmed()) {
                         Log.d("weightrecode", "save data:");
-                        SharedPreferences sp = SharePrefenceUtils.getSharePrefenses(this);
+                        SharedPreferences sp = SharePrefenceUtils.getSharedPreferences(this);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putBoolean(SharePrefenceUtils.KEY_IS_FIRST_LOAD, false);//控制是否进入introActivity
                         editor.putFloat(SharePrefenceUtils.KEY_INITIAL_HEIGHT, personData.getHeight());
@@ -343,17 +344,8 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
             return;
         }
         if (personData.getBmi() > 0 && personData.getWeight() > 0 && personData.getHeight() > 0 && !TextUtils.isEmpty(personData.getSex()) && !TextUtils.isEmpty(personData.getBirthday())) {
-            img_next.setBackgroundColor(getColor(this, R.color.yellow));
+            img_next.setBackgroundColor(Utils.getColor(this, R.color.yellow));
             img_next.setImageResource(R.drawable.ic_done_white_36dp);
-        }
-    }
-
-    public int getColor(Context context, int id) {
-        final int version = Build.VERSION.SDK_INT;
-        if (version >= 23) {
-            return ContextCompat.getColor(context, id);
-        } else {
-            return context.getResources().getColor(id);
         }
     }
 

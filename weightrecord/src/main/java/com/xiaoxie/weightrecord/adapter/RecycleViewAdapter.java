@@ -13,6 +13,7 @@ import android.widget.ToggleButton;
 
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.interfaces.OnItemClickListener;
+import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 
 /**
  * desc:
@@ -95,6 +96,19 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else if (holder instanceof SwitchViewHolder) {
             if (position == 5) {
                 ((SwitchViewHolder) holder).tv_item3_title.setText(R.string.label_lock);
+                boolean hasPassword = SharePrefenceUtils.getBoolean(context, SharePrefenceUtils.KEY_HAS_PASSWORD, false);
+                ((SwitchViewHolder) holder).toggleButton.setBackgroundResource(hasPassword ? R.drawable.switch_on : R.drawable.switch_off);
+                ((SwitchViewHolder) holder).toggleButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (((SwitchViewHolder) holder).toggleButton.isChecked()) {
+
+                        } else {
+                            SharePrefenceUtils.setBoolean(context, SharePrefenceUtils.KEY_HAS_PASSWORD, false);
+                            SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_PASSWORD, "");//制空
+                        }
+                    }
+                });
             } else if (position == 6) {
                 ((SwitchViewHolder) holder).tv_item3_title.setText(R.string.label_fat_cat_auto);
                 ((SwitchViewHolder) holder).toggleButton.setOnClickListener(new View.OnClickListener() {
@@ -243,9 +257,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
-    class SwitchViewHolder extends RecyclerView.ViewHolder {
-        private TextView tv_item3_title;
-        private ToggleButton toggleButton;
+    public class SwitchViewHolder extends RecyclerView.ViewHolder {
+        public TextView tv_item3_title;
+        public ToggleButton toggleButton;
 
         public SwitchViewHolder(View itemView) {
             super(itemView);
