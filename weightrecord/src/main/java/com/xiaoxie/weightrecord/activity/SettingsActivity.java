@@ -1,12 +1,17 @@
 package com.xiaoxie.weightrecord.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -23,16 +28,21 @@ import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 import com.xiaoxie.weightrecord.interfaces.OnItemClickListener;
 import com.xiaoxie.weightrecord.utils.FragmentUtils;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
+import com.xiaoxie.weightrecord.utils.Utils;
 import com.xiaoxie.weightrecord.view.ActionbarView;
 import com.xiaoxie.weightrecord.view.RecycleViewDivider;
 
+import java.util.Locale;
+
+import static com.xiaoxie.weightrecord.utils.SharePrefenceUtils.KEY_FIRST_DAY_OF_WEEK;
+
 public class SettingsActivity extends AppCompatActivity implements OnItemClickListener {
     private RecyclerView recycleView;
-    private RecycleViewAdapter adapter;
     private LinearLayoutManager layoutManager;
     private BackupFragment backupFragment;
     private ReminderSettingFragment reminderSettingFragment;
     private boolean hasPassword;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,7 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         hasPassword = SharePrefenceUtils.getBoolean(this, SharePrefenceUtils.KEY_HAS_PASSWORD, false);
         initRecycleView();
         setCustomActionBar();
+        context = this;
     }
 
     private void initRecycleView() {
@@ -49,7 +60,7 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         recycleView = (RecyclerView) findViewById(R.id.setting_recycleView);
         recycleView.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, 2, getColor(R.color.color_f2f2f2)));
         recycleView.setLayoutManager(layoutManager);
-        adapter = new RecycleViewAdapter(this);
+        RecycleViewAdapter adapter = new RecycleViewAdapter(this);
         adapter.setOnItemClickListener(this);
         recycleView.setAdapter(adapter);
     }
@@ -62,6 +73,9 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         ActionbarView view = new ActionbarView(this);
         view.setWitchToShow(SettingsActivity.class.getSimpleName());
         ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) {
+            return;
+        }
         actionBar.setCustomView(view, layoutParams);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setDisplayShowCustomEnabled(true);
@@ -82,14 +96,21 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         } else if (position == 5) {//图案锁
             initLockView();
         } else if (position == 6) {
-
+            boolean state = SharePrefenceUtils.getBoolean(this, SharePrefenceUtils.KEY_EXPORT_BMI_AUTO, false);
+            SharePrefenceUtils.setBoolean(this, SharePrefenceUtils.KEY_EXPORT_BMI_AUTO, !state);
+            UpdateToggleButtonState(position, !state);
         } else if (position == 7) {
-
+            boolean state = SharePrefenceUtils.getBoolean(this, SharePrefenceUtils.KEY_EXPORT_BMR_AUTO, false);
+            SharePrefenceUtils.setBoolean(this, SharePrefenceUtils.KEY_EXPORT_BMR_AUTO, !state);
+            UpdateToggleButtonState(position, !state);
         } else if (position == 8) {
+            boolean state = SharePrefenceUtils.getBoolean(this, SharePrefenceUtils.KEY_AUDIO, false);
+            SharePrefenceUtils.setBoolean(this, SharePrefenceUtils.KEY_AUDIO, !state);
+            UpdateToggleButtonState(position, !state);
         } else if (position == 9) {
             showUnitDialog(position);
         } else if (position == 10) {
-            showInputMethedDialog(position);
+            showInputTypeDialog(position);
         }
     }
 
@@ -131,8 +152,11 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         builder.setOnLanguageDialogClickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String str) {
-                Toast.makeText(getApplicationContext(), "sdfsdf", Toast.LENGTH_LONG).show();
-                // TODO: 2017/8/28
+                if (TextUtils.isEmpty(str)) {
+                    return;
+                }
+                SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_LANGUAGE, str);
+                Utils.setCurrentLanguage(str,context);
             }
 
             @Override
@@ -151,9 +175,11 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         builder.setOnLanguageDialogClickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String str) {
-                Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
                 updateUI(position, str);
-                // TODO: 2017/8/28
+                if (TextUtils.isEmpty(str)) {
+                    return;
+                }
+                SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_FIRST_DAY_OF_WEEK, str);
             }
 
             @Override
@@ -172,9 +198,15 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         builder.setOnDialogClickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String str) {
-                updateUI(position, str);
-                //// TODO: 2017/8/28 保存数据
-
+                if (str.equals("null")) {
+                    Toast.makeText(context, "选项不能为空", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateUI(position, str);
+                    String weightUnit = str.substring(0, str.indexOf(","));
+                    String heightUnit = str.substring(str.indexOf(","), str.length());
+                    SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_HEIGHT_UNIT, heightUnit);
+                    SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_WEIGHT_UNIT, weightUnit);
+                }
             }
 
             @Override
@@ -187,13 +219,16 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
     /**
      * 输入方式选择对话框
      */
-    private void showInputMethedDialog(final int position) {
-        final CustomDialog.InputMethedBuilder builder = new CustomDialog.InputMethedBuilder(this);
+    private void showInputTypeDialog(final int position) {
+        final CustomDialog.InputTypeBuilder builder = new CustomDialog.InputTypeBuilder(this);
         builder.setOnDialogClickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String str) {
                 updateUI(position, str);
-                //// TODO: 2017/8/28 保存数据
+                if (TextUtils.isEmpty(str)) {
+                    return;
+                }
+                SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_WEIGHT_INPUT_TYPE, str);
             }
 
             @Override
@@ -203,6 +238,9 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         Dialog dialog = builder.create();
         Window dialogWindow = dialog.getWindow();
         Display d = getWindowManager().getDefaultDisplay();
+        if (dialogWindow == null) {
+            return;
+        }
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         lp.height = (int) (d.getHeight() * 0.2);
         lp.width = (int) (d.getWidth() * 0.65);
