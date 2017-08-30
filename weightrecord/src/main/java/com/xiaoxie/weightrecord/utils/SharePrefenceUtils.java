@@ -17,6 +17,14 @@ public class SharePrefenceUtils {
     public static final String KEY_BIRTHDAY = "birthday";
     public static final String KEY_HAS_PASSWORD = "has_password";
     public static final String KEY_PASSWORD = "password";
+    public static final String KEY_EXPORT_BMI_AUTO = "export_bmi_auto";//自动生成mbi
+    public static final String KEY_EXPORT_BMR_AUTO = "export_bmr_auto";//自动生成mbr
+    public static final String KEY_AUDIO = "audio";//声音效果
+    public static final String KEY_WEIGHT_UNIT = "weight_unit";//体重单位
+    public static final String KEY_HEIGHT_UNIT = "height_unit";//身高单位
+    public static final String KEY_WEIGHT_INPUT_TYPE = "weight_input_type";//输入方式
+    public static final String KEY_FIRST_DAY_OF_WEEK = "first_day_of_week";//一周的第一天
+    public static final String KEY_LANGUAGE = "language";//一周的第一天
 
     public static void setBoolean(Context context, String key, boolean value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(CONFIG_NAME, Context.MODE_PRIVATE);

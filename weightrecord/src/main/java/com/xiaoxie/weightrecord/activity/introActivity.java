@@ -127,7 +127,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
      * 初始化第一个界面
      */
     private void initFirstPage() {
-        LayoutInflater layoutInflater = getLayoutInflater().from(this);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
         intro_first = layoutInflater.inflate(R.layout.layout_intro_first, null);
         intro_second = layoutInflater.inflate(R.layout.layout_intro_second, null);
         viewPager = findViewById(R.id.viewpager);
@@ -526,18 +526,5 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
     @Override
     public void onPageScrollStateChanged(int state) {
 
-    }
-
-    private static class myHandler extends Handler {
-        WeakReference<introActivity> reference;
-
-        private myHandler(introActivity activity) {
-            reference = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
     }
 }

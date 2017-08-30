@@ -15,12 +15,9 @@ import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.view.GestureLockView;
 
-import org.apache.http.conn.scheme.HostNameResolver;
-
 import java.lang.ref.SoftReference;
 
 public class LockPatternActivity extends AppCompatActivity implements GestureLockView.GestureLockCallback {
-    private GestureLockView lockView;
     private String savedPassword;
     private String firstPassword;
     private String secondPassword;
@@ -39,7 +36,7 @@ public class LockPatternActivity extends AppCompatActivity implements GestureLoc
 
     private void init() {
         context = this;
-        lockView = (GestureLockView) findViewById(R.id.id_gestureLockView);
+        GestureLockView lockView = (GestureLockView) findViewById(R.id.id_gestureLockView);
         tvTitle = (TextView) findViewById(R.id.tv_lockView_title);
         savedPassword = SharePrefenceUtils.getString(this, SharePrefenceUtils.KEY_PASSWORD, "");
         isFromSetting = getIntent().getBooleanExtra("isFromSetting", false);
@@ -86,7 +83,7 @@ public class LockPatternActivity extends AppCompatActivity implements GestureLoc
             Toast.makeText(LockPatternActivity.this, isRight ? "密码正确" : "密码错误", Toast.LENGTH_LONG).show();
             if (isRight) {
                 Intent intent = new Intent();
-                intent.putExtra("unLockSuccess",false);
+                intent.putExtra("unLockSuccess", false);
                 intent.setClass(LockPatternActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -100,7 +97,7 @@ public class LockPatternActivity extends AppCompatActivity implements GestureLoc
         private LockPatternActivity activity;
         SoftReference<LockPatternActivity> reference;
 
-        public MyHandler(LockPatternActivity activity) {
+        private MyHandler(LockPatternActivity activity) {
             reference = new SoftReference<>(activity);
         }
 

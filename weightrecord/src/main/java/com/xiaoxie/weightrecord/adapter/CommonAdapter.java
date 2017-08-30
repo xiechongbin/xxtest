@@ -1,6 +1,8 @@
 package com.xiaoxie.weightrecord.adapter;
 
 import android.content.Context;
+import android.net.wifi.aware.PublishConfig;
+import android.os.ParcelUuid;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +12,22 @@ import android.widget.TextView;
 
 import com.xiaoxie.weightrecord.R;
 
+import java.util.HashMap;
+
 /**
  * desc:
  * Created by xiaoxie on 2017/8/18.
  */
 public class CommonAdapter extends BaseAdapter {
     private String[] array;
-    private Context context;
     private LayoutInflater inflater;
+    private radioButtonClickCallback callback;
+
+    private HashMap<Integer, Boolean> states = new HashMap<>();
+
+    private int index;
 
     public CommonAdapter(Context context, String[] array) {
-        this.context = context;
         this.array = array;
         inflater = LayoutInflater.from(context);
     }
@@ -41,23 +48,44 @@ public class CommonAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder holder = null;
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
+        final ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.layout_common_item, null);
-            holder.textView = (TextView) convertView.findViewById(R.id.tv_common_item);
-            holder.radioButton = (RadioButton) convertView.findViewById(R.id.rb_select);
+            holder.textView = convertView.findViewById(R.id.tv_common_item);
+            holder.radioButton = convertView.findViewById(R.id.rb_select);
+            holder.radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (callback != null) {
+                        callback.onRadioButtonClick(holder.textView.getText().toString());
+
+                        states.put(position, holder.radioButton.isChecked());
+                        CommonAdapter.this.notifyDataSetChanged();
+                    }
+
+                }
+            });
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.textView.setText(array[position]);
+        index = position;
         return convertView;
     }
 
-    public class ViewHolder {
+    private class ViewHolder {
         TextView textView;
         RadioButton radioButton;
+    }
+
+    public void setCallback(radioButtonClickCallback callback) {
+        this.callback = callback;
+    }
+
+    public interface radioButtonClickCallback {
+        void onRadioButtonClick(String str);
     }
 }

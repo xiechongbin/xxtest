@@ -1,19 +1,18 @@
 package com.xiaoxie.weightrecord.adapter;
 
 import android.content.Context;
-import android.support.v4.util.Pools;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.interfaces.OnItemClickListener;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
+import com.xiaoxie.weightrecord.utils.Utils;
 
 /**
  * desc:
@@ -90,7 +89,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((Common1ViewHolder) holder).imageView.setVisibility(View.GONE);
             } else if (position == 14) {
                 ((Common1ViewHolder) holder).tv_item2_title.setText(R.string.label_version);
-                ((Common1ViewHolder) holder).tv_item2_content.setText("3.111");
+                ((Common1ViewHolder) holder).tv_item2_content.setText(Utils.getVersion(context));
                 ((Common1ViewHolder) holder).imageView.setVisibility(View.GONE);
             }
         } else if (holder instanceof SwitchViewHolder) {
@@ -115,9 +114,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     @Override
                     public void onClick(View view) {
                         if (((SwitchViewHolder) holder).toggleButton.isChecked()) {
-                            // TODO: 2017/8/28
+                            SharePrefenceUtils.setBoolean(context, SharePrefenceUtils.KEY_EXPORT_BMI_AUTO, true);
                         } else {
-
+                            SharePrefenceUtils.setBoolean(context, SharePrefenceUtils.KEY_EXPORT_BMI_AUTO, false);
                         }
                     }
                 });
@@ -127,9 +126,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     @Override
                     public void onClick(View view) {
                         if (((SwitchViewHolder) holder).toggleButton.isChecked()) {
-                            // TODO: 2017/8/28
+                            SharePrefenceUtils.setBoolean(context, SharePrefenceUtils.KEY_EXPORT_BMR_AUTO, true);
                         } else {
-
+                            SharePrefenceUtils.setBoolean(context, SharePrefenceUtils.KEY_EXPORT_BMR_AUTO, false);
                         }
                     }
                 });
@@ -139,9 +138,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     @Override
                     public void onClick(View view) {
                         if (((SwitchViewHolder) holder).toggleButton.isChecked()) {
-                            // TODO: 2017/8/28
+                            SharePrefenceUtils.setBoolean(context, SharePrefenceUtils.KEY_AUDIO, true);
                         } else {
-
+                            SharePrefenceUtils.setBoolean(context, SharePrefenceUtils.KEY_AUDIO, false);
                         }
                     }
                 });
@@ -221,21 +220,21 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.clickListener = clickListener;
     }
 
-    class TitleViewHolder extends RecyclerView.ViewHolder {
+    private class TitleViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_item0_title;
 
-        public TitleViewHolder(View itemView) {
+        private TitleViewHolder(View itemView) {
             super(itemView);
             tv_item0_title = itemView.findViewById(R.id.tv_item0_title);
         }
 
     }
 
-    class CommonViewHolder extends RecyclerView.ViewHolder {
+    private class CommonViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_item1_title;
         private ImageView imageView;
 
-        public CommonViewHolder(View itemView) {
+        private CommonViewHolder(View itemView) {
             super(itemView);
             tv_item1_title = itemView.findViewById(R.id.tv_item1_title);
             imageView = itemView.findViewById(R.id.img_item1_next);
@@ -248,7 +247,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public TextView tv_item2_content;
         private ImageView imageView;
 
-        public Common1ViewHolder(View itemView) {
+        private Common1ViewHolder(View itemView) {
             super(itemView);
             tv_item2_title = itemView.findViewById(R.id.tv_item2_title);
             tv_item2_content = itemView.findViewById(R.id.tv_item2_content);
@@ -258,10 +257,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public class SwitchViewHolder extends RecyclerView.ViewHolder {
-        public TextView tv_item3_title;
+        private TextView tv_item3_title;
         public ToggleButton toggleButton;
 
-        public SwitchViewHolder(View itemView) {
+        private SwitchViewHolder(View itemView) {
             super(itemView);
             tv_item3_title = itemView.findViewById(R.id.tv_item3_title);
             toggleButton = itemView.findViewById(R.id.img_item3_toggle_button);
@@ -269,13 +268,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
-    class ThemeViewHolder extends RecyclerView.ViewHolder {
+    private class ThemeViewHolder extends RecyclerView.ViewHolder {
         private ImageView theme_green;
         private ImageView theme_blue;
         private ImageView theme_purple;
         private ImageView theme_pink;
 
-        public ThemeViewHolder(View itemView) {
+        private ThemeViewHolder(View itemView) {
             super(itemView);
             theme_green = itemView.findViewById(R.id.img_item4_theme_green);
             theme_blue = itemView.findViewById(R.id.img_item4_theme_blue);

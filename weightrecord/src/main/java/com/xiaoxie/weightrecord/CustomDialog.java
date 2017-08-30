@@ -23,6 +23,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
+import com.xiaoxie.weightrecord.activity.LockPatternActivity;
 import com.xiaoxie.weightrecord.adapter.CommonAdapter;
 import com.xiaoxie.weightrecord.adapter.YearSelectAdapter;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
@@ -437,7 +438,7 @@ public class CustomDialog extends Dialog {
         }
     }
 
-    public static class CommonBuilder implements View.OnClickListener, AdapterView.OnItemClickListener {
+    public static class CommonBuilder implements View.OnClickListener, AdapterView.OnItemClickListener, CommonAdapter.radioButtonClickCallback {
         private CustomDialog commonDialog;
         private TextView lConfirm;
         private TextView lCancel;
@@ -448,6 +449,7 @@ public class CustomDialog extends Dialog {
         private CommonAdapter adapter;
         private int position;
         private String[] strings;
+        private String str;
 
         public CommonBuilder(Context context) {
             initView(context);
@@ -473,8 +475,13 @@ public class CustomDialog extends Dialog {
             mListView.setDividerHeight(0);
             adapter = new CommonAdapter(context, strings);
             mListView.setAdapter(adapter);
+            adapter.setCallback(this);
         }
 
+        @Override
+        public void onRadioButtonClick(String str) {
+            this.str = str;
+        }
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -491,7 +498,7 @@ public class CustomDialog extends Dialog {
                 case R.id.tv_language_confirm:
                     if (listener != null) {
                         dismiss();
-                        listener.OnConfirmed((String) (adapter.getItem(position)));
+                        listener.OnConfirmed(str);
                     }
                     break;
                 case R.id.tv_language_cancel:
@@ -591,8 +598,13 @@ public class CustomDialog extends Dialog {
             switch (view.getId()) {
                 case R.id.tv_unit_confirm:
                     if (listener != null) {
-                        dismiss();
-                        listener.OnConfirmed(unit_weight + "," + unit_height);
+                        if (TextUtils.isEmpty(unit_weight) || TextUtils.isEmpty(unit_height)) {
+                            listener.OnConfirmed("null");
+                        } else {
+                            dismiss();
+                            listener.OnConfirmed(unit_weight + "," + unit_height);
+                        }
+
                     }
                     break;
                 case R.id.tv_unit_cancel:
@@ -624,22 +636,22 @@ public class CustomDialog extends Dialog {
         }
     }
 
-    public static class InputMethedBuilder implements View.OnClickListener {
-        private CustomDialog inputMethedDialog;
+    public static class InputTypeBuilder implements View.OnClickListener {
+        private CustomDialog inputTypeDialog;
         private TextView tv_roller_input;
         private TextView tv_direct_input;
 
         private DialogClickListener listener;
 
-        public InputMethedBuilder(Context context) {
+        public InputTypeBuilder(Context context) {
             initView(context);
         }
 
         private void initView(Context context) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inputMethedDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            inputTypeDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
             View layout = mInflater.inflate(R.layout.layout_dialog_input_methed, null);
-            inputMethedDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            inputTypeDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             tv_roller_input = layout.findViewById(R.id.tv_roller_input);
             tv_direct_input = layout.findViewById(R.id.tv_direct_input);
 
@@ -650,6 +662,7 @@ public class CustomDialog extends Dialog {
         public void setOnDialogClickListener(DialogClickListener listener) {
             this.listener = listener;
         }
+
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -670,21 +683,21 @@ public class CustomDialog extends Dialog {
         }
 
         private void dismiss() {
-            if (inputMethedDialog != null && inputMethedDialog.isShowing())
-                inputMethedDialog.dismiss();
+            if (inputTypeDialog != null && inputTypeDialog.isShowing())
+                inputTypeDialog.dismiss();
         }
 
 
         public Dialog create() {
-            return inputMethedDialog;
+            return inputTypeDialog;
         }
 
         public void show() {
-            inputMethedDialog.show();
+            inputTypeDialog.show();
         }
 
         public CustomDialog getAlertDialog() {
-            return inputMethedDialog;
+            return inputTypeDialog;
         }
     }
 }

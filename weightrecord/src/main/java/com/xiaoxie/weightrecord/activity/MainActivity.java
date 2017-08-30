@@ -31,12 +31,6 @@ import com.xiaoxie.weightrecord.view.SlidingMenuView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ActionBarClickListener, SlidingMenuClickListener {
     private SlidingMenu slidingMenu;
-    private LinearLayout ll_layout_bottomRar;
-    private LinearLayout bottomBar_ll_weight;
-    private LinearLayout bottomBar_ll_photo;
-    private LinearLayout bottomBar_ll_log;
-    private LinearLayout bottomBar_ll_calendar;
-    private LinearLayout bottomBar_ll_resource;
 
     private ImageView img_bottom_weight;
     private ImageView img_bottom_photo;
@@ -55,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment logFragment;
     private Fragment calendarFragment;
     private Fragment resourceFragment;
-    private ActionBar actionBar;
     private ActionbarView view;
 
     @Override
@@ -89,7 +82,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setCustomActionBar() {
         ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
         view = new ActionbarView(this);
-        actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) {
+            return;
+        }
         actionBar.setCustomView(view, layoutParams);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setDisplayShowCustomEnabled(true);
@@ -111,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int width = wm.getDefaultDisplay().getWidth();
         slidingMenu.setBehindOffset(width / 5);
         slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
-        //slidingMenu.setMenu(R.layout.layout_slidingmenu);
         SlidingMenuView view = new SlidingMenuView(this);
         view.setOnSildingMenuClickListener(this);
         slidingMenu.setMenu(view);
@@ -121,12 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化控件
      */
     private void initViews() {
-        ll_layout_bottomRar = (LinearLayout) findViewById(R.id.ll_layout_bottomRar);
-        bottomBar_ll_weight = (LinearLayout) findViewById(R.id.bottomBar_ll_weight);
-        bottomBar_ll_photo = (LinearLayout) findViewById(R.id.bottomBar_ll_photo);
-        bottomBar_ll_calendar = (LinearLayout) findViewById(R.id.bottomBar_ll_calendar);
-        bottomBar_ll_log = (LinearLayout) findViewById(R.id.bottomBar_ll_log);
-        bottomBar_ll_resource = (LinearLayout) findViewById(R.id.bottomBar_ll_resource);
+
+        LinearLayout bottomBar_ll_weight = (LinearLayout) findViewById(R.id.bottomBar_ll_weight);
+        LinearLayout bottomBar_ll_photo = (LinearLayout) findViewById(R.id.bottomBar_ll_photo);
+        LinearLayout bottomBar_ll_calendar = (LinearLayout) findViewById(R.id.bottomBar_ll_calendar);
+        LinearLayout bottomBar_ll_log = (LinearLayout) findViewById(R.id.bottomBar_ll_log);
+        LinearLayout bottomBar_ll_resource = (LinearLayout) findViewById(R.id.bottomBar_ll_resource);
 
         img_bottom_weight = (ImageView) findViewById(R.id.img_bottom_weight);
         img_bottom_photo = (ImageView) findViewById(R.id.img_bottom_photo);
