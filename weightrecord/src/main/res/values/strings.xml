@@ -1244,4 +1244,15 @@ Your idea weight is 0003."</string>
     <string name="title_knowledge_title">Weight Knowledge</string>
     <string name="choice_wheel">滚轮选择</string>
     <string name="input_direct">直接输入</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="sunday">周日</string>
+    <string name="monday">周一</string>
+    <string name="tuesday">周二</string>
+    <string name="wednesday">周三</string>
+    <string name="thursday">周四</string>
+    <string name="friday">周五</string>
+    <string name="saturday">周六</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
 </resources>

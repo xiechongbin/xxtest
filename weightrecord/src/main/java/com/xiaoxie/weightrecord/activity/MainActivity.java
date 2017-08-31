@@ -1,6 +1,7 @@
 package com.xiaoxie.weightrecord.activity;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,12 +17,16 @@ import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.fragment.BaseFragment;
 import com.xiaoxie.weightrecord.fragment.CalendarFragment;
+import com.xiaoxie.weightrecord.fragment.CloudFragment;
 import com.xiaoxie.weightrecord.fragment.LogFragment;
 import com.xiaoxie.weightrecord.fragment.PhotoFragment;
+import com.xiaoxie.weightrecord.fragment.ReminderSettingFragment;
 import com.xiaoxie.weightrecord.fragment.ResourceFragment;
 import com.xiaoxie.weightrecord.fragment.WeightFragment;
 import com.xiaoxie.weightrecord.interfaces.ActionBarClickListener;
+import com.xiaoxie.weightrecord.interfaces.BackHandledInterface;
 import com.xiaoxie.weightrecord.interfaces.SlidingMenuClickListener;
 import com.xiaoxie.weightrecord.utils.FragmentUtils;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
@@ -29,7 +34,7 @@ import com.xiaoxie.weightrecord.utils.Utils;
 import com.xiaoxie.weightrecord.view.ActionbarView;
 import com.xiaoxie.weightrecord.view.SlidingMenuView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ActionBarClickListener, SlidingMenuClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ActionBarClickListener, SlidingMenuClickListener, BackHandledInterface {
     private SlidingMenu slidingMenu;
 
     private ImageView img_bottom_weight;
@@ -49,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment logFragment;
     private Fragment calendarFragment;
     private Fragment resourceFragment;
+    private Fragment reminderFragment;
+    private Fragment cloudFragment;
+
+    private BaseFragment baseFagment;
     private ActionbarView view;
 
     @Override
@@ -230,6 +239,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         view.setWitchToShow(ResourceFragment.class.getSimpleName());
     }
 
+    private void showReminderFragment() {
+        if (reminderFragment == null) {
+            reminderFragment = new ReminderSettingFragment();
+        }
+        if (reminderFragment.isAdded()) {
+            FragmentUtils.hideFragment(this, getShowingFragment());
+            FragmentUtils.showFragment(this, reminderFragment);
+        } else {
+            FragmentUtils.addFragment(this, R.id.fm_fragment_container_hole, reminderFragment, ReminderSettingFragment.class.getSimpleName());
+        }
+        view.setWitchToShow(ReminderSettingFragment.class.getSimpleName());
+    }
+
+    private void showCloudFragment() {
+        if (cloudFragment == null) {
+            cloudFragment = new CloudFragment();
+        }
+        if (cloudFragment.isAdded()) {
+            FragmentUtils.hideFragment(this, getShowingFragment());
+            FragmentUtils.showFragment(this, cloudFragment);
+        } else {
+            FragmentUtils.addFragment(this, R.id.fm_fragment_container_hole, cloudFragment, CloudFragment.class.getSimpleName());
+        }
+        view.setWitchToShow(CloudFragment.class.getSimpleName());
+    }
+
     private Fragment getShowingFragment() {
         if (resourceFragment != null && resourceFragment.isVisible()) {
             return resourceFragment;
@@ -239,6 +274,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return logFragment;
         } else if (photoFragment != null && photoFragment.isVisible()) {
             return photoFragment;
+        } else if (reminderFragment != null && reminderFragment.isVisible()) {
+            return reminderFragment;
         } else {
             return calendarFragment;
         }
@@ -267,10 +304,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 hideOrShowSlidingMenu();
                 break;
             case R.id.img_notification:
-                Toast.makeText(this, "img_notification", Toast.LENGTH_SHORT).show();
+                showReminderFragment();
+
                 break;
             case R.id.img_cloud:
-                Toast.makeText(this, "img_cloud", Toast.LENGTH_SHORT).show();
+                showCloudFragment();
                 break;
             case R.id.img_personal_center:
                 Toast.makeText(this, "img_more", Toast.LENGTH_SHORT).show();
@@ -367,5 +405,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
         }
+    }
+
+    /**
+     * fragment 返回键接口回调
+     */
+    @Override
+    public void setSelectedFragment(BaseFragment selectedFragment) {
+        this.baseFagment = selectedFragment;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (baseFagment == null || !baseFagment.onBackPressed()) {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                super.onBackPressed();
+            } else {
+                getSupportFragmentManager().popBackStack();
+            }
+        }
+
     }
 }

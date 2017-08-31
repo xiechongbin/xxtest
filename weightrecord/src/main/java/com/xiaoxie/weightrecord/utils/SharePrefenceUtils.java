@@ -25,6 +25,10 @@ public class SharePrefenceUtils {
     public static final String KEY_WEIGHT_INPUT_TYPE = "weight_input_type";//输入方式
     public static final String KEY_FIRST_DAY_OF_WEEK = "first_day_of_week";//一周的第一天
     public static final String KEY_LANGUAGE = "language";//一周的第一天
+    public static final String KEY_REMINDER_REPEAT = "reminder_repeat";//重复提醒
+    public static final String KEY_REMINDER_ONTTIME = "reminder_onttime";//单次提醒
+    public static final String KEY_REMINDER_WHICH_DAY = "reminder_which_day";//哪几天提醒
+    public static final String KEY_REMINDER_TIME = "reminder_time";//具体提醒的时间
 
     public static void setBoolean(Context context, String key, boolean value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(CONFIG_NAME, Context.MODE_PRIVATE);

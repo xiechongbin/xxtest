@@ -24,8 +24,14 @@ public class FragmentUtils {
     public static void addFragment(Activity activity, int containerViewID, Fragment fragment, String tag) {
         try {
             FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
-            fragmentTransaction.add(containerViewID, fragment, tag);
+            if (containerViewID == 0) {
+                fragmentTransaction.add(fragment, tag);
+            } else {
+                fragmentTransaction.add(containerViewID, fragment, tag);
+            }
+            fragmentTransaction.addToBackStack(tag);
             fragmentTransaction.commitAllowingStateLoss();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,6 +44,19 @@ public class FragmentUtils {
         try {
             FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(enter, exit);//效果
+            fragmentTransaction.add(containerViewID, fragment, tag);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 添加fragment 从右向左呼出
+     */
+    public static void addFragment(Activity activity, int containerViewID, Fragment fragment, String tag, int mode) {
+        try {
+            FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
+            fragmentTransaction.setTransition(mode);
             fragmentTransaction.add(containerViewID, fragment, tag);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (Exception e) {

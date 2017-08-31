@@ -20,7 +20,9 @@ import com.xiaoxie.weightrecord.CustomDialog;
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.adapter.RecycleViewAdapter;
 import com.xiaoxie.weightrecord.fragment.BackupFragment;
+import com.xiaoxie.weightrecord.fragment.BaseFragment;
 import com.xiaoxie.weightrecord.fragment.ReminderSettingFragment;
+import com.xiaoxie.weightrecord.interfaces.BackHandledInterface;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 import com.xiaoxie.weightrecord.interfaces.OnItemClickListener;
 import com.xiaoxie.weightrecord.utils.FragmentUtils;
@@ -29,7 +31,7 @@ import com.xiaoxie.weightrecord.utils.Utils;
 import com.xiaoxie.weightrecord.view.ActionbarView;
 import com.xiaoxie.weightrecord.view.RecycleViewDivider;
 
-public class SettingsActivity extends AppCompatActivity implements OnItemClickListener {
+public class SettingsActivity extends AppCompatActivity implements OnItemClickListener, BackHandledInterface {
     private RecyclerView recycleView;
     private LinearLayoutManager layoutManager;
     private BackupFragment backupFragment;
@@ -149,7 +151,7 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
                     return;
                 }
                 SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_LANGUAGE, str);
-                Utils.setCurrentLanguage(str,context);
+                Utils.setCurrentLanguage(str, context);
             }
 
             @Override
@@ -294,5 +296,10 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
     protected void onResume() {
         super.onResume();
         UpdateToggleButtonState(5, SharePrefenceUtils.getBoolean(this, SharePrefenceUtils.KEY_HAS_PASSWORD, false));
+    }
+
+    @Override
+    public void setSelectedFragment(BaseFragment selectedFragment) {
+
     }
 }

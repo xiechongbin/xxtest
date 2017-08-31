@@ -23,4 +23,9 @@ public class ResourceFragment extends BaseFragment {
     @Override
     protected void initData() {
     }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
 }

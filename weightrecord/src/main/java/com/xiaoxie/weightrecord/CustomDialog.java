@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -27,7 +30,10 @@ import com.xiaoxie.weightrecord.activity.LockPatternActivity;
 import com.xiaoxie.weightrecord.adapter.CommonAdapter;
 import com.xiaoxie.weightrecord.adapter.YearSelectAdapter;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
+import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
+import com.xiaoxie.weightrecord.utils.Utils;
 
+import java.io.FileReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -698,6 +704,261 @@ public class CustomDialog extends Dialog {
 
         public CustomDialog getAlertDialog() {
             return inputTypeDialog;
+        }
+    }
+
+    public static class TimeBuilder implements View.OnClickListener {
+        private CustomDialog timeDialog;
+        private TextView tvTimeConfirm;
+        private TextView tvTimeCancel;
+        private TimePicker timePicker;
+        private int hour, minute;
+        private boolean changed = false;
+
+        private DialogClickListener listener;
+
+        public TimeBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            timeDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_time_setting, null);
+            timeDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            tvTimeConfirm = layout.findViewById(R.id.tv_time_confirm);
+            tvTimeCancel = layout.findViewById(R.id.tv_time_cancel);
+            timePicker = layout.findViewById(R.id.timePicker);
+            timePicker.setOnClickListener(this);
+            timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                @Override
+                public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+                    hour = i;
+                    minute = i1;
+                    changed = true;
+                }
+            });
+
+            tvTimeConfirm.setOnClickListener(this);
+            tvTimeCancel.setOnClickListener(this);
+        }
+
+        public void setOnDialogClickListener(DialogClickListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.tv_time_confirm:
+                    if (listener != null) {
+                        dismiss();
+                        String time;
+                        if (!changed) {
+                            hour = timePicker.getHour();
+                            minute = timePicker.getMinute();
+                        }
+                        if (hour > 12) {
+                            time = "下午" + (hour - 12) + ":" + minute;
+                        } else if (hour == 0) {
+                            time = "下午" + hour + ":" + minute;
+                        } else if (hour > 0 && hour < 12) {
+                            time = "上午" + hour + ":" + minute;
+                        } else {
+                            time = "中午" + hour + ":" + minute;
+                        }
+                        listener.OnConfirmed(time);
+                    }
+                    break;
+                case R.id.tv_time_cancel:
+                    if (listener != null) {
+                        dismiss();
+                        listener.OnConfirmed("");
+                    }
+                    break;
+            }
+
+        }
+
+        private void dismiss() {
+            if (timeDialog != null && timeDialog.isShowing())
+                timeDialog.dismiss();
+        }
+
+
+        public Dialog create() {
+            return timeDialog;
+        }
+
+        public void show() {
+            timeDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return timeDialog;
+        }
+    }
+
+    public static class WeekBuilder implements View.OnClickListener {
+        private CustomDialog weekDialog;
+        private TextView tvWeekConfirm;
+        private TextView tvWeekCancel;
+
+        private Context context;
+
+        private CheckBox checkBox1;
+        private CheckBox checkBox2;
+        private CheckBox checkBox3;
+        private CheckBox checkBox4;
+        private CheckBox checkBox5;
+        private CheckBox checkBox6;
+        private CheckBox checkBox7;
+        private String sum;
+
+        private DialogClickListener listener;
+
+        public WeekBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            this.context = context;
+            sum = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_REMINDER_WHICH_DAY, "");
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            weekDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_week_choose, null);
+            weekDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            tvWeekConfirm = layout.findViewById(R.id.tv_week_confirm);
+            tvWeekCancel = layout.findViewById(R.id.tv_week_cancel);
+
+            checkBox1 = layout.findViewById(R.id.checkbox1);
+            checkBox2 = layout.findViewById(R.id.checkbox2);
+            checkBox3 = layout.findViewById(R.id.checkbox3);
+            checkBox4 = layout.findViewById(R.id.checkbox4);
+            checkBox5 = layout.findViewById(R.id.checkbox5);
+            checkBox6 = layout.findViewById(R.id.checkbox6);
+            checkBox7 = layout.findViewById(R.id.checkbox7);
+
+            checkBox1.setOnClickListener(this);
+            checkBox2.setOnClickListener(this);
+            checkBox3.setOnClickListener(this);
+            checkBox4.setOnClickListener(this);
+            checkBox5.setOnClickListener(this);
+            checkBox6.setOnClickListener(this);
+            checkBox7.setOnClickListener(this);
+
+            if (sum != null) {
+                if (sum.contains("一")) {
+                    checkBox1.setChecked(true);
+                }
+                if (sum.contains("二")) {
+                    checkBox2.setChecked(true);
+                }
+                if (sum.contains("三")) {
+                    checkBox3.setChecked(true);
+                }
+                if (sum.contains("四")) {
+                    checkBox4.setChecked(true);
+                }
+                if (sum.contains("五")) {
+                    checkBox5.setChecked(true);
+                }
+                if (sum.contains("六")) {
+                    checkBox6.setChecked(true);
+                }
+                if (sum.contains("日")) {
+                    checkBox7.setChecked(true);
+                }
+            }
+
+            tvWeekConfirm.setOnClickListener(this);
+            tvWeekCancel.setOnClickListener(this);
+        }
+
+        public void setOnDialogClickListener(DialogClickListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.tv_week_confirm:
+                    if (listener != null) {
+                        dismiss();
+                        StringBuilder builder = new StringBuilder();
+                        if (checkBox7.isChecked()) {
+                            builder.append(context.getText(R.string.sunday));
+                        }
+                        if (checkBox1.isChecked()) {
+                            builder.append(context.getText(R.string.monday));
+                        }
+                        if (checkBox2.isChecked()) {
+                            builder.append(context.getText(R.string.tuesday));
+                        }
+                        if (checkBox3.isChecked()) {
+                            builder.append(context.getText(R.string.wednesday));
+                        }
+                        if (checkBox4.isChecked()) {
+                            builder.append(context.getText(R.string.thursday));
+                        }
+                        if (checkBox5.isChecked()) {
+                            builder.append(context.getText(R.string.friday));
+                        }
+                        if (checkBox6.isChecked()) {
+                            builder.append(context.getText(R.string.saturday));
+                        }
+                        listener.OnConfirmed(builder.toString());
+                    }
+                    break;
+                case R.id.tv_week_cancel:
+                    if (listener != null) {
+                        dismiss();
+                    }
+                    break;
+                case R.id.checkbox1:
+                    checkBox1.setChecked(checkBox1.isChecked());
+                    break;
+                case R.id.checkbox2:
+                    checkBox2.setChecked(checkBox2.isChecked());
+                    break;
+                case R.id.checkbox3:
+                    checkBox3.setChecked(checkBox3.isChecked());
+                    break;
+                case R.id.checkbox4:
+                    checkBox4.setChecked(checkBox4.isChecked());
+                    break;
+                case R.id.checkbox5:
+                    checkBox5.setChecked(checkBox5.isChecked());
+                    break;
+                case R.id.checkbox6:
+                    checkBox6.setChecked(checkBox6.isChecked());
+
+                    break;
+                case R.id.checkbox7:
+                    checkBox7.setChecked(checkBox7.isChecked());
+                    break;
+
+
+            }
+
+        }
+
+        private void dismiss() {
+            if (weekDialog != null && weekDialog.isShowing())
+                weekDialog.dismiss();
+        }
+
+
+        public Dialog create() {
+            return weekDialog;
+        }
+
+        public void show() {
+            weekDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return weekDialog;
         }
     }
 }

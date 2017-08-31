@@ -38,6 +38,11 @@ public class BackupFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_export_backup:
