@@ -46,8 +46,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return new Common1ViewHolder(inflater.inflate(R.layout.layout_item2, parent, false));
         } else if (viewType == VIEW_TYPE_3) {
             return new SwitchViewHolder(inflater.inflate(R.layout.layout_item3, parent, false));
-        } else {
+        } else if (viewType == VIEW_TYPE_4) {
             return new ThemeViewHolder(inflater.inflate(R.layout.layout_item4, parent, false));
+        } else {
+            return null;
         }
 
     }
@@ -76,16 +78,19 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         } else if (holder instanceof Common1ViewHolder) {
             if (position == 4) {
+                String firstDay = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_FIRST_DAY_OF_WEEK, context.getString(R.string.monday));
                 ((Common1ViewHolder) holder).tv_item2_title.setText(R.string.label_first_day_week);
-                ((Common1ViewHolder) holder).tv_item2_content.setText(R.string.monday);
+                ((Common1ViewHolder) holder).tv_item2_content.setText(firstDay);
                 ((Common1ViewHolder) holder).imageView.setImageResource(R.drawable.ic_entrance);
             } else if (position == 10) {
+                String inputType = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_WEIGHT_INPUT_TYPE, context.getString(R.string.input_direct));
                 ((Common1ViewHolder) holder).tv_item2_title.setText(R.string.label_weight_picker);
-                ((Common1ViewHolder) holder).tv_item2_content.setText(R.string.monday);
+                ((Common1ViewHolder) holder).tv_item2_content.setText(inputType);
                 ((Common1ViewHolder) holder).imageView.setImageResource(R.drawable.ic_entrance);
             } else if (position == 9) {
+                String unit_weight = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_WEIGHT_UNIT, context.getString(R.string.e_kg));
                 ((Common1ViewHolder) holder).tv_item2_title.setText(R.string.label_measure);
-                ((Common1ViewHolder) holder).tv_item2_content.setText(R.string.e_kg);
+                ((Common1ViewHolder) holder).tv_item2_content.setText(unit_weight);
                 ((Common1ViewHolder) holder).imageView.setVisibility(View.GONE);
             } else if (position == 14) {
                 ((Common1ViewHolder) holder).tv_item2_title.setText(R.string.label_version);
@@ -109,6 +114,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
             } else if (position == 6) {
+                boolean autoBMI = SharePrefenceUtils.getBoolean(context, SharePrefenceUtils.KEY_EXPORT_BMI_AUTO, false);
+                ((SwitchViewHolder) holder).toggleButton.setBackgroundResource(autoBMI ? R.drawable.switch_on : R.drawable.switch_off);
                 ((SwitchViewHolder) holder).tv_item3_title.setText(R.string.label_fat_cat_auto);
                 ((SwitchViewHolder) holder).toggleButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -121,6 +128,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
             } else if (position == 7) {
+                boolean autoBMR = SharePrefenceUtils.getBoolean(context, SharePrefenceUtils.KEY_EXPORT_BMR_AUTO, false);
+                ((SwitchViewHolder) holder).toggleButton.setBackgroundResource(autoBMR ? R.drawable.switch_on : R.drawable.switch_off);
                 ((SwitchViewHolder) holder).tv_item3_title.setText(R.string.label_bmr_cat_auto);
                 ((SwitchViewHolder) holder).toggleButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -133,6 +142,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
             } else if (position == 8) {
+                boolean audio = SharePrefenceUtils.getBoolean(context, SharePrefenceUtils.KEY_AUDIO, false);
+                ((SwitchViewHolder) holder).toggleButton.setBackgroundResource(audio ? R.drawable.switch_on : R.drawable.switch_off);
                 ((SwitchViewHolder) holder).tv_item3_title.setText(R.string.label_sound_effect);
                 ((SwitchViewHolder) holder).toggleButton.setOnClickListener(new View.OnClickListener() {
                     @Override

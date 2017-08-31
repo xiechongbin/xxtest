@@ -23,7 +23,7 @@ public class CommonAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private radioButtonClickCallback callback;
 
-    private HashMap<Integer, Boolean> states = new HashMap<>();
+    private HashMap<String, Boolean> states = new HashMap<>();//用于记录每个RadioButton的状态，并保证只可选一个
 
     private int index;
 
@@ -55,13 +55,18 @@ public class CommonAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.layout_common_item, null);
             holder.textView = convertView.findViewById(R.id.tv_common_item);
             holder.radioButton = convertView.findViewById(R.id.rb_select);
+            holder.radioButton.setChecked(false);
             holder.radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (callback != null) {
                         callback.onRadioButtonClick(holder.textView.getText().toString());
+                        //重置，确保最多只有一项被选中
+                        for (String key : states.keySet()) {
+                            states.put(key, false);
 
-                        states.put(position, holder.radioButton.isChecked());
+                        }
+                        states.put(String.valueOf(position), holder.radioButton.isChecked());
                         CommonAdapter.this.notifyDataSetChanged();
                     }
 
@@ -72,7 +77,14 @@ public class CommonAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.textView.setText(array[position]);
-        index = position;
+        boolean res;
+        if (states.get(String.valueOf(position)) == null || !states.get(String.valueOf(position))) {
+            res = false;
+            states.put(String.valueOf(position), false);
+        } else
+            res = true;
+
+        holder.radioButton.setChecked(res);
         return convertView;
     }
 

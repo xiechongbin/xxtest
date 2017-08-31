@@ -1242,4 +1242,6 @@ Your idea weight is 0003."</string>
     <string name="title_fitness_video_title">Fitness video</string>
     <string name="title_knowledge_subtitle">All kinds of weight knowledge</string>
     <string name="title_knowledge_title">Weight Knowledge</string>
+    <string name="choice_wheel">滚轮选择</string>
+    <string name="input_direct">直接输入</string>
 </resources>

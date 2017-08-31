@@ -3,15 +3,12 @@ package com.xiaoxie.weightrecord.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -31,10 +28,6 @@ import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.utils.Utils;
 import com.xiaoxie.weightrecord.view.ActionbarView;
 import com.xiaoxie.weightrecord.view.RecycleViewDivider;
-
-import java.util.Locale;
-
-import static com.xiaoxie.weightrecord.utils.SharePrefenceUtils.KEY_FIRST_DAY_OF_WEEK;
 
 public class SettingsActivity extends AppCompatActivity implements OnItemClickListener {
     private RecyclerView recycleView;

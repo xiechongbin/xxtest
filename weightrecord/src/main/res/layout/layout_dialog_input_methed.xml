@@ -11,7 +11,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:paddingLeft="30dp"
-        android:text="滚轮选择"
+        android:text="@string/choice_wheel"
         android:textSize="17sp" />
 
     <TextView
@@ -21,6 +21,6 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:paddingLeft="30dp"
-        android:text="直接输入"
+        android:text="@string/input_direct"
         android:textSize="17sp" />
 </LinearLayout>
