@@ -48,4 +48,24 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColor">@color/color_848484</item>
     </style>
+
+    <!--解决dialog 不能紧贴屏幕边缘问题-->
+    <style name="myDialog"  parent="android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:windowBackground">@android:color/transparent</item><!--必须还要再加上这一句才能看起来是满的-->
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Style_OverView_LinearLayout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:background">@drawable/overview_layer_list</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 </resources>

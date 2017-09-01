@@ -1255,4 +1255,7 @@ Your idea weight is 0003."</string>
     <string name="saturday">周六</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
+    <string name="resource">资料</string>
+    <string name="man">男性</string>
+    <string name="healthy_weight">体重健康范围</string>
 </resources>

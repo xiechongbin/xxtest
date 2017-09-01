@@ -1,5 +1,7 @@
 package com.xiaoxie.weightrecord.utils;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -9,6 +11,10 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.util.Locale;
 
@@ -91,4 +97,48 @@ public class Utils {
         return context;
     }
 
+    /**
+     * 获取屏幕指定大小位置的dialog
+     *
+     * @param dialog    返回的对话框实例
+     * @param context   上下文
+     * @param w         对话框宽比例
+     * @param h         对话框高比例
+     * @param locationX 在屏幕上的坐标x
+     * @param locationY 在屏幕上的坐标y
+     * @return
+     */
+    public static Dialog setCostumeDialogStyle(Dialog dialog, Context context, float w, float h, int locationX, int locationY, int grivaty1, int grivaty2) {
+        int screenWidth;
+        int screenHeight;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Display d = ((Activity) context).getWindowManager().getDefaultDisplay();
+            screenWidth = d.getWidth();
+            screenHeight = d.getHeight();
+        } else {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            screenWidth = displayMetrics.widthPixels;
+            screenHeight = displayMetrics.heightPixels;
+        }
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow == null) {
+            return dialog;
+        }
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.width = (int) (screenWidth * w);
+        lp.height = (int) (screenHeight * h);
+        dialogWindow.setAttributes(lp);
+        if (grivaty1 > 0 && grivaty2 > 0) {
+            lp.gravity = grivaty1 | grivaty2;
+        }
+        if (grivaty1 > 0 && grivaty2 == 0) {
+            lp.gravity = grivaty1;
+        }
+        if (locationX > 0 || locationY > 0) {
+            lp.x = locationX;
+            lp.y = locationY;
+        }
+        return dialog;
+    }
 }

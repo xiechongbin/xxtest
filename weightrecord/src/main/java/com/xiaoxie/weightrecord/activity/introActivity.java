@@ -42,6 +42,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.xiaoxie.weightrecord.utils.CalculationUtils.calculateBMI;
+
 public class introActivity extends Activity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private View intro_first;
     private View intro_second;
@@ -462,7 +464,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
     private void startAnimation() {
         if (personData.getWeight() <= 0 || personData.getHeight() <= 0)
             return;
-        personData.setBmi(calcuateBMI(personData.getWeight(), personData.getHeight()));
+        personData.setBmi(calculateBMI(personData.getWeight(), personData.getHeight()));
         final float bmi = personData.getBmi();
         dashBoardView.setProgress(bmi);
 /*        new Thread(new Runnable() {
@@ -495,15 +497,6 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         }).start();*/
     }
 
-    /**
-     * 计算bmi公式
-     */
-    private float calcuateBMI(float weight, float height) {
-        height = height / 100;
-        float bmi = weight / (height * height);
-        Log.d("bmi", "weight = " + weight + ">>height = " + height + ">>bmi = " + bmi);
-        return bmi;
-    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

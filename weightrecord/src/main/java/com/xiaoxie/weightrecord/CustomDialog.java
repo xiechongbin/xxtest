@@ -648,19 +648,31 @@ public class CustomDialog extends Dialog {
         private TextView tv_direct_input;
 
         private DialogClickListener listener;
+        private String content1, content2;
 
         public InputTypeBuilder(Context context) {
             initView(context);
         }
 
+        public InputTypeBuilder(Context context, String content1, String content2) {
+            this.content1 = content1;
+            this.content2 = content2;
+            initView(context);
+        }
+
         private void initView(Context context) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inputTypeDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            inputTypeDialog = new CustomDialog(context, R.style.myDialog);
             View layout = mInflater.inflate(R.layout.layout_dialog_input_methed, null);
             inputTypeDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             tv_roller_input = layout.findViewById(R.id.tv_roller_input);
             tv_direct_input = layout.findViewById(R.id.tv_direct_input);
-
+            if (!TextUtils.isEmpty(content1)) {
+                tv_roller_input.setText(content1);
+            }
+            if (!TextUtils.isEmpty(content2)) {
+                tv_direct_input.setText(content2);
+            }
             tv_direct_input.setOnClickListener(this);
             tv_roller_input.setOnClickListener(this);
         }

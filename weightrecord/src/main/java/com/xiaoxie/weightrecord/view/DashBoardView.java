@@ -248,7 +248,7 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 bmi = (float) valueAnimator.getAnimatedValue();
-                bmi = (float) (Math.round(bmi * 100)) / 100;
+                bmi = (float) (Math.round(bmi * 100)) / 100;//保留两位小数
                 invalidate();
             }
         });

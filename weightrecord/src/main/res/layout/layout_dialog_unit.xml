@@ -133,7 +133,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="千克" />
+                    android:text="厘米" />
 
                 <RadioButton
                     android:id="@+id/rb_in"

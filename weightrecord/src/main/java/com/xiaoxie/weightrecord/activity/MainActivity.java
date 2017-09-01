@@ -1,14 +1,17 @@
 package com.xiaoxie.weightrecord.activity;
 
+import android.app.Dialog;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,17 +19,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.xiaoxie.weightrecord.CustomDialog;
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.fragment.BaseFragment;
 import com.xiaoxie.weightrecord.fragment.CalendarFragment;
 import com.xiaoxie.weightrecord.fragment.CloudFragment;
 import com.xiaoxie.weightrecord.fragment.LogFragment;
+import com.xiaoxie.weightrecord.fragment.OverViewFragment;
 import com.xiaoxie.weightrecord.fragment.PhotoFragment;
 import com.xiaoxie.weightrecord.fragment.ReminderSettingFragment;
 import com.xiaoxie.weightrecord.fragment.ResourceFragment;
 import com.xiaoxie.weightrecord.fragment.WeightFragment;
 import com.xiaoxie.weightrecord.interfaces.ActionBarClickListener;
 import com.xiaoxie.weightrecord.interfaces.BackHandledInterface;
+import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 import com.xiaoxie.weightrecord.interfaces.SlidingMenuClickListener;
 import com.xiaoxie.weightrecord.utils.FragmentUtils;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
@@ -56,8 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment resourceFragment;
     private Fragment reminderFragment;
     private Fragment cloudFragment;
+    private Fragment overViewFragment;
 
-    private BaseFragment baseFagment;
+    private BaseFragment baseFragment;
     private ActionbarView view;
 
     @Override
@@ -252,6 +259,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         view.setWitchToShow(ReminderSettingFragment.class.getSimpleName());
     }
 
+    private void showOverViewFragment() {
+        if (overViewFragment == null) {
+            overViewFragment = new OverViewFragment();
+        }
+        if (overViewFragment.isAdded()) {
+            FragmentUtils.hideFragment(this, getShowingFragment());
+            FragmentUtils.showFragment(this, overViewFragment);
+        } else {
+            FragmentUtils.addFragment(this, R.id.fm_fragment_container_hole, overViewFragment, OverViewFragment.class.getSimpleName());
+        }
+        view.setWitchToShow(OverViewFragment.class.getSimpleName());
+    }
+
     private void showCloudFragment() {
         if (cloudFragment == null) {
             cloudFragment = new CloudFragment();
@@ -294,6 +314,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void showOverFlow() {
+        final CustomDialog.InputTypeBuilder builder = new CustomDialog.InputTypeBuilder(this, "概述", "计划");
+        builder.setOnDialogClickListener(new DialogClickListener() {
+            @Override
+            public void OnConfirmed(String str) {
+                if (TextUtils.isEmpty(str)) {
+                    return;
+                }
+                if (str.equals("概述")) {
+                    showOverViewFragment();
+
+                } else if (str.equals("计划")) {
+
+                }
+            }
+
+            @Override
+            public void OnCanceled() {
+            }
+        });
+        Utils.setCostumeDialogStyle(builder.create(), this, 0.65f, 0.2f, 0, 100, Gravity.END, Gravity.TOP).show();
+
+    }
+
     /**
      * 导航栏点击事件回调
      */
@@ -311,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showCloudFragment();
                 break;
             case R.id.img_personal_center:
-                Toast.makeText(this, "img_more", Toast.LENGTH_SHORT).show();
+                showOverFlow();
                 break;
         }
     }
@@ -412,12 +456,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void setSelectedFragment(BaseFragment selectedFragment) {
-        this.baseFagment = selectedFragment;
+        this.baseFragment = selectedFragment;
     }
 
     @Override
     public void onBackPressed() {
-        if (baseFagment == null || !baseFagment.onBackPressed()) {
+        if (baseFragment == null || !baseFragment.onBackPressed()) {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 super.onBackPressed();
             } else {

@@ -198,7 +198,7 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
                 } else {
                     updateUI(position, str);
                     String weightUnit = str.substring(0, str.indexOf(","));
-                    String heightUnit = str.substring(str.indexOf(","), str.length());
+                    String heightUnit = str.substring(str.indexOf(",") + 1, str.length());
                     SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_HEIGHT_UNIT, heightUnit);
                     SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_WEIGHT_UNIT, weightUnit);
                 }
@@ -230,17 +230,7 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
             public void OnCanceled() {
             }
         });
-        Dialog dialog = builder.create();
-        Window dialogWindow = dialog.getWindow();
-        Display d = getWindowManager().getDefaultDisplay();
-        if (dialogWindow == null) {
-            return;
-        }
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.height = (int) (d.getHeight() * 0.2);
-        lp.width = (int) (d.getWidth() * 0.65);
-        dialogWindow.setAttributes(lp);
-        dialog.show();
+        Utils.setCostumeDialogStyle(builder.create(), this, 0.65f, 0.2f, 0, 0, 0, 0).show();
     }
 
     /**
