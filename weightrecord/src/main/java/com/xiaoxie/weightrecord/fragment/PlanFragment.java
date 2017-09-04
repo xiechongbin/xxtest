@@ -20,6 +20,7 @@ import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.utils.Utils;
+import com.xiaoxie.weightrecord.view.MyViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ import java.util.List;
 public class PlanFragment extends BaseFragment implements View.OnClickListener {
     private List<View> lists = new ArrayList<>();
     private Context context;
-    private ViewPager viewPager;
+    private MyViewPager viewPager;
     private ImageView imageView_dot1;
     private ImageView imageView_dot2;
     private TextView tv_plan_year;

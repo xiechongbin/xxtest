@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -295,6 +297,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return photoFragment;
         } else if (reminderFragment != null && reminderFragment.isVisible()) {
             return reminderFragment;
+        } else if (planFragment != null && planFragment.isVisible()) {
+            return planFragment;
         } else {
             return calendarFragment;
         }
@@ -481,5 +485,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (getShowingFragment() instanceof PlanFragment) {
+            Log.d("dispatchTouchEvent","aaaadddd");
+            return false;
+        } else {
+            return super.dispatchTouchEvent(ev);
+        }
     }
 }
