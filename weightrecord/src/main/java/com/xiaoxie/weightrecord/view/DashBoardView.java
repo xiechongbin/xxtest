@@ -79,11 +79,40 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width = 0;
+        int height = 0;
+        int modeW = MeasureSpec.getMode(widthMeasureSpec); //获得宽度MODE
+        if (modeW == MeasureSpec.AT_MOST) {
+            width = MeasureSpec.getSize(widthMeasureSpec);//获得宽度的值
+        }
+        if (modeW == MeasureSpec.EXACTLY) {
+            width = widthMeasureSpec;
+        }
+        if (modeW == MeasureSpec.UNSPECIFIED) {
+            width = 600;
+        }
+
+        int modeH = MeasureSpec.getMode(height); //获得高度MODE
+
+        if (modeH == MeasureSpec.AT_MOST) { //获得高度的值
+            height = MeasureSpec.getSize(heightMeasureSpec);
+        }
+        if (modeH == MeasureSpec.EXACTLY) {
+            height = heightMeasureSpec;
+        }
+        if (modeH == MeasureSpec.UNSPECIFIED) { //ScrollView和HorizontalScrollView
+            height = 850;
+        }
+        setMeasuredDimension(width, height);  //设置宽度和高度
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         WIDTH = getWidth();
         HEIGHT = getHeight();
-        canvas.drawColor(getResources().getColor(R.color.color_27ae60));//绘制背景
+        canvas.drawColor(getResources().getColor(R.color.color_theme_blue));//绘制背景
         drawOutSideArc(canvas);//绘制外圈圆弧
         drawProgessArc(canvas);//绘制外圈进度 默认为0
         drawInnerSideArc(canvas);//绘制内圈圆弧
