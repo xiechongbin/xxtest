@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -808,6 +809,86 @@ public class CustomDialog extends Dialog {
 
         public CustomDialog getAlertDialog() {
             return timeDialog;
+        }
+    }
+
+    public static class DateBuilder implements View.OnClickListener {
+        private CustomDialog dateDialog;
+        private TextView tvDateConfirm;
+        private TextView tvDateCancel;
+        private DatePicker datePicker;
+        private int year, month, day;
+
+        private DialogClickListener listener;
+
+        public DateBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            dateDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_date, null);
+            dateDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            tvDateConfirm = layout.findViewById(R.id.tv_date_confirm);
+            tvDateCancel = layout.findViewById(R.id.tv_date_cancel);
+            datePicker = layout.findViewById(R.id.datePicker);
+            Calendar calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
+                @Override
+                public void onDateChanged(DatePicker datePicker, int y, int m, int d) {
+                    year = y;
+                    month = m+1;
+                    day = d;
+                }
+            });
+
+            tvDateConfirm.setOnClickListener(this);
+            tvDateCancel.setOnClickListener(this);
+        }
+
+        public void setOnDialogClickListener(DialogClickListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.tv_date_confirm:
+                    if (listener != null) {
+                        dismiss();
+                        listener.OnConfirmed(year + "年" + month + "月" + day + "日");
+                    }
+                    break;
+                case R.id.tv_date_cancel:
+                    if (listener != null) {
+                        dismiss();
+                        listener.OnConfirmed("");
+                    }
+                    break;
+            }
+
+        }
+
+        private void dismiss() {
+            if (dateDialog != null && dateDialog.isShowing())
+                dateDialog.dismiss();
+        }
+
+
+        public Dialog create() {
+            return dateDialog;
+        }
+
+        public void show() {
+            dateDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return dateDialog;
         }
     }
 

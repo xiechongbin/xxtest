@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_theme_blue"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_dunpai" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="@string/msg_setup_goal"
+        android:textColor="@color/color_theme_green"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_enable">
+
+        <TextView
+            android:id="@+id/plan_second_enable"
+            android:layout_width="145dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="@string/label_enable"
+            android:textColor="@color/color_theme_blue" />
+
+        <TextView
+            android:id="@+id/plan_second_disable"
+            android:layout_width="145dp"
+            android:layout_height="35dp"
+            android:layout_toRightOf="@id/plan_second_enable"
+            android:gravity="center"
+            android:text="@string/label_disable"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_plan_second_target_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="10.08"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/iv_next"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_keyboard_arrow_down_white_24dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_plan_second_target_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/msg_target_date"
+            android:textColor="@color/color_6bc792" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_target_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018年3月11日"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_edit" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

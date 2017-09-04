@@ -360,12 +360,13 @@
         <item>繁体中文</item>
     </string-array>
     <string-array name="week">
+        <item>周日</item>
         <item>周一</item>
         <item>周二</item>
         <item>周三</item>
         <item>周四</item>
         <item>周五</item>
         <item>周六</item>
-        <item>周日</item>
+
     </string-array>
 </resources>

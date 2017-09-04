@@ -29,6 +29,10 @@ public class SharePrefenceUtils {
     public static final String KEY_REMINDER_ONTTIME = "reminder_onttime";//单次提醒
     public static final String KEY_REMINDER_WHICH_DAY = "reminder_which_day";//哪几天提醒
     public static final String KEY_REMINDER_TIME = "reminder_time";//具体提醒的时间
+    public static final String KEY_PLAN_START_TIME = "plan_start_time";//计划开始的时间
+    public static final String KEY_ENABLE_RESET_PLAN = "enable_reset_plan";//是否允许重置计划
+    public static final String KEY_TARGET_WEIGHT = "target_weight";//目标体重
+    public static final String KEY_TARGET_DATE = "target_date";//目标日期
 
     public static void setBoolean(Context context, String key, boolean value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(CONFIG_NAME, Context.MODE_PRIVATE);

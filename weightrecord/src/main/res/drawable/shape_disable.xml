@@ -10,6 +10,6 @@
         android:topRightRadius="5dp" />
 
     <solid
-        android:color="@android:color/transparent"/>
+        android:color="@android:color/white"/>
 
 </shape>

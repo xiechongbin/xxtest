@@ -1,6 +1,5 @@
 package com.xiaoxie.weightrecord.activity;
 
-import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +24,7 @@ import com.xiaoxie.weightrecord.fragment.CloudFragment;
 import com.xiaoxie.weightrecord.fragment.LogFragment;
 import com.xiaoxie.weightrecord.fragment.OverViewFragment;
 import com.xiaoxie.weightrecord.fragment.PhotoFragment;
+import com.xiaoxie.weightrecord.fragment.PlanFragment;
 import com.xiaoxie.weightrecord.fragment.ReminderSettingFragment;
 import com.xiaoxie.weightrecord.fragment.ResourceFragment;
 import com.xiaoxie.weightrecord.fragment.WeightFragment;
@@ -63,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment reminderFragment;
     private Fragment cloudFragment;
     private Fragment overViewFragment;
+    private Fragment planFragment;
 
     private BaseFragment baseFragment;
     private ActionbarView view;
@@ -326,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     showOverViewFragment();
 
                 } else if (str.equals("计划")) {
-
+                    showPlanFragment();
                 }
             }
 
@@ -336,6 +335,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         Utils.setCostumeDialogStyle(builder.create(), this, 0.65f, 0.2f, 0, 100, Gravity.END, Gravity.TOP).show();
 
+    }
+
+    private void showPlanFragment() {
+        if (planFragment == null) {
+            planFragment = new PlanFragment();
+        }
+        if (planFragment.isAdded()) {
+            FragmentUtils.hideFragment(this, getShowingFragment());
+            FragmentUtils.showFragment(this, planFragment);
+        } else {
+            FragmentUtils.addFragment(this, R.id.fm_fragment_container_hole, planFragment, PlanFragment.class.getSimpleName());
+        }
+        view.setWitchToShow(PlanFragment.class.getSimpleName());
     }
 
     /**

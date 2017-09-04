@@ -7,6 +7,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -16,6 +23,10 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.xiaoxie.weightrecord.R;
+
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -140,5 +151,59 @@ public class Utils {
             lp.y = locationY;
         }
         return dialog;
+    }
+
+    /**
+     * 创建bitmap
+     */
+    public static Bitmap creatBitmap(int x, int y) {
+        Bitmap bitmap = Bitmap.createBitmap(x, y, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        RectF rectF = new RectF(rect);
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
+        canvas.drawOval(rectF, paint);
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return bitmap;
+
+    }
+
+    /**
+     * 日期转换
+     */
+    public static HashMap<String, Integer> revertDate(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return null;
+        }
+        HashMap<String, Integer> map = new HashMap<>();
+        int year = 0;
+        int month = 0;
+        int day = 0;
+        int week = 0;
+        if (str.contains("-")) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy年mm月dd日");
+            str = format.format(str);
+        }
+        if (str.contains("年") && str.contains("月") && str.contains("日")) {
+            year = Integer.valueOf(str.substring(0, str.indexOf("年")));
+            month = Integer.valueOf(str.substring(str.indexOf("年") + 1, str.indexOf("月")));
+            day = Integer.valueOf(str.substring(str.indexOf("月") + 1, str.indexOf("日")));
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
+            week = calendar.get(Calendar.DAY_OF_WEEK);
+        }
+        map.put("year", year);
+        map.put("month", month);
+        map.put("day", day);
+        map.put("week", week);
+        return map;
+    }
+
+    public static String getWeek(Context context, int week) {
+        String firstDayOfWeek = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_FIRST_DAY_OF_WEEK, "");
+        return context.getResources().getStringArray(R.array.week)[week - 1];
+
     }
 }

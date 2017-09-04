@@ -77,6 +77,6 @@ public class CalculationUtils {
      * 计算体脂
      */
     public static float calulateBodyFat() {
-
+        return 0f;
     }
 }

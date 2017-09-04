@@ -163,8 +163,8 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         viewPager.addOnPageChangeListener(this);
 
         img_back.setVisibility(View.INVISIBLE);
-        bitmap_25 = creatBitmap(25, 25);
-        bitmap_30 = creatBitmap(30, 30);
+        bitmap_25 = Utils.creatBitmap(25, 25);
+        bitmap_30 = Utils.creatBitmap(30, 30);
         img_dot1.setImageBitmap(bitmap_30);
         img_dot2.setImageBitmap(bitmap_25);
     }
@@ -351,22 +351,6 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
         }
     }
 
-    /**
-     * 创建bitmap
-     */
-    private Bitmap creatBitmap(int x, int y) {
-        Bitmap bitmap = Bitmap.createBitmap(x, y, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        RectF rectF = new RectF(rect);
-        paint.setAntiAlias(true);
-        paint.setColor(Color.WHITE);
-        canvas.drawOval(rectF, paint);
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return bitmap;
-
-    }
 
     /**
      * 性别展示对话框
