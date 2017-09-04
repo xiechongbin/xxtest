@@ -1,6 +1,5 @@
 package com.xiaoxie.weightrecord.fragment;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -50,6 +49,8 @@ public class OverViewFragment extends BaseFragment implements View.OnTouchListen
     private Context context;
     private float minbmi = 18.5f;
     private float maxbmi = 24.0f;
+    private int minFat = 5;
+    private int maxFat = 25;
 
     @Override
 
@@ -102,13 +103,17 @@ public class OverViewFragment extends BaseFragment implements View.OnTouchListen
         context = getActivity();
         tv_sex.setText(SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_SEX, ""));
         tv_birthday.setText(SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_BIRTHDAY, ""));
-        tv_height.setText(SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_HEIGHT, 0) + "");
-        tv_weight.setText(SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_WEIGHT, 0) + "");
+        String currentHeight = SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_HEIGHT, 0) + "";
+        tv_height.setText(currentHeight);
+        String currentWeight = SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_WEIGHT, 0) + "";
+        tv_weight.setText(currentWeight);
         float[] floats = CalculationUtils.calculateNormalWeight(context);
         tv_weight_healthy_range.setText(floats[0] + "-" + floats[2]);
         tv_current_weight.setText(floats[3] + "");
         tv_bmi_healthy_range.setText(minbmi + "-" + maxbmi);
-        tv_current_bmi.setText(SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_BMI, 0) + "");
+        tv_current_bmi.setText((float) (Math.round(SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_BMI, 0) * 100) / 100) + "");
+        tv_fat_healthy_range.setText(minFat + "%" + "-" + maxFat + "%");
+        tv_current_fat.setText((float) (Math.round(CalculationUtils.calculateBodyFat(context) * 100)) / 100 + "%");
     }
 
     @Override
@@ -213,6 +218,7 @@ public class OverViewFragment extends BaseFragment implements View.OnTouchListen
                 if (TextUtils.isEmpty(date))
                     return;
                 tv_birthday.setText(date);
+
                 SharePrefenceUtils.setString(context, SharePrefenceUtils.KEY_BIRTHDAY, date);//重新保存生日
             }
 

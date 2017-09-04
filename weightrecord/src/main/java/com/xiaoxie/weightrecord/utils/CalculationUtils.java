@@ -2,7 +2,13 @@ package com.xiaoxie.weightrecord.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.transition.CircularPropagation;
 import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * desc:健康数据计算工具类
@@ -10,6 +16,10 @@ import android.util.Log;
  */
 public class CalculationUtils {
     /**
+     * 体重范围 标准身高=身高-80）*70% （男）
+     * 体重范围 标准身高=身高-70）*60% （女）
+     * 体重范围  标准身高上下浮动10%-15%
+     *
      * @param context 上下文
      * @return 标准体重范围 0 最小值 1 标准值 2 最大值 3 当前值
      */
@@ -63,7 +73,7 @@ public class CalculationUtils {
     }
 
     /**
-     * 计算bmi公式
+     * 计算bmi公式  BMI = 體重(公斤) / 身高2(公尺2)
      */
 
     public static float calculateBMI(float weight, float height) {
@@ -75,8 +85,53 @@ public class CalculationUtils {
 
     /**
      * 计算体脂
+     * 体脂% = (1.20 × BMI) + (0.23 × 年龄) − (10.8 × 性别) − 5.4
+     * 男性性别为1，女性为0。
      */
-    public static float calulateBodyFat() {
-        return 0f;
+    public static float calculateBodyFat(Context context) {
+        float fat = 0f;
+        float bmi = SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_BMI, 0);
+        String sex = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_SEX, "");
+        if (TextUtils.isEmpty(sex)) {
+            return 0;
+        }
+        int sexNumber = sex.contains("男") ? 1 : 0;
+        fat = (float) ((1.20f * bmi) + (0.23 * calculateAge(context)) - (10.8 * sexNumber) - 5.4);
+        return fat;
+    }
+
+    /**
+     * 计算年龄
+     */
+    public static int calculateAge(Context context) {
+        String birthday = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_BIRTHDAY, "");
+        int currentYear = 0;
+        int birthdayYear = 0;
+        int currentMonth = 0;
+        int birthdayMonth = 0;
+        int diffYear;
+        int diffMonth;
+        if (TextUtils.isEmpty(birthday)) {
+            return 0;
+        }
+        birthdayYear = Integer.valueOf(birthday.substring(0, birthday.indexOf("年")));
+        birthdayMonth = Integer.valueOf(birthday.substring(birthday.indexOf("年")+1,birthday.indexOf("月")));
+        Calendar calendar = Calendar.getInstance();
+        currentMonth = calendar.get(Calendar.MONTH) + 1;
+        currentYear = calendar.get(Calendar.YEAR);
+        if (currentYear < birthdayYear) {
+            return 0;
+        }
+        diffYear = currentYear - birthdayYear;
+        if (currentMonth > birthdayMonth) {
+            diffMonth = currentMonth - birthdayMonth;
+        } else {
+            diffMonth = birthdayMonth - currentMonth;
+        }
+        if (diffMonth >= 6) {
+            return diffYear + 1;
+        } else {
+            return diffYear;
+        }
     }
 }

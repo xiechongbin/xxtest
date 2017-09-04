@@ -402,7 +402,7 @@ public class CustomDialog extends Dialog {
                 case R.id.bt_calendarview_confirm:
                     if (listener != null) {
                         dismiss();
-                        listener.OnConfirmed(date1);
+                        listener.OnConfirmed(date2);
                     }
                     break;
                 case R.id.bt_calendarview_cancel:
