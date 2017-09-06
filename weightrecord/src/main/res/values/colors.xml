@@ -34,6 +34,8 @@
     <color name="color_cac6c8">#cac6c8</color>
     <color name="color_707070">#707070</color>
     <color name="color_e2e2e2">#e2e2e2</color>
+    <color name="color_eaeaea">#eaeaea</color>
+    <color name="color_ecfbf6">#ecfbf6</color>
 
 
     <declare-styleable name="SeekCircle">

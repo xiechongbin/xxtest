@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -116,12 +117,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initSlidMenu() {
         slidingMenu = new SlidingMenu(this);
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        
         slidingMenu.setMode(SlidingMenu.LEFT);
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         slidingMenu.setShadowWidth(100);
         slidingMenu.setFadeEnabled(true);
         slidingMenu.setFadeDegree(0.35f);
-        int width = wm.getDefaultDisplay().getWidth();
         slidingMenu.setBehindOffset(width / 5);
         slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
         SlidingMenuView view = new SlidingMenuView(this);
@@ -490,7 +494,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (getShowingFragment() instanceof PlanFragment) {
-            Log.d("dispatchTouchEvent","aaaadddd");
+            Log.d("dispatchTouchEvent", "aaaadddd");
             return false;
         } else {
             return super.dispatchTouchEvent(ev);

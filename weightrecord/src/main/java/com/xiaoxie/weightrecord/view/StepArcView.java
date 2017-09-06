@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.xiaoxie.weightrecord.R;
 
-    /**
+/**
  * desc:
  * Created by xiaoxie on 2017/8/21.
  */
@@ -64,18 +64,18 @@ public class StepArcView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        /**中心点的x坐标*/
+        //中心点的x坐标
         float centerX = (getWidth()) / 2;
-        /**指定圆弧的外轮廓矩形区域*/
+        //指定圆弧的外轮廓矩形区域
         RectF rectF = new RectF(0 + borderWidth, borderWidth, 2 * centerX - borderWidth, 2 * centerX - borderWidth);
 
-        /**【第一步】绘制整体的黄色圆弧*/
+        //【第一步】绘制整体的黄色圆弧
         drawArcYellow(canvas, rectF);
-        /**【第二步】绘制当前进度的红色圆弧*/
+        //【第二步】绘制当前进度的红色圆弧
         drawArcRed(canvas, rectF);
-        /**【第三步】绘制当前进度的红色数字*/
+        //【第三步】绘制当前进度的红色数字
         drawTextNumber(canvas, centerX);
-        /**【第四步】绘制"步数"的红色数字*/
+        //【第四步】绘制"步数"的红色数字
         drawTextStepString(canvas, centerX);
     }
 
@@ -87,27 +87,27 @@ public class StepArcView extends View {
      */
     private void drawArcYellow(Canvas canvas, RectF rectF) {
         Paint paint = new Paint();
-        /** 默认画笔颜色，黄色 */
+        // 默认画笔颜色，黄色
         paint.setColor(getResources().getColor(R.color.yellow));
-        /** 结合处为圆弧*/
+        // 结合处为圆弧
         paint.setStrokeJoin(Paint.Join.ROUND);
-        /** 设置画笔的样式 Paint.Cap.Round ,Cap.SQUARE等分别为圆形、方形*/
+        // 设置画笔的样式 Paint.Cap.Round ,Cap.SQUARE等分别为圆形、方形
         paint.setStrokeCap(Paint.Cap.ROUND);
-        /** 设置画笔的填充样式 Paint.Style.FILL  :填充内部;Paint.Style.FILL_AND_STROKE  ：填充内部和描边;  Paint.Style.STROKE  ：仅描边*/
+        // 设置画笔的填充样式 Paint.Style.FILL  :填充内部;Paint.Style.FILL_AND_STROKE  ：填充内部和描边;  Paint.Style.STROKE  ：仅描边
         paint.setStyle(Paint.Style.STROKE);
-        /**抗锯齿功能*/
+        //抗锯齿功能
         paint.setAntiAlias(true);
-        /**设置画笔宽度*/
+        //设置画笔宽度
         paint.setStrokeWidth(borderWidth);
 
-        /**绘制圆弧的方法
-         * drawArc(RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint)//画弧，
-         参数一是RectF对象，一个矩形区域椭圆形的界限用于定义在形状、大小、电弧，
-         参数二是起始角(度)在电弧的开始，圆弧起始角度，单位为度。
-         参数三圆弧扫过的角度，顺时针方向，单位为度,从右中间开始为零度。
-         参数四是如果这是true(真)的话,在绘制圆弧时将圆心包括在内，通常用来绘制扇形；如果它是false(假)这将是一个弧线,
-         参数五是Paint对象；
-         */
+        //绘制圆弧的方法
+        //  drawArc(RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint)//画弧，
+        // 参数一是RectF对象，一个矩形区域椭圆形的界限用于定义在形状、大小、电弧，
+        // 参数二是起始角(度)在电弧的开始，圆弧起始角度，单位为度。
+        // 参数三圆弧扫过的角度，顺时针方向，单位为度,从右中间开始为零度。
+        // 参数四是如果这是true(真)的话,在绘制圆弧时将圆心包括在内，通常用来绘制扇形；如果它是false(假)这将是一个弧线,
+        // 参数五是Paint对象
+
         canvas.drawArc(rectF, startAngle, angleLength, false, paint);
 
     }
@@ -174,9 +174,6 @@ public class StepArcView extends View {
 
     /**
      * dip 转换成px
-     *
-     * @param dip
-     * @return
      */
 
     private int dipToPx(float dip) {
@@ -193,15 +190,15 @@ public class StepArcView extends View {
     public void setCurrentCount(int totalStepNum, int currentCounts) {
         stepNumber = currentCounts + "";
         setTextSize(currentCounts);
-        /**如果当前走的步数超过总步数则圆弧还是270度，不能成为园*/
+        //如果当前走的步数超过总步数则圆弧还是270度，不能成为圆
         if (currentCounts > totalStepNum) {
             currentCounts = totalStepNum;
         }
-        /**所走步数占用总共步数的百分比*/
+        //所走步数占用总共步数的百分比
         float scale = (float) currentCounts / totalStepNum;
-        /**换算成弧度最后要到达的角度的长度-->弧长*/
+        //换算成弧度最后要到达的角度的长度-->弧长
         float currentAngleLength = scale * angleLength;
-        /**开始执行动画*/
+        //开始执行动画
         setAnimation(0, currentAngleLength, animationLength);
     }
 
@@ -212,9 +209,6 @@ public class StepArcView extends View {
      * 它的内部使用一种时间循环的机制来计算值与值之间的动画过渡，
      * 我们只需要将初始值和结束值提供给ValueAnimator，并且告诉它动画所需运行的时长，
      * 那么ValueAnimator就会自动帮我们完成从初始值平滑地过渡到结束值这样的效果。
-     *
-     * @param last
-     * @param current
      */
     private void setAnimation(float last, float current, int length) {
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, current);
@@ -232,8 +226,6 @@ public class StepArcView extends View {
 
     /**
      * 设置文本大小,防止步数特别大之后放不下，将字体大小动态设置
-     *
-     * @param num
      */
     public void setTextSize(int num) {
         String s = String.valueOf(num);

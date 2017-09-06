@@ -2,28 +2,20 @@ package com.xiaoxie.weightrecord.view;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.utils.Utils;
 
 /**
  * desc:仪表盘view
@@ -32,41 +24,34 @@ import com.xiaoxie.weightrecord.R;
 public class DashBoardView extends LinearLayout implements View.OnClickListener {
     private float WIDTH;//可见区域宽度
     private float HEIGHT;//可见区域高度
-
-    private float RECT_WHTDH;//矩形宽
-    private float RECT_HEIGHT;//矩形高
-    private ImageView imageView;
     private float currentAngle = 0;//绘制进度条圆弧转过的角度
     private float bmi = 0;//bmi的值
+    private Context context;
 
     /**
      * 第一个方法，一般我们这样使用时会被调用，View view = new View(context);
      */
     public DashBoardView(Context context) {
         super(context);
+        this.context = context;
         initView();
     }
 
     /**
      * 第二个方法，当我们在xml布局文件中使用View时，会在inflate布局时被调用
-     *
-     * @param context
-     * @param attrs
      */
     public DashBoardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         initView();
     }
 
     /**
      * 第三个方法，跟第二种类似，但是增加style属性设置，这时inflater布局时会调用第三个构造方法。
-     *
-     * @param context
-     * @param attrs
-     * @param defStyleAttr
      */
     public DashBoardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         initView();
     }
 
@@ -112,9 +97,9 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
         super.onDraw(canvas);
         WIDTH = getWidth();
         HEIGHT = getHeight();
-        canvas.drawColor(getResources().getColor(R.color.color_theme_blue));//绘制背景
+        canvas.drawColor(Utils.getColor(context, R.color.color_theme_blue));//绘制背景
         drawOutSideArc(canvas);//绘制外圈圆弧
-        drawProgessArc(canvas);//绘制外圈进度 默认为0
+        drawProgressArc(canvas);//绘制外圈进度 默认为0
         drawInnerSideArc(canvas);//绘制内圈圆弧
         drawScale(canvas);//绘制刻度
         drawText(canvas, 17, WIDTH / 2, WIDTH / 6, "BMI");
@@ -124,12 +109,10 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
 
     /**
      * 绘制外圈圆弧
-     *
-     * @param canvas
      */
     private void drawOutSideArc(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.color_6bc792));
+        paint.setColor(Utils.getColor(context, R.color.color_6bc792));
         paint.setStrokeWidth(8);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
@@ -141,12 +124,10 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
 
     /**
      * 绘制进度
-     *
-     * @param canvas
      */
-    private void drawProgessArc(Canvas canvas) {
+    private void drawProgressArc(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.yellow));
+        paint.setColor(Utils.getColor(context, R.color.yellow));
         paint.setStrokeWidth(8);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
@@ -159,12 +140,10 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
 
     /**
      * 绘制内圈圆弧
-     *
-     * @param canvas
      */
     private void drawInnerSideArc(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.color_6bc792));
+        paint.setColor(Utils.getColor(context, R.color.color_6bc792));
         paint.setStrokeWidth(13);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
@@ -178,12 +157,10 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
 
     /**
      * 绘制刻度
-     *
-     * @param canvas
      */
     private void drawScale(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.color_aadfce));
+        paint.setColor(Utils.getColor(context, R.color.color_aadfce));
         paint.setStrokeWidth(2);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
@@ -236,9 +213,6 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
 
     /**
      * dip 转换成px
-     *
-     * @param dip
-     * @return
      */
 
     private int dipToPx(float dip) {
@@ -248,8 +222,6 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
 
     /**
      * 设置当前bmi的值对应的进度
-     *
-     * @param value
      */
     public void setProgress(float value) {
         float total = 60f;
@@ -292,10 +264,5 @@ public class DashBoardView extends LinearLayout implements View.OnClickListener 
         animation.setDuration(10000);//设置动画持续时间
         TranslateAnimation ta = new TranslateAnimation(100, 0, 200, 0);
         ta.setDuration(10000);//设置动画持续时间
-/** 常用方法 */
-//animation.setRepeatCount(int repeatCount);//设置重复次数
-//animation.setFillAfter(boolean);//动画执行完后是否停留在执行完的状态
-//animation.setStartOffset(long startOffset);//执行前的等待时间
-        imageView.startAnimation(ta);
     }
 }

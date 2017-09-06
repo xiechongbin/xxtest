@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SlidingMenu_lib/SlidingMenu_lib.iml" filepath="$PROJECT_DIR$/SlidingMenu_lib/SlidingMenu_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mpandroid/mpandroid.iml" filepath="$PROJECT_DIR$/mpandroid/mpandroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/weightrecord/weightrecord.iml" filepath="$PROJECT_DIR$/weightrecord/weightrecord.iml" />
       <module fileurl="file://$PROJECT_DIR$/xxDemo.iml" filepath="$PROJECT_DIR$/xxDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/xxtest/xxtest.iml" filepath="$PROJECT_DIR$/xxtest/xxtest.iml" />

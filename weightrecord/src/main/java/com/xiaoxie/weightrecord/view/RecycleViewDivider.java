@@ -24,10 +24,11 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     private int mOrientation;//列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
+
     /**
      * 默认分割线：高度为2px，颜色为灰色
      *
-     * @param context
+     * @param context     上下文
      * @param orientation 列表方向
      */
     public RecycleViewDivider(Context context, int orientation) {
@@ -44,7 +45,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     /**
      * 自定义分割线
      *
-     * @param context
+     * @param context     上下文
      * @param orientation 列表方向
      * @param drawableId  分割线图片
      */
@@ -57,7 +58,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     /**
      * 自定义分割线
      *
-     * @param context
+     * @param context       上下文
      * @param orientation   列表方向
      * @param dividerHeight 分割线高度
      * @param dividerColor  分割线颜色

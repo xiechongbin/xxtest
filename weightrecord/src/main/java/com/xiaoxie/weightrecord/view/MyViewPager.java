@@ -63,9 +63,6 @@ public class MyViewPager extends ViewPager {
 
     /**
      * 拦截触摸事件
-     *
-     * @param ev
-     * @return
      */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
