@@ -9,16 +9,23 @@ import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.bean.BodyData;
+import com.xiaoxie.weightrecord.bean.Options;
 import com.xiaoxie.weightrecord.charts.PlanRealLineChart;
 import com.xiaoxie.weightrecord.charts.TargetPlanRealLineChart;
+import com.xiaoxie.weightrecord.realm.RealmStorageHelper;
+import com.xiaoxie.weightrecord.utils.FragmentUtils;
 import com.xiaoxie.weightrecord.view.CustomProgressBar;
 import com.xiaoxie.weightrecord.view.DashBoardView;
 import com.xiaoxie.weightrecord.view.MyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.RealmResults;
 
 /**
  * desc:
@@ -33,6 +40,8 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
     private PlanRealLineChart planRealLineChart;
     private Activity activity;
     private PagerAdapter adapter;
+    private FrameLayout floatingCircle;
+    private AddDataFragment dataFragment;
 
     @Override
     protected int getLayoutId() {
@@ -44,7 +53,9 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
         dashBoardView = view.findViewById(R.id.weight_dashBoardView);
         progressBar = view.findViewById(R.id.progressbar);
         viewPager = view.findViewById(R.id.viewpagerCharts);
+        floatingCircle = view.findViewById(R.id.floatingCircle);
         dashBoardView.setOnClickListener(this);
+        floatingCircle.setOnClickListener(this);
     }
 
     @Override
@@ -95,8 +106,61 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
         switch (view.getId()) {
             case R.id.weight_dashBoardView:
                 Log.d("dashboard", "click");
+                getData();
                 progressBar.setProgress(80, true);
+
                 break;
+            case R.id.floatingCircle:
+                showAddDataFragment();
+                break;
+        }
+    }
+
+
+    private void showAddDataFragment() {
+        makeData();
+        setOptions();
+        if (dataFragment == null) {
+            dataFragment = new AddDataFragment();
+        }
+        if (dataFragment.isAdded()) {
+            FragmentUtils.hideFragment(getActivity(), this);
+            FragmentUtils.showFragment(getActivity(), dataFragment);
+        } else {
+            FragmentUtils.addFragment(getActivity(), R.id.fm_fragment_container_hole, dataFragment, AddDataFragment.class.getSimpleName());
+        }
+    }
+
+    private void makeData() {
+        BodyData bodyData = new BodyData();
+        bodyData.setDate("2017年9月7号");
+        bodyData.setAverageWeight(56.5f);
+        bodyData.setAmWeight(56.0f);
+        bodyData.setPmWeight(56.2f);
+        bodyData.setActivity(5);
+        bodyData.setChest(55);
+        RealmStorageHelper.getInstance().insertBodyData(bodyData);
+    }
+
+    private void setOptions() {
+        Options options = new Options();
+        options.setAverageWeightStatus(1);
+        options.setHeartRateStatus(1);
+        options.setPmWeightStatus(1);
+        options.setBmrStatus(1);
+        options.setButtocksStatus(1);
+        RealmStorageHelper.getInstance().insertOptions(options);
+    }
+
+    private void getData() {
+        RealmResults<BodyData> results = RealmStorageHelper.getInstance().getRealm().where(BodyData.class).findAll();
+        for (int i = 0; i < results.size(); i++) {
+            BodyData data = results.get(i);
+            Log.d("results", "date = " + data.getDate() + "\n" + "AverageWeight = " + data.getAverageWeight()
+                    + "\nAmweight = " + data.getAmWeight()
+                    + "\n pmweight = " + data.getPmWeight()
+                    + "\nAcvitvity = " + data.getActivity()
+                    + "\nchest = " + data.getChest());
         }
     }
 }

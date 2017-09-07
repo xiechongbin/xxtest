@@ -18,7 +18,7 @@ import com.xiaoxie.weightrecord.utils.Utils;
  * desc:
  * Created by xiaoxie on 2017/8/25.
  */
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SettingRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater inflater;
     private Context context;
     private static int VIEW_TYPE_0 = 0;
@@ -30,7 +30,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private OnItemClickListener clickListener;
 
-    public RecycleViewAdapter(Context context) {
+    public SettingRecycleViewAdapter(Context context) {
         inflater = LayoutInflater.from(context);
         this.context = context;
     }

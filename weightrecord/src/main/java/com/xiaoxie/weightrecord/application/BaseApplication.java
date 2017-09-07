@@ -6,15 +6,20 @@ import android.content.Context;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.utils.Utils;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * desc:application类
  * Created by xiaoxie on 2017/8/11.
  */
 public class BaseApplication extends Application {
+    public static Context ApplicationContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        ApplicationContext = this.getApplicationContext();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.xiaoxie.weightrecord.activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,16 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.xiaoxie.weightrecord.CustomDialog;
 import com.xiaoxie.weightrecord.R;
-import com.xiaoxie.weightrecord.adapter.RecycleViewAdapter;
+import com.xiaoxie.weightrecord.adapter.SettingRecycleViewAdapter;
 import com.xiaoxie.weightrecord.fragment.BackupFragment;
 import com.xiaoxie.weightrecord.fragment.BaseFragment;
 import com.xiaoxie.weightrecord.fragment.ReminderSettingFragment;
@@ -55,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         recycleView = (RecyclerView) findViewById(R.id.setting_recycleView);
         recycleView.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, 2, getColor(R.color.color_f2f2f2)));
         recycleView.setLayoutManager(layoutManager);
-        RecycleViewAdapter adapter = new RecycleViewAdapter(this);
+        SettingRecycleViewAdapter adapter = new SettingRecycleViewAdapter(this);
         adapter.setOnItemClickListener(this);
         recycleView.setAdapter(adapter);
     }
@@ -262,8 +258,8 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
                 return;
             }
             RecyclerView.ViewHolder holder = recycleView.getChildViewHolder(v);
-            if (holder instanceof RecycleViewAdapter.Common1ViewHolder) {
-                ((RecycleViewAdapter.Common1ViewHolder) holder).tv_item2_content.setText(str);//刷新界面的数据
+            if (holder instanceof SettingRecycleViewAdapter.Common1ViewHolder) {
+                ((SettingRecycleViewAdapter.Common1ViewHolder) holder).tv_item2_content.setText(str);//刷新界面的数据
             }
         }
     }
@@ -276,8 +272,8 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
                 return;
             }
             RecyclerView.ViewHolder holder = recycleView.getChildViewHolder(v);
-            if (holder instanceof RecycleViewAdapter.SwitchViewHolder) {
-                ((RecycleViewAdapter.SwitchViewHolder) holder).toggleButton.setBackgroundResource(state ? R.drawable.switch_on : R.drawable.switch_off);//刷新界面的数据
+            if (holder instanceof SettingRecycleViewAdapter.SwitchViewHolder) {
+                ((SettingRecycleViewAdapter.SwitchViewHolder) holder).toggleButton.setBackgroundResource(state ? R.drawable.switch_on : R.drawable.switch_off);//刷新界面的数据
             }
         }
     }

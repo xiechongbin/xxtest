@@ -32,73 +32,22 @@ public class DayAxisValueFormatter implements IAxisValueFormatter {
         String scale = "";
         int days = (int) value;
         Calendar calendar = Calendar.getInstance();
-        int month = calendar.get(Calendar.MONTH) + 1;
+        int currentMonth = calendar.get(Calendar.MONTH) + 1;
+        int currentYear = calendar.get(Calendar.YEAR);
+        int daysOfMonth = getDaysForMonth(currentMonth, currentYear);
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-        switch (days) {
-            case 1:
-                scale = month + "月" + (currentDay - 6) + "日";
-                break;
-            case 2:
-                scale = month + "月" + (currentDay - 5) + "日";
-                break;
-            case 3:
-                scale = month + "月" + (currentDay - 4) + "日";
-                break;
-            case 4:
-                scale = month + "月" + (currentDay - 3) + "日";
-                break;
-            case 5:
-                scale = month + "月" + (currentDay - 2) + "日";
-                break;
-            case 6:
-                scale = month + "月" + (currentDay - 1) + "日";
-                break;
-            case 7:
-                scale = month + "月" + currentDay + "日";
-                break;
-
+        currentDay = currentDay - 7 + days;
+        if (currentDay <= 0) {
+            currentDay = daysOfMonth - currentDay;
+            currentMonth = currentMonth - 1;
         }
+        scale = currentMonth + "-" + currentDay;
         return scale;
-        /*int month = determineMonth(days);
-        String monthName = mMonths[month % mMonths.length];
-        String yearName = String.valueOf(year);
-
-        if (chart.getVisibleXRange() > 30 * 6) {
-
-            return monthName + " " + yearName;
-        } else {
-
-            int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2016));
-
-            String appendix = "th";
-
-            switch (dayOfMonth) {
-                case 1:
-                    appendix = "st";
-                    break;
-                case 2:
-                    appendix = "nd";
-                    break;
-                case 3:
-                    appendix = "rd";
-                    break;
-                case 21:
-                    appendix = "st";
-                    break;
-                case 22:
-                    appendix = "nd";
-                    break;
-                case 23:
-                    appendix = "rd";
-                    break;
-                case 31:
-                    appendix = "st";
-                    break;
-            }
-            return dayOfMonth == 0 ? "" : dayOfMonth + appendix + " " + monthName;
-        }*/
     }
 
+    /**
+     * 获取当月有多少天
+     */
     private int getDaysForMonth(int month, int year) {
 
         // month is 0-based

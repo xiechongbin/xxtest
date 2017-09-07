@@ -1258,4 +1258,5 @@ Your idea weight is 0003."</string>
     <string name="resource">资料</string>
     <string name="man">男性</string>
     <string name="healthy_weight">体重健康范围</string>
+    <string name="delete">删除</string>
 </resources>
