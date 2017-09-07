@@ -393,9 +393,9 @@
                         android:src="@color/color_e2e2e2" />
 
                     <com.xiaoxie.weightrecord.view.MyViewPager
-                        android:id="@+id/plan_viewpager"
+                        android:id="@+id/viewpagerCharts"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></com.xiaoxie.weightrecord.view.MyViewPager>
+                        android:layout_height="200dp"></com.xiaoxie.weightrecord.view.MyViewPager>
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
