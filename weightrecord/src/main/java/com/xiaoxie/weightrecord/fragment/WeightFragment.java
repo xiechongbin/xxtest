@@ -133,12 +133,12 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
 
     private void makeData() {
         BodyData bodyData = new BodyData();
-        bodyData.setDate("2017年9月7号");
-        bodyData.setAverageWeight(56.5f);
+        bodyData.setDate("2017年9月8号");
+        bodyData.setAverageWeight(88.5f);
         bodyData.setAmWeight(56.0f);
-        bodyData.setPmWeight(56.2f);
-        bodyData.setActivity(5);
-        bodyData.setChest(55);
+        bodyData.setPmWeight(54.2f);
+        bodyData.setActivity(3);
+        bodyData.setChest(55.2f);
         RealmStorageHelper.getInstance().insertBodyData(bodyData);
     }
 
@@ -147,8 +147,16 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
         options.setAverageWeightStatus(1);
         options.setHeartRateStatus(1);
         options.setPmWeightStatus(1);
+
+        options.setBodyFatStatus(1);
+        options.setInternalOrgansFatStatus(1);
         options.setBmrStatus(1);
+
         options.setButtocksStatus(1);
+        options.setChestStatus(1);
+
+        options.setActivityStatus(1);
+        options.setAnnotateStatus(1);
         RealmStorageHelper.getInstance().insertOptions(options);
     }
 

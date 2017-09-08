@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -27,14 +26,14 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
-import com.xiaoxie.weightrecord.activity.LockPatternActivity;
 import com.xiaoxie.weightrecord.adapter.CommonAdapter;
 import com.xiaoxie.weightrecord.adapter.YearSelectAdapter;
+import com.xiaoxie.weightrecord.bean.Options;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener;
+import com.xiaoxie.weightrecord.interfaces.DialogClickListener1;
+import com.xiaoxie.weightrecord.realm.RealmStorageHelper;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
-import com.xiaoxie.weightrecord.utils.Utils;
 
-import java.io.FileReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -841,7 +840,7 @@ public class CustomDialog extends Dialog {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int y, int m, int d) {
                     year = y;
-                    month = m+1;
+                    month = m + 1;
                     day = d;
                 }
             });
@@ -1052,6 +1051,274 @@ public class CustomDialog extends Dialog {
 
         public CustomDialog getAlertDialog() {
             return weekDialog;
+        }
+    }
+
+    public static class BodyDataChoiceBuilder implements View.OnClickListener {
+        private CustomDialog bodyDataDialog;
+        private TextView tvbdConfirm;
+        private TextView tvbdCancel;
+
+        private Context context;
+
+        private CheckBox checkBox1;
+        private CheckBox checkBox2;
+        private CheckBox checkBox3;
+        private CheckBox checkBox4;
+        private CheckBox checkBox5;
+        private CheckBox checkBox6;
+        private CheckBox checkBox7;
+        private CheckBox checkBox8;
+        private CheckBox checkBox9;
+        private CheckBox checkBox10;
+        private CheckBox checkBox11;
+        private CheckBox checkBox12;
+        private CheckBox checkBox13;
+        private CheckBox checkBox14;
+        private CheckBox checkBox15;
+        private CheckBox checkBox16;
+        private CheckBox checkBox17;
+        private CheckBox checkBox18;
+        private CheckBox checkBox19;
+        private CheckBox checkBox20;
+        private CheckBox checkBox21;
+        private CheckBox checkBox22;
+        private CheckBox checkBox23;
+        private String sum;
+        private Options options;
+
+        private DialogClickListener1 listener;
+
+        public BodyDataChoiceBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            this.context = context;
+            options = new Options();
+            sum = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_REMINDER_WHICH_DAY, "");
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            bodyDataDialog = new CustomDialog(context, R.style.Theme_AppCompat_Dialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_body_data_choose, null);
+            bodyDataDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            tvbdConfirm = layout.findViewById(R.id.tv_body_data_confirm);
+            tvbdCancel = layout.findViewById(R.id.tv_body_data_cancel);
+
+            checkBox1 = layout.findViewById(R.id.body_data_checkbox1);
+            checkBox2 = layout.findViewById(R.id.body_data_checkbox2);
+            checkBox3 = layout.findViewById(R.id.body_data_checkbox3);
+            checkBox4 = layout.findViewById(R.id.body_data_checkbox4);
+            checkBox5 = layout.findViewById(R.id.body_data_checkbox5);
+            checkBox6 = layout.findViewById(R.id.body_data_checkbox6);
+            checkBox7 = layout.findViewById(R.id.body_data_checkbox7);
+            checkBox8 = layout.findViewById(R.id.body_data_checkbox8);
+            checkBox9 = layout.findViewById(R.id.body_data_checkbox9);
+            checkBox10 = layout.findViewById(R.id.body_data_checkbox10);
+            checkBox11 = layout.findViewById(R.id.body_data_checkbox11);
+            checkBox12 = layout.findViewById(R.id.body_data_checkbox12);
+            checkBox13 = layout.findViewById(R.id.body_data_checkbox13);
+            checkBox14 = layout.findViewById(R.id.body_data_checkbox14);
+            checkBox15 = layout.findViewById(R.id.body_data_checkbox15);
+            checkBox16 = layout.findViewById(R.id.body_data_checkbox16);
+            checkBox17 = layout.findViewById(R.id.body_data_checkbox17);
+            checkBox18 = layout.findViewById(R.id.body_data_checkbox18);
+            checkBox19 = layout.findViewById(R.id.body_data_checkbox19);
+            checkBox20 = layout.findViewById(R.id.body_data_checkbox20);
+            checkBox21 = layout.findViewById(R.id.body_data_checkbox21);
+            checkBox22 = layout.findViewById(R.id.body_data_checkbox22);
+            checkBox23 = layout.findViewById(R.id.body_data_checkbox23);
+
+            checkBox1.setOnClickListener(this);
+            checkBox2.setOnClickListener(this);
+            checkBox3.setOnClickListener(this);
+            checkBox4.setOnClickListener(this);
+            checkBox5.setOnClickListener(this);
+            checkBox6.setOnClickListener(this);
+            checkBox7.setOnClickListener(this);
+            checkBox8.setOnClickListener(this);
+            checkBox9.setOnClickListener(this);
+            checkBox10.setOnClickListener(this);
+            checkBox11.setOnClickListener(this);
+            checkBox12.setOnClickListener(this);
+            checkBox13.setOnClickListener(this);
+            checkBox14.setOnClickListener(this);
+            checkBox15.setOnClickListener(this);
+            checkBox16.setOnClickListener(this);
+            checkBox17.setOnClickListener(this);
+            checkBox18.setOnClickListener(this);
+            checkBox19.setOnClickListener(this);
+            checkBox20.setOnClickListener(this);
+            checkBox21.setOnClickListener(this);
+            checkBox22.setOnClickListener(this);
+            checkBox23.setOnClickListener(this);
+            tvbdConfirm.setOnClickListener(this);
+            tvbdCancel.setOnClickListener(this);
+            initCheckBox();
+        }
+
+        private void initCheckBox() {
+            Options o = RealmStorageHelper.getInstance().getOptions().get(0);
+            if (o == null) {
+                return;
+            }
+            checkBox1.setChecked(o.getAmWeightStatus() != 0);
+            checkBox2.setChecked(o.getPmWeightStatus() != 0);
+            checkBox3.setChecked(o.getNightWeightStatus() != 0);
+            checkBox4.setChecked(o.getBodyFatStatus() != 0);
+            checkBox5.setChecked(o.getInternalOrgansFatStatus() != 0);
+            checkBox6.setChecked(o.getMuscleStatus() != 0);
+            checkBox7.setChecked(o.getBoneStatus() != 0);
+            checkBox8.setChecked(o.getBodyMoistureStatus() != 0);
+            checkBox9.setChecked(o.getHeartRateStatus() != 0);
+            checkBox10.setChecked(o.getBmrStatus() != 0);
+            checkBox11.setChecked(o.getBicepsStatus() != 0);
+            checkBox12.setChecked(o.getNeckStatus() != 0);
+            checkBox13.setChecked(o.getWaistStatus() != 0);
+            checkBox14.setChecked(o.getWristStatus() != 0);
+            checkBox15.setChecked(o.getForearmStatus() != 0);
+            checkBox16.setChecked(o.getButtocksStatus() != 0);
+            checkBox17.setChecked(o.getBustStatus() != 0);
+            checkBox18.setChecked(o.getAbdomenStatus() != 0);
+            checkBox19.setChecked(o.getThighStatus() != 0);
+            checkBox20.setChecked(o.getChestStatus() != 0);
+            checkBox21.setChecked(o.getDietStatus() != 0);
+            checkBox22.setChecked(o.getActivityStatus() != 0);
+            checkBox23.setChecked(o.getAnnotateStatus() != 0);
+        }
+
+        public void setOnDialogClickListener(DialogClickListener1 listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.tv_body_data_confirm:
+                    if (listener != null) {
+                        dismiss();
+                        options.setAmWeightStatus(checkBox1.isChecked() ? 1 : 0);
+                        options.setPmWeightStatus(checkBox2.isChecked() ? 1 : 0);
+                        options.setNightWeightStatus(checkBox3.isChecked() ? 1 : 0);
+                        options.setBodyFatStatus(checkBox4.isChecked() ? 1 : 0);
+                        options.setInternalOrgansFatStatus(checkBox5.isChecked() ? 1 : 0);
+                        options.setMuscleStatus(checkBox6.isChecked() ? 1 : 0);
+                        options.setBoneStatus(checkBox7.isChecked() ? 1 : 0);
+                        options.setBodyMoistureStatus(checkBox8.isChecked() ? 1 : 0);
+                        options.setHeartRateStatus(checkBox8.isChecked() ? 1 : 0);
+                        options.setBmrStatus(checkBox10.isChecked() ? 1 : 0);
+                        options.setBicepsStatus(checkBox11.isChecked() ? 1 : 0);
+                        options.setNeckStatus(checkBox12.isChecked() ? 1 : 0);
+                        options.setWaistStatus(checkBox13.isChecked() ? 1 : 0);
+                        options.setWristStatus(checkBox14.isChecked() ? 1 : 0);
+                        options.setForearmStatus(checkBox15.isChecked() ? 1 : 0);
+                        options.setButtocksStatus(checkBox16.isChecked() ? 1 : 0);
+                        options.setBustStatus(checkBox17.isChecked() ? 1 : 0);
+                        options.setAbdomenStatus(checkBox18.isChecked() ? 1 : 0);
+                        options.setThighStatus(checkBox19.isChecked() ? 1 : 0);
+                        options.setChestStatus(checkBox20.isChecked() ? 1 : 0);
+                        options.setDietStatus(checkBox21.isChecked() ? 1 : 0);
+                        options.setActivityStatus(checkBox22.isChecked() ? 1 : 0);
+                        options.setAnnotateStatus(checkBox23.isChecked() ? 1 : 0);
+
+                        listener.OnConfirmed(options);
+                        RealmStorageHelper.getInstance().insertOptions(options);//保存数据到数据库
+
+                    }
+                    break;
+                case R.id.body_data_checkbox1:
+                    checkBox1.setChecked(checkBox1.isChecked());
+                    break;
+                case R.id.body_data_checkbox2:
+                    checkBox2.setChecked(checkBox2.isChecked());
+                    break;
+                case R.id.body_data_checkbox3:
+                    checkBox3.setChecked(checkBox3.isChecked());
+                    break;
+                case R.id.body_data_checkbox4:
+                    checkBox4.setChecked(checkBox4.isChecked());
+                    break;
+                case R.id.body_data_checkbox5:
+                    checkBox5.setChecked(checkBox5.isChecked());
+                    break;
+                case R.id.body_data_checkbox6:
+                    checkBox6.setChecked(checkBox6.isChecked());
+                    break;
+                case R.id.body_data_checkbox7:
+                    checkBox7.setChecked(checkBox7.isChecked());
+                    break;
+                case R.id.body_data_checkbox8:
+                    checkBox8.setChecked(checkBox8.isChecked());
+                    break;
+                case R.id.body_data_checkbox9:
+                    checkBox9.setChecked(checkBox9.isChecked());
+                    break;
+                case R.id.body_data_checkbox10:
+                    checkBox10.setChecked(checkBox10.isChecked());
+                    break;
+                case R.id.body_data_checkbox11:
+                    checkBox11.setChecked(checkBox11.isChecked());
+                    break;
+                case R.id.body_data_checkbox12:
+                    checkBox12.setChecked(checkBox12.isChecked());
+                    break;
+                case R.id.body_data_checkbox13:
+                    checkBox13.setChecked(checkBox13.isChecked());
+                    break;
+                case R.id.body_data_checkbox14:
+                    checkBox14.setChecked(checkBox14.isChecked());
+                    break;
+                case R.id.body_data_checkbox15:
+                    checkBox15.setChecked(checkBox15.isChecked());
+                    break;
+                case R.id.body_data_checkbox16:
+                    checkBox16.setChecked(checkBox16.isChecked());
+                    break;
+                case R.id.body_data_checkbox17:
+                    checkBox17.setChecked(checkBox17.isChecked());
+                    break;
+                case R.id.body_data_checkbox18:
+                    checkBox18.setChecked(checkBox18.isChecked());
+                    break;
+                case R.id.body_data_checkbox19:
+                    checkBox19.setChecked(checkBox19.isChecked());
+                    break;
+                case R.id.body_data_checkbox20:
+                    checkBox20.setChecked(checkBox20.isChecked());
+                    break;
+                case R.id.body_data_checkbox21:
+                    checkBox21.setChecked(checkBox21.isChecked());
+                    break;
+                case R.id.body_data_checkbox22:
+                    checkBox22.setChecked(checkBox22.isChecked());
+                    break;
+                case R.id.body_data_checkbox23:
+                    checkBox23.setChecked(checkBox23.isChecked());
+                    break;
+
+                case R.id.tv_body_data_cancel:
+                    if (listener != null) {
+                        dismiss();
+                    }
+                    break;
+            }
+
+        }
+
+        private void dismiss() {
+            if (bodyDataDialog != null && bodyDataDialog.isShowing())
+                bodyDataDialog.dismiss();
+        }
+
+        public Dialog create() {
+            return bodyDataDialog;
+        }
+
+        public void show() {
+            bodyDataDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return bodyDataDialog;
         }
     }
 }

@@ -206,4 +206,10 @@ public class Utils {
         return context.getResources().getStringArray(R.array.week)[week - 1];
 
     }
+
+    public static String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+
+        return calendar.get(Calendar.YEAR) + "年" + (calendar.get(Calendar.MONTH) + 1) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日";
+    }
 }

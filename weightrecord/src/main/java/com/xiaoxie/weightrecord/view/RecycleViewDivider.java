@@ -9,7 +9,10 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+
+import com.xiaoxie.weightrecord.adapter.AddDataRecycleViewAdapter;
 
 
 /**
@@ -23,7 +26,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     private int mDividerHeight = 9;//分割线高度，默认为9px
     private int mOrientation;//列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
-
+    private boolean differentHeight = false;
 
     /**
      * 默认分割线：高度为2px，颜色为灰色
@@ -71,6 +74,24 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
         mPaint.setStyle(Paint.Style.FILL);
     }
 
+    /**
+     * 自定义分割线
+     *
+     * @param context         上下文
+     * @param orientation     列表方向
+     * @param dividerHeight   分割线高度
+     * @param dividerColor    分割线颜色
+     * @param differentHeight 是否根据不同的position设置不同的高度
+     */
+    public RecycleViewDivider(Context context, int orientation, int dividerHeight, int dividerColor, boolean differentHeight) {
+        this(context, orientation);
+        this.differentHeight = differentHeight;
+        mDividerHeight = dividerHeight;
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setColor(dividerColor);
+        mPaint.setStyle(Paint.Style.FILL);
+    }
+
 
     /**
      * 获取分割线尺寸
@@ -78,7 +99,27 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        outRect.set(0, 0, 0, mDividerHeight);
+
+        if (differentHeight) {
+            int pos = parent.getChildAdapterPosition(view);
+            int wCount = ((AddDataRecycleViewAdapter) parent.getAdapter()).getWeightItemCounts();
+            int fCount = ((AddDataRecycleViewAdapter) parent.getAdapter()).getFatItemCount();
+            int lCount = ((AddDataRecycleViewAdapter) parent.getAdapter()).getLimbsCount();
+            int aCount = ((AddDataRecycleViewAdapter) parent.getAdapter()).getAnoCount();
+            int oCount = ((AddDataRecycleViewAdapter) parent.getAdapter()).getOtherCount();
+            Log.d("counts", "pos = " + pos + ">>>wCount = " + wCount);
+            Log.d("counts", "pos = " + pos + ">>>fCount = " + fCount);
+            Log.d("counts", "pos = " + pos + ">>>lCount = " + lCount);
+            Log.d("counts", "pos = " + pos + ">>>aCount = " + aCount);
+            Log.d("counts", "pos = " + pos + ">>>oCount = " + oCount);
+            if (pos == (wCount - 1) || pos == (wCount + fCount - 1) || pos == (wCount + fCount + lCount - 1) || pos == (wCount + fCount + lCount + aCount - 1) || pos == (wCount + fCount + lCount + aCount + oCount - 1)) {
+                outRect.set(0, 0, 0, 50);
+            } else {
+                outRect.set(0, 0, 0, mDividerHeight);
+            }
+        } else {
+            outRect.set(0, 0, 0, mDividerHeight);
+        }
     }
 
     /**
