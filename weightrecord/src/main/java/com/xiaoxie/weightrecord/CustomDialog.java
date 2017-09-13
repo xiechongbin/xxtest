@@ -174,14 +174,10 @@ public class CustomDialog extends Dialog {
         private TextView tvUnit;
         private String value = "";
         private DialogClickListener listener;
-        private boolean isHeight = false;
+        private String tag;
 
-        public WeightAndHeightBuilder(Context context) {
-            initView(context);
-        }
-
-        public WeightAndHeightBuilder(Context context, boolean isHeight) {
-            this.isHeight = isHeight;
+        public WeightAndHeightBuilder(Context context, String tag) {
+            this.tag = tag;
             initView(context);
         }
 
@@ -227,10 +223,7 @@ public class CustomDialog extends Dialog {
             bt_zero.setOnClickListener(this);
             bt_dot.setOnClickListener(this);
             bt_delete.setOnClickListener(this);
-
-            if (isHeight) {
-                tvUnit.setText("CM");
-            }
+            tvUnit.setText(tag);
 
         }
 
@@ -1319,6 +1312,141 @@ public class CustomDialog extends Dialog {
 
         public CustomDialog getAlertDialog() {
             return bodyDataDialog;
+        }
+    }
+
+    public static class BodyFatBuilder implements View.OnClickListener {
+        private CustomDialog bodyFatDialog;
+        private Context context;
+        private LinearLayout ll_input_direct;
+        private LinearLayout ll_input_from_bmi;
+        private LinearLayout ll_input_from_body_fat;
+
+        private DialogClickListener listener;
+
+        public BodyFatBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            this.context = context;
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            bodyFatDialog = new CustomDialog(context, R.style.myDialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_body_fat_input_methed, null);
+            bodyFatDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            ll_input_direct = layout.findViewById(R.id.ll_input_direct);
+            ll_input_from_bmi = layout.findViewById(R.id.ll_input_from_bmi);
+            ll_input_from_body_fat = layout.findViewById(R.id.ll_input_from_body_fat);
+
+            ll_input_direct.setOnClickListener(this);
+            ll_input_from_bmi.setOnClickListener(this);
+            ll_input_from_body_fat.setOnClickListener(this);
+        }
+
+        public void setOnDialogClickListener(DialogClickListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.ll_input_direct:
+                    dismiss();
+                    listener.OnConfirmed(String.valueOf(R.id.ll_input_direct));
+                    break;
+                case R.id.ll_input_from_bmi:
+                    dismiss();
+                    listener.OnConfirmed(String.valueOf(R.id.ll_input_from_bmi));
+                    break;
+                case R.id.ll_input_from_body_fat:
+                    dismiss();
+                    listener.OnConfirmed(String.valueOf(R.id.ll_input_from_body_fat));
+                    break;
+            }
+
+        }
+
+        private void dismiss() {
+            if (bodyFatDialog != null && bodyFatDialog.isShowing())
+                bodyFatDialog.dismiss();
+        }
+
+        public Dialog create() {
+            return bodyFatDialog;
+        }
+
+        public void show() {
+            bodyFatDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return bodyFatDialog;
+        }
+    }
+
+    public static class BMRBuilder implements View.OnClickListener {
+        private CustomDialog bmrDialog;
+        private Context context;
+        private LinearLayout ll_input_bmr_direct;
+        private LinearLayout ll_input_bmr_from_auto_calculate;
+
+
+        private DialogClickListener listener;
+
+        public BMRBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            this.context = context;
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            bmrDialog = new CustomDialog(context, R.style.myDialog);
+            View layout = mInflater.inflate(R.layout.layout_dialog_bmr, null);
+            bmrDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            ll_input_bmr_direct = layout.findViewById(R.id.ll_input_bmr_direct);
+            ll_input_bmr_from_auto_calculate = layout.findViewById(R.id.ll_input_bmr_from_auto_calculate);
+
+            ll_input_bmr_direct.setOnClickListener(this);
+            ll_input_bmr_from_auto_calculate.setOnClickListener(this);
+
+        }
+
+        public void setOnDialogClickListener(DialogClickListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.ll_input_bmr_direct:
+                    dismiss();
+                    listener.OnConfirmed(String.valueOf(R.id.ll_input_bmr_direct));
+                    break;
+                case R.id.ll_input_bmr_from_auto_calculate:
+                    dismiss();
+                    listener.OnConfirmed(String.valueOf(R.id.ll_input_bmr_from_auto_calculate));
+                    break;
+            }
+
+        }
+
+        private void dismiss() {
+            if (bmrDialog != null && bmrDialog.isShowing())
+                bmrDialog.dismiss();
+        }
+
+        public Dialog create() {
+            return bmrDialog;
+        }
+
+        public void show() {
+            bmrDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return bmrDialog;
         }
     }
 }

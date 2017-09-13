@@ -97,6 +97,10 @@ public class RealmStorageHelper {
         return getRealm().where(Options.class).findAll();
     }
 
+    public RealmResults<BodyData> getBodyDatas() {
+        return getRealm().where(BodyData.class).findAll();
+    }
+
     /**
      * 删除数据
      */

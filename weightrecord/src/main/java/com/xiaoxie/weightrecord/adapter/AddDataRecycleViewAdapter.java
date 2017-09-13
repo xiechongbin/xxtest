@@ -2,6 +2,7 @@ package com.xiaoxie.weightrecord.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.bean.BodyData;
 import com.xiaoxie.weightrecord.bean.Options;
 import com.xiaoxie.weightrecord.interfaces.OnItemClickListener;
 import com.xiaoxie.weightrecord.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import io.realm.annotations.PrimaryKey;
 
 /**
  * desc:
@@ -44,17 +45,51 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
     private int otherCount = 0;
     private int anoCount = 0;
     private Options options;
+    private BodyData bodyData;
+    private HashMap<Integer, String> stringHashMap;
 
-    public AddDataRecycleViewAdapter(Context context, Options options) {
+    public AddDataRecycleViewAdapter(Context context, Options options, BodyData bodyData) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.options = options;
+        this.bodyData = bodyData;
         initData();
     }
 
     public void updateOptions(Options options) {
         this.options = options;
         initData();
+    }
+
+    private void initString() {
+        if (stringHashMap == null) {
+            stringHashMap = new HashMap<>();
+        }
+        stringHashMap.put(R.string.label_date, context.getString(R.string.label_date));
+        stringHashMap.put(R.string.label_weight_morning, context.getString(R.string.label_weight_morning));
+        stringHashMap.put(R.string.label_weight_noon, context.getString(R.string.label_weight_noon));
+        stringHashMap.put(R.string.label_weight_night, context.getString(R.string.label_weight_night));
+        stringHashMap.put(R.string.label_weight_avg, context.getString(R.string.label_weight_avg));
+        stringHashMap.put(R.string.label_visceral_fat, context.getString(R.string.label_visceral_fat));
+        stringHashMap.put(R.string.label_muscle, context.getString(R.string.label_muscle));
+        stringHashMap.put(R.string.label_bones, context.getString(R.string.label_bones));
+        stringHashMap.put(R.string.label_bmr, context.getString(R.string.label_bmr));
+        stringHashMap.put(R.string.label_body_water, context.getString(R.string.label_body_water));
+        stringHashMap.put(R.string.label_heart_rate, context.getString(R.string.label_heart_rate));
+        stringHashMap.put(R.string.label_diet, context.getString(R.string.label_diet));
+        stringHashMap.put(R.string.label_activity, context.getString(R.string.label_activity));
+        stringHashMap.put(R.string.label_bicep, context.getString(R.string.label_bicep));
+        stringHashMap.put(R.string.label_neck, context.getString(R.string.label_neck));
+        stringHashMap.put(R.string.label_waist, context.getString(R.string.label_waist));
+        stringHashMap.put(R.string.label_wrist, context.getString(R.string.label_wrist));
+        stringHashMap.put(R.string.label_hips, context.getString(R.string.label_hips));
+        stringHashMap.put(R.string.label_forearm, context.getString(R.string.label_forearm));
+        stringHashMap.put(R.string.label_bust, context.getString(R.string.label_bust));
+        stringHashMap.put(R.string.label_belly, context.getString(R.string.label_belly));
+        stringHashMap.put(R.string.label_chest, context.getString(R.string.label_chest));
+        stringHashMap.put(R.string.label_thighs, context.getString(R.string.label_thighs));
+        stringHashMap.put(R.string.label_whr, context.getString(R.string.label_whr));
+        stringHashMap.put(R.string.label_comment, context.getString(R.string.label_comment));
     }
 
     public void initData() {
@@ -224,8 +259,15 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
             });
         } else if (holder instanceof RatingViewHolder) {
             ((RatingViewHolder) holder).tv_title.setText(title.get(position));
+            ((RatingViewHolder) holder).ratingBar.setStepSize(1f);
+            ((RatingViewHolder) holder).ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    setBodyData(position, String.valueOf((int) v));
+                }
+            });
         } else if (holder instanceof EditViewHolder) {
-
+            setBodyData(position, ((EditViewHolder) holder).editText.getText().toString());
         } else if (holder instanceof MoreChoiceViewHolder) {
             ((MoreChoiceViewHolder) holder).rootView3.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -243,9 +285,9 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
         if (position >= title.size()) {
             return VIEW_TYPE_3;
         } else {
-            if (title.get(position).equals("活动") || title.get(position).equals("饮食")) {
+            if (title.get(position).equals(context.getString(R.string.label_activity)) || title.get(position).equals(context.getString(R.string.label_diet))) {
                 return VIEW_TYPE_1;
-            } else if (title.get(position).equals("注释")) {
+            } else if (title.get(position).equals(context.getString(R.string.label_comment))) {
                 return VIEW_TYPE_2;
             } else {
                 return VIEW_TYPE_0;
@@ -333,9 +375,98 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
         return anoCount;
     }
 
+    public String getTitleWithPosition(int position) {
+        if (title == null) {
+            return null;
+        }
+        if (title.isEmpty()) {
+            return null;
+        }
+        if (title.size() <= position) {
+            return "out of range";
+        }
+        return title.get(position);
+    }
+
     public void updateInputContent(String str, int position) {
-        contents.set(position, str);
+        setBodyData(position, str);
+        String unit = contents.get(position);
+        if (!TextUtils.isEmpty(unit)) {
+            if (unit.contains("cm")) {
+                unit = "cm";
+            } else if (unit.contains("kg")) {
+                unit = "kg";
+            } else if (unit.contains("%")) {
+                unit = "%";
+            } else {
+                unit = "";
+            }
+        }
+        contents.set(position, str + unit);
         this.notifyDataSetChanged();
 
+    }
+
+    public void setBodyData(int position, String str) {
+        String tit = title.get(position);
+        if (TextUtils.isEmpty(tit))
+            return;
+        if (tit.equals(context.getString(R.string.label_date))) {
+            bodyData.setDate(str);
+        } else if (tit.equals(context.getString(R.string.label_weight_morning))) {
+            bodyData.setAmWeight(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_weight_noon))) {
+            bodyData.setPmWeight(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_weight_night))) {
+            bodyData.setNightWeight(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_weight_avg))) {
+            bodyData.setAverageWeight(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_fat))) {
+            bodyData.setBodyFat(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_visceral_fat))) {
+            bodyData.setInternalOrgansFat(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_muscle))) {
+            bodyData.setMuscle(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_bones))) {
+            bodyData.setBone(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_bmr))) {
+            bodyData.setBmr(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_body_water))) {
+            bodyData.setBodyMoisture(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_heart_rate))) {
+            bodyData.setHeartRate(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_diet))) {
+            bodyData.setDiet(Integer.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_activity))) {
+            bodyData.setActivity(Integer.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_bicep))) {
+            bodyData.setBiceps(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_neck))) {
+            bodyData.setNeck(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_waist))) {
+            bodyData.setWaist(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_wrist))) {
+            bodyData.setWrist(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_hips))) {
+            bodyData.setButtocks(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_forearm))) {
+            bodyData.setForearm(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_bust))) {
+            bodyData.setBust(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_chest))) {
+            bodyData.setChest(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_belly))) {
+            bodyData.setAbdomen(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_thighs))) {
+            bodyData.setThigh(Float.valueOf(str));
+        } else if (tit.equals(context.getString(R.string.label_whr))) {
+
+        } else if (tit.equals(context.getString(R.string.label_comment))) {
+            bodyData.setAnnotate(str);
+        }
+    }
+
+    public BodyData getBodyData() {
+        return bodyData;
     }
 }

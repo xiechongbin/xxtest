@@ -254,7 +254,7 @@ public class PlanFragment extends BaseFragment implements View.OnClickListener {
      * 体重展示对话框
      */
     private void showWeightDialog() {
-        final CustomDialog.WeightAndHeightBuilder builder = new CustomDialog.WeightAndHeightBuilder(context);
+        final CustomDialog.WeightAndHeightBuilder builder = new CustomDialog.WeightAndHeightBuilder(context,"kg");
         builder.setOnWeightDialogOnclickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String weight) {

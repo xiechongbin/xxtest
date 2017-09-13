@@ -32,4 +32,11 @@ public class BaseApplication extends Application {
         }
 
     }
+
+    /**
+     * 初始化全局需要用到的配置
+     */
+    private void initData(){
+
+    }
 }

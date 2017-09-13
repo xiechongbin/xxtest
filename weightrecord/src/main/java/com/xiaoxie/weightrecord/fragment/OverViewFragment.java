@@ -190,7 +190,7 @@ public class OverViewFragment extends BaseFragment implements View.OnTouchListen
      * 身高展示对话框
      */
     private void showHeightDialog() {
-        final CustomDialog.WeightAndHeightBuilder builder = new CustomDialog.WeightAndHeightBuilder(context, true);
+        final CustomDialog.WeightAndHeightBuilder builder = new CustomDialog.WeightAndHeightBuilder(context, "cm");
         builder.setOnWeightDialogOnclickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String height) {
