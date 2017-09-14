@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/color_theme_blue"
-            android:text="@string/delete"
+            android:text="@string/save"
             android:textColor="@android:color/white" />
     </LinearLayout>
 </FrameLayout>

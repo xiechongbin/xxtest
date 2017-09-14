@@ -101,6 +101,25 @@ public class CalculationUtils {
     }
 
     /**
+     * 肥胖状态
+     */
+    public static String getBmiConclusion(float bmi) {
+        if (bmi <= 18.5) {
+            return "过轻";
+        } else if (bmi > 18.5 && bmi <= 24) {
+            return "正常";
+        } else if (bmi > 24 && bmi <= 27) {
+            return "轻度肥胖";
+        } else if (bmi > 27 && bmi <= 30) {
+            return "中度肥胖";
+        } else if (bmi > 20 && bmi <= 35) {
+            return "重度肥胖";
+        } else {
+            return "无药可救";
+        }
+    }
+
+    /**
      * 计算年龄
      */
     public static int calculateAge(Context context) {
@@ -115,7 +134,7 @@ public class CalculationUtils {
             return 0;
         }
         birthdayYear = Integer.valueOf(birthday.substring(0, birthday.indexOf("年")));
-        birthdayMonth = Integer.valueOf(birthday.substring(birthday.indexOf("年")+1,birthday.indexOf("月")));
+        birthdayMonth = Integer.valueOf(birthday.substring(birthday.indexOf("年") + 1, birthday.indexOf("月")));
         Calendar calendar = Calendar.getInstance();
         currentMonth = calendar.get(Calendar.MONTH) + 1;
         currentYear = calendar.get(Calendar.YEAR);

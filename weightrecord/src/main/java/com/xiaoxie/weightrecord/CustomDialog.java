@@ -833,7 +833,7 @@ public class CustomDialog extends Dialog {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int y, int m, int d) {
                     year = y;
-                    month = m + 1;
+                    month = m;
                     day = d;
                 }
             });
@@ -852,7 +852,7 @@ public class CustomDialog extends Dialog {
                 case R.id.tv_date_confirm:
                     if (listener != null) {
                         dismiss();
-                        listener.OnConfirmed(year + "年" + month + "月" + day + "日");
+                        listener.OnConfirmed(year + "年" + (month + 1) + "月" + day + "日");
                     }
                     break;
                 case R.id.tv_date_cancel:

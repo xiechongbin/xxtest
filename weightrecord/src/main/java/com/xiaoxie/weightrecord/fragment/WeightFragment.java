@@ -2,6 +2,7 @@ package com.xiaoxie.weightrecord.fragment;
 
 import android.app.Activity;
 import android.content.pm.ProviderInfo;
+import android.icu.text.PluralRules;
 import android.opengl.GLException;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.bean.BodyData;
@@ -20,11 +22,13 @@ import com.xiaoxie.weightrecord.realm.RealmStorageHelper;
 import com.xiaoxie.weightrecord.utils.FragmentUtils;
 import com.xiaoxie.weightrecord.view.CustomProgressBar;
 import com.xiaoxie.weightrecord.view.DashBoardView;
+import com.xiaoxie.weightrecord.view.HistoryView;
 import com.xiaoxie.weightrecord.view.MyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
 
 /**
@@ -42,6 +46,7 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
     private PagerAdapter adapter;
     private FrameLayout floatingCircle;
     private AddDataFragment dataFragment;
+    private LinearLayout ll_history_items_containers;
 
     @Override
     protected int getLayoutId() {
@@ -54,6 +59,7 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
         progressBar = view.findViewById(R.id.progressbar);
         viewPager = view.findViewById(R.id.viewpagerCharts);
         floatingCircle = view.findViewById(R.id.floatingCircle);
+        ll_history_items_containers = view.findViewById(R.id.ll_history_items_containers);
         dashBoardView.setOnClickListener(this);
         floatingCircle.setOnClickListener(this);
     }
@@ -94,6 +100,7 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
             }
         };
         viewPager.setAdapter(adapter);
+        initHistoryItems();
     }
 
     @Override
@@ -106,7 +113,6 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
         switch (view.getId()) {
             case R.id.weight_dashBoardView:
                 Log.d("dashboard", "click");
-                getData();
                 progressBar.setProgress(80, true);
 
                 break;
@@ -116,10 +122,16 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
+    private void initHistoryItems() {
+        RealmResults<BodyData> bodyDatas = getBodyData();
+        int size = bodyDatas.size();
+        for (int i = 0; i < size; i++) {
+            View v = new HistoryView(activity, bodyDatas.get(i));
+            ll_history_items_containers.addView(v);
+        }
+    }
 
     private void showAddDataFragment() {
-        makeData();
-        setOptions();
         if (dataFragment == null) {
             dataFragment = new AddDataFragment();
         }
@@ -131,36 +143,7 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    private void makeData() {
-        BodyData bodyData = new BodyData();
-        bodyData.setDate("2017年9月8号");
-        bodyData.setAverageWeight(88.5f);
-        bodyData.setAmWeight(56.0f);
-        bodyData.setPmWeight(54.2f);
-        bodyData.setActivity(3);
-        bodyData.setChest(55.2f);
-        RealmStorageHelper.getInstance().insertBodyData(bodyData);
-    }
-
-    private void setOptions() {
-        Options options = new Options();
-        options.setAverageWeightStatus(1);
-        options.setHeartRateStatus(1);
-        options.setPmWeightStatus(1);
-
-        options.setBodyFatStatus(1);
-        options.setInternalOrgansFatStatus(1);
-        options.setBmrStatus(1);
-
-        options.setButtocksStatus(1);
-        options.setChestStatus(1);
-
-        options.setActivityStatus(1);
-        options.setAnnotateStatus(1);
-        RealmStorageHelper.getInstance().insertOptions(options);
-    }
-
-    private void getData() {
+    private RealmResults<BodyData> getBodyData() {
         RealmResults<BodyData> results = RealmStorageHelper.getInstance().getRealm().where(BodyData.class).findAll();
         for (int i = 0; i < results.size(); i++) {
             BodyData data = results.get(i);
@@ -170,5 +153,6 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
                     + "\nAcvitvity = " + data.getActivity()
                     + "\nchest = " + data.getChest());
         }
+        return results;
     }
 }

@@ -3,6 +3,7 @@ package com.xiaoxie.weightrecord.fragment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.ResultReceiver;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -80,6 +81,9 @@ public class AddDataFragment extends BaseFragment implements OnItemClickListener
             return;
         }
         if (title.contains("体重")) {
+            if (title.contains("平均")) {
+                return;//平均体重自动计算出来
+            }
             showWeightInputDialog(position, "kg");
         } else if (title.equals("内脏脂肪") || title.equals("筋肉") ||
                 title.equals("骨头") || title.equals("身体水分") ||
@@ -152,7 +156,7 @@ public class AddDataFragment extends BaseFragment implements OnItemClickListener
         builder.setOnWeightDialogOnclickListener(new DialogClickListener() {
             @Override
             public void OnConfirmed(String str) {
-                addDataRecycleViewAdapter.updateInputContent(str, pos);
+                addDataRecycleViewAdapter.updateWeight(str, pos);
             }
 
             @Override

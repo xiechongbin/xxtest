@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view0"
     android:layout_width="match_parent"
     android:layout_height="53dp"
-    android:id="@+id/root_view0"
     android:background="@android:color/white"
     android:gravity="center_vertical"
     android:orientation="horizontal">
@@ -29,4 +29,40 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:src="@drawable/ic_entrance" />
+
+    <LinearLayout
+        android:id="@+id/ll_input_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tv_add_data_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_bmi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_bmi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bmi" />
+
+            <TextView
+                android:id="@+id/tv_bmi_values"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26.7" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_input_data_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="超重" />
+
+    </LinearLayout>
 </RelativeLayout>

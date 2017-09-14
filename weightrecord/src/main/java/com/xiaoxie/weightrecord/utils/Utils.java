@@ -18,6 +18,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Window;
@@ -25,6 +26,7 @@ import android.view.WindowManager;
 
 import com.xiaoxie.weightrecord.R;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -120,18 +122,9 @@ public class Utils {
      * @return
      */
     public static Dialog setCostumeDialogStyle(Dialog dialog, Context context, float w, float h, int locationX, int locationY, int grivaty1, int grivaty2) {
-        int screenWidth;
-        int screenHeight;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2) {
-            Display d = ((Activity) context).getWindowManager().getDefaultDisplay();
-            screenWidth = d.getWidth();
-            screenHeight = d.getHeight();
-        } else {
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            screenWidth = displayMetrics.widthPixels;
-            screenHeight = displayMetrics.heightPixels;
-        }
+        int[] ints = getScreenWidthAndHeight(context);
+        int screenWidth = ints[0];
+        int screenHeight = ints[1];
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow == null) {
             return dialog;
@@ -151,6 +144,22 @@ public class Utils {
             lp.y = locationY;
         }
         return dialog;
+    }
+
+    public static int[] getScreenWidthAndHeight(Context context) {
+        int screenWidth;
+        int screenHeight;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Display d = ((Activity) context).getWindowManager().getDefaultDisplay();
+            screenWidth = d.getWidth();
+            screenHeight = d.getHeight();
+        } else {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            screenWidth = displayMetrics.widthPixels;
+            screenHeight = displayMetrics.heightPixels;
+        }
+        return new int[]{screenWidth, screenHeight};
     }
 
     /**
@@ -212,4 +221,46 @@ public class Utils {
 
         return calendar.get(Calendar.YEAR) + "年" + (calendar.get(Calendar.MONTH) + 1) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日";
     }
+
+    public static String getWeekDay(Context context, String date) {
+        if (TextUtils.isEmpty(date))
+            return null;
+        int indexYear = date.indexOf("年");
+        int indexMonth = date.indexOf("月");
+        int indexDay;
+        if (date.contains("号")) {
+            indexDay = date.indexOf("号");
+        } else {
+            indexDay = date.indexOf("日");
+        }
+        int year = Integer.parseInt(date.substring(0, indexYear));
+        int month = Integer.parseInt(date.substring(indexYear + 1, indexMonth));
+        int day = Integer.parseInt(date.substring(indexMonth + 1, indexDay));
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+
+        String[] weeks = context.getResources().getStringArray(R.array.week);
+        Log.d("weekday", "date =" + date + ">>>" + calendar.get(Calendar.DAY_OF_WEEK));
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            return weeks[0];
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+            return weeks[1];
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+            return weeks[2];
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+            return weeks[3];
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+            return weeks[4];
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+            return weeks[5];
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            return weeks[6];
+        } else {
+            return "非法";
+        }
+    }
+
 }

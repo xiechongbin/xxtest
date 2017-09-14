@@ -1,6 +1,7 @@
 package com.xiaoxie.weightrecord.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.bean.BodyData;
 import com.xiaoxie.weightrecord.bean.Options;
 import com.xiaoxie.weightrecord.interfaces.OnItemClickListener;
+import com.xiaoxie.weightrecord.utils.CalculationUtils;
+import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.utils.Utils;
 
 import java.util.ArrayList;
@@ -47,12 +50,14 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
     private Options options;
     private BodyData bodyData;
     private HashMap<Integer, String> stringHashMap;
+    private float height;
 
     public AddDataRecycleViewAdapter(Context context, Options options, BodyData bodyData) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.options = options;
         this.bodyData = bodyData;
+        height = SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_HEIGHT, 0);
         initData();
     }
 
@@ -106,125 +111,225 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
         otherCount = 0;
         anoCount = 0;
         title.add(context.getString(R.string.label_date));
-        contents.add(Utils.getCurrentDate());
+        if (!TextUtils.isEmpty(bodyData.getDate())) {
+            contents.add(bodyData.getDate());
+        } else {
+            contents.add(Utils.getCurrentDate());
+        }
         weightCount++;
+
         if (options.getAmWeightStatus() == 1) {
             title.add(context.getString(R.string.label_weight_morning));
-            contents.add("--kg");
+            if (bodyData.getAmWeight() > 0) {
+                contents.add(String.valueOf(bodyData.getAmWeight()));
+            } else {
+                contents.add("--kg");
+            }
             weightCount++;
         }
         if (options.getPmWeightStatus() == 1) {
             title.add(context.getString(R.string.label_weight_noon));
-            contents.add("--kg");
+            if (bodyData.getPmWeight() > 0) {
+                contents.add(String.valueOf(bodyData.getPmWeight()));
+            } else {
+                contents.add("--kg");
+            }
             weightCount++;
         }
         if (options.getNightWeightStatus() == 1) {
             title.add(context.getString(R.string.label_weight_night));
-            contents.add("--kg");
+            if (bodyData.getNightWeight() > 0) {
+                contents.add(String.valueOf(bodyData.getNightWeight()));
+            } else {
+                contents.add("--kg");
+            }
             weightCount++;
         }
         title.add(context.getString(R.string.label_weight_avg));
-        contents.add("--kg");
-
+        if (bodyData.getAverageWeight() > 0) {
+            contents.add(String.valueOf(bodyData.getAverageWeight()));
+        } else {
+            contents.add("--kg");
+        }
         weightCount++;
         if (options.getBodyFatStatus() == 1) {
             title.add(context.getString(R.string.label_fat));
-            contents.add("--");
+            if (bodyData.getBodyFat() > 0) {
+                contents.add(String.valueOf(bodyData.getBodyFat()));
+            } else {
+                contents.add("--");
+            }
             fatCount++;
         }
         if (options.getInternalOrgansFatStatus() == 1) {
             title.add(context.getString(R.string.label_visceral_fat));
-            contents.add("--%");
+            if (bodyData.getInternalOrgansFat() > 0) {
+                contents.add(String.valueOf(bodyData.getInternalOrgansFat()));
+            } else {
+                contents.add("--%");
+            }
             fatCount++;
         }
         if (options.getMuscleStatus() == 1) {
             title.add(context.getString(R.string.label_muscle));
-            contents.add("--%");
+            if (bodyData.getMuscle() > 0) {
+                contents.add(String.valueOf(bodyData.getMuscle()));
+            } else {
+                contents.add("--%");
+            }
             fatCount++;
         }
         if (options.getBoneStatus() == 1) {
             title.add(context.getString(R.string.label_bones));
-            contents.add("--%");
+            if (bodyData.getBone() > 0) {
+                contents.add(String.valueOf(bodyData.getBone()));
+            } else {
+                contents.add("--%");
+            }
             fatCount++;
         }
         if (options.getBodyMoistureStatus() == 1) {
             title.add(context.getString(R.string.label_body_water));
-            contents.add("--%");
+            if (bodyData.getBodyMoisture() > 0) {
+                contents.add(String.valueOf(bodyData.getBodyMoisture()));
+            } else {
+                contents.add("--%");
+            }
             fatCount++;
         }
         if (options.getHeartRateStatus() == 1) {
             title.add(context.getString(R.string.label_heart_rate));
-            contents.add("BMP");
+            if (bodyData.getHeartRate() > 0) {
+                contents.add(String.valueOf(bodyData.getHeartRate()));
+            } else {
+                contents.add("BMP");
+            }
             fatCount++;
         }
         if (options.getBmrStatus() == 1) {
             title.add(context.getString(R.string.label_bmr));
-            contents.add("--");
+            if (bodyData.getBmr() > 0) {
+                contents.add(String.valueOf(bodyData.getBmr()));
+            } else {
+                contents.add("--");
+            }
             fatCount++;
         }
         if (options.getBicepsStatus() == 1) {
             title.add(context.getString(R.string.label_bicep));
-            contents.add("cm");
+            if (bodyData.getBiceps() > 0) {
+                contents.add(String.valueOf(bodyData.getBiceps()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getNeckStatus() == 1) {
             title.add(context.getString(R.string.label_neck));
-            contents.add("cm");
+            if (bodyData.getNeck() > 0) {
+                contents.add(String.valueOf(bodyData.getNeck()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getWaistStatus() == 1) {
             title.add(context.getString(R.string.label_waist));
-            contents.add("cm");
+            if (bodyData.getWaist() > 0) {
+                contents.add(String.valueOf(bodyData.getWaist()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getWristStatus() == 1) {
             title.add(context.getString(R.string.label_wrist));
-            contents.add("cm");
+            if (bodyData.getWrist() > 0) {
+                contents.add(String.valueOf(bodyData.getWrist()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getForearmStatus() == 1) {
             title.add(context.getString(R.string.label_forearm));
-            contents.add("cm");
+            if (bodyData.getForearm() > 0) {
+                contents.add(String.valueOf(bodyData.getForearm()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getButtocksStatus() == 1) {
             title.add(context.getString(R.string.label_hips));
-            contents.add("cm");
+            if (bodyData.getButtocks() > 0) {
+                contents.add(String.valueOf(bodyData.getButtocks()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getBustStatus() == 1) {
             title.add(context.getString(R.string.label_bust));
-            contents.add("cm");
+            if (bodyData.getBust() > 0) {
+                contents.add(String.valueOf(bodyData.getBust()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getAbdomenStatus() == 1) {
             title.add(context.getString(R.string.label_belly));
-            contents.add("cm");
+            if (bodyData.getAbdomen() > 0) {
+                contents.add(String.valueOf(bodyData.getAbdomen()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getThighStatus() == 1) {
             title.add(context.getString(R.string.label_thighs));
-            contents.add("cm");
+            if (bodyData.getThigh() > 0) {
+                contents.add(String.valueOf(bodyData.getThigh()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getChestStatus() == 1) {
             title.add(context.getString(R.string.label_chest));
-            contents.add("cm");
+            if (bodyData.getChest() > 0) {
+                contents.add(String.valueOf(bodyData.getChest()));
+            } else {
+                contents.add("cm");
+            }
             limbsCount++;
         }
         if (options.getDietStatus() == 1) {
             title.add(context.getString(R.string.label_diet));
-            contents.add("5");
+            if (bodyData.getDiet() > 0) {
+                contents.add(String.valueOf(bodyData.getDiet()));
+            } else {
+                contents.add("5");
+            }
             otherCount++;
         }
         if (options.getActivityStatus() == 1) {
             title.add(context.getString(R.string.label_activity));
-            contents.add("5");
+            if (bodyData.getActivity() > 0) {
+                contents.add(String.valueOf(bodyData.getActivity()));
+            } else {
+                contents.add("5");
+            }
             otherCount++;
         }
         if (options.getAnnotateStatus() == 1) {
             title.add(context.getString(R.string.label_comment));
-            contents.add("annotate");
+            if (!TextUtils.isEmpty(bodyData.getAnnotate())) {
+                contents.add(bodyData.getAnnotate());
+            } else {
+                contents.add("annotate");
+            }
             anoCount++;
         }
     }
@@ -249,6 +354,16 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
         if (holder instanceof DataViewHolder) {
             ((DataViewHolder) holder).tv_title.setText(title.get(position));
             ((DataViewHolder) holder).tv_content.setText(contents.get(position));
+            if (title.get(position).equals(context.getString(R.string.label_avg))) {
+                int avaWeight = Integer.parseInt(contents.get(position));
+                if (avaWeight > 0) {
+                    float bmi = CalculationUtils.calculateBMI(avaWeight, height);
+                    ((DataViewHolder) holder).ll_input_tips.setVisibility(View.VISIBLE);
+                    ((DataViewHolder) holder).tv_input_data_tips.setVisibility(View.VISIBLE);
+                    ((DataViewHolder) holder).tv_bmi_values.setText(bmi + "");
+                    ((DataViewHolder) holder).tv_input_data_tips.setText(CalculationUtils.getBmiConclusion(bmi));
+                }
+            }
             ((DataViewHolder) holder).rootView0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -310,11 +425,22 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
         private TextView tv_content;
         private RelativeLayout rootView0;
 
+        private LinearLayout ll_input_tips;
+        private LinearLayout ll_bmi;
+        private TextView tv_title_bmi;
+        private TextView tv_bmi_values;
+        private TextView tv_input_data_tips;
+
         private DataViewHolder(View itemView) {
             super(itemView);
             tv_title = itemView.findViewById(R.id.tv_add_data_title);
             tv_content = itemView.findViewById(R.id.tv_add_data_content);
             rootView0 = itemView.findViewById(R.id.root_view0);
+            ll_input_tips = itemView.findViewById(R.id.ll_input_tips);
+            ll_bmi = itemView.findViewById(R.id.ll_bmi);
+            tv_title_bmi = itemView.findViewById(R.id.tv_title_bmi);
+            tv_bmi_values = itemView.findViewById(R.id.tv_bmi_values);
+            tv_input_data_tips = itemView.findViewById(R.id.tv_input_data_tips);
         }
 
     }
@@ -405,6 +531,42 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
         contents.set(position, str + unit);
         this.notifyDataSetChanged();
 
+    }
+
+    public void updateWeight(String str, int position) {
+        int avaPosition = title.indexOf("平均体重");
+        setBodyData(position, str);
+        String unit = contents.get(position);
+        if (!TextUtils.isEmpty(unit)) {
+            if (unit.contains("cm")) {
+                unit = "cm";
+            } else if (unit.contains("kg")) {
+                unit = "kg";
+            } else if (unit.contains("%")) {
+                unit = "%";
+            } else {
+                unit = "";
+            }
+        }
+        float amWeight = bodyData.getAmWeight();
+        float pmWeight = bodyData.getPmWeight();
+        float nmWeight = bodyData.getNightWeight();
+        int count = 0;
+        if (amWeight > 0) {
+            count++;
+        }
+        if (pmWeight > 0) {
+            count++;
+        }
+        if (nmWeight > 0) {
+            count++;
+        }
+        float avaWeight = (amWeight + pmWeight + nmWeight) / count;
+        avaWeight = (float) (Math.round(avaWeight * 100)) / 100;//保留两位小数
+        setBodyData(avaPosition, str);
+        contents.set(position, str + unit);
+        contents.set(avaPosition, String.valueOf(avaWeight));
+        this.notifyDataSetChanged();
     }
 
     public void setBodyData(int position, String str) {
