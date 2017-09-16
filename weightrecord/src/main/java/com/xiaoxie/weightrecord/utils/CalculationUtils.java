@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.transition.CircularPropagation;
 import android.util.Log;
 
+import java.security.PublicKey;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -88,16 +89,73 @@ public class CalculationUtils {
      * 体脂% = (1.20 × BMI) + (0.23 × 年龄) − (10.8 × 性别) − 5.4
      * 男性性别为1，女性为0。
      */
-    public static float calculateBodyFat(Context context) {
+    public static float calculateBodyFat(Context context, float currentWeight) {
         float fat = 0f;
-        float bmi = SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_BMI, 0);
+        float bmi = 0;
+        float height = SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_HEIGHT, 0);
+        if (currentWeight <= 0) {
+            bmi = SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_BMI, 0);
+        } else {
+            bmi = calculateBMI(currentWeight, height);
+        }
+
         String sex = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_SEX, "");
         if (TextUtils.isEmpty(sex)) {
             return 0;
         }
         int sexNumber = sex.contains("男") ? 1 : 0;
         fat = (float) ((1.20f * bmi) + (0.23 * calculateAge(context)) - (10.8 * sexNumber) - 5.4);
+        fat = (float) (Math.round(fat * 100)) / 100;
         return fat;
+    }
+
+    /**
+     * 计算BMR
+     * 计算公式   女: BMR = 655 + ( 9.6 x 体重kg ) + ( 1.8 x 身高cm ) - ( 4.7 x 年龄years )
+     * 男: BMR = 66 + ( 13.7 x 体重kg ) + ( 5 x 身高cm ) - ( 6.8 x 年龄years )
+     */
+    public static float calculateBmr(Context context, float currentWeight) {
+        String sex = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_SEX, "");
+        if (currentWeight <= 0) {
+            currentWeight = SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_WEIGHT, 0);
+        }
+        if (TextUtils.isEmpty(sex)) {
+            return 0;
+        }
+        float bmr = 0;
+        float height = SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_HEIGHT, 0);
+        float age = calculateAge(context);
+        if (sex.contains("男")) {
+            bmr = (float) (66 + (13.7f * currentWeight) + (5 + height) - (age * 6.8));
+            bmr = (float) (Math.round(bmr * 100)) / 100;
+        } else {
+            bmr = (float) (655 + (9.6f * currentWeight) + (1.8 + height) - (age * 4.7));
+            bmr = (float) (Math.round(bmr * 100)) / 100;
+        }
+        return bmr;
+    }
+
+    /**
+     * 通过身体数据测量出身体脂肪含量
+     * 公式： 参数 a = 腰围(cm) x 0.74
+     * 参数b(女性) = 总体重(kg) x 0.082 + 34.89
+     * 参数b (男性)= 总体重(kg) x 0.082 + 44.74
+     * 身体脂肪总重量(公斤) = a – b
+     */
+
+    public static float calculateBodyFatFromBodyData(Context context, float waist, float weight) {
+        String sex = SharePrefenceUtils.getString(context, SharePrefenceUtils.KEY_SEX, "");
+        if (TextUtils.isEmpty(sex)) {
+            return 0;
+        }
+        float a = (float) (waist * 0.74);
+        float b = 0;
+        if (sex.contains("男")) {
+            b = (float) (weight * 0.082 + 44.74);
+        } else {
+            b = (float) (weight * 0.082 + 34.89);
+        }
+        return (float) (Math.round(((a - b) / weight * 100) * 100)) / 100;
     }
 
     /**

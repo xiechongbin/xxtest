@@ -113,7 +113,7 @@ public class OverViewFragment extends BaseFragment implements View.OnTouchListen
         tv_bmi_healthy_range.setText(minbmi + "-" + maxbmi);
         tv_current_bmi.setText((float) (Math.round(SharePrefenceUtils.getFloat(context, SharePrefenceUtils.KEY_INITIAL_BMI, 0) * 100) / 100) + "");
         tv_fat_healthy_range.setText(minFat + "%" + "-" + maxFat + "%");
-        tv_current_fat.setText((float) (Math.round(CalculationUtils.calculateBodyFat(context) * 100)) / 100 + "%");
+        tv_current_fat.setText((float) (Math.round(CalculationUtils.calculateBodyFat(context, 0) * 100)) / 100 + "%");
     }
 
     @Override

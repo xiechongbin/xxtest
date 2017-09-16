@@ -24,6 +24,8 @@ import com.xiaoxie.weightrecord.utils.FragmentUtils;
 import com.xiaoxie.weightrecord.utils.Utils;
 import com.xiaoxie.weightrecord.view.RecycleViewDivider;
 
+import io.realm.RealmResults;
+
 /**
  * desc:新增数据的fragment
  * Created by xiaoxie on 2017/9/7.
@@ -52,12 +54,17 @@ public class AddDataFragment extends BaseFragment implements OnItemClickListener
     protected void initData() {
         this.activity = getActivity();
         BodyData bodyData = new BodyData();
-        Options options = RealmStorageHelper.getInstance().getOptions().get(0);
+        Options option = null;
+        RealmResults<Options> options = RealmStorageHelper.getInstance().getOptions();
+        if (options != null && options.size() > 0) {
+            option = RealmStorageHelper.getInstance().getOptions().get(0);
+        }
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(new RecycleViewDivider(activity, LinearLayoutManager.HORIZONTAL, 2, Utils.getColor(activity, R.color.color_f2f2f2), true));
         recyclerView.setLayoutManager(layoutManager);
-        addDataRecycleViewAdapter = new AddDataRecycleViewAdapter(activity, options, bodyData);
+        addDataRecycleViewAdapter = new AddDataRecycleViewAdapter(activity, option, bodyData);
         addDataRecycleViewAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(addDataRecycleViewAdapter);
 
@@ -181,9 +188,10 @@ public class AddDataFragment extends BaseFragment implements OnItemClickListener
                 if (str.equals(String.valueOf(R.id.ll_input_direct))) {
                     showWeightInputDialog(pos, "");
                 } else if (str.equals(String.valueOf(R.id.ll_input_from_bmi))) {
+                    addDataRecycleViewAdapter.calculatebodyFatfromBmi(pos);
 
                 } else if (str.equals(String.valueOf(R.id.ll_input_from_body_fat))) {
-
+                    addDataRecycleViewAdapter.calculateBodyFatFromWaist(pos);
                 }
             }
 
@@ -207,7 +215,7 @@ public class AddDataFragment extends BaseFragment implements OnItemClickListener
                 if (str.equals(String.valueOf(R.id.ll_input_bmr_direct))) {
                     showWeightInputDialog(pos, "");
                 } else if (str.equals(String.valueOf(R.id.ll_input_bmr_from_auto_calculate))) {
-
+                    addDataRecycleViewAdapter.calculateBmrAuto(pos);
                 }
             }
 

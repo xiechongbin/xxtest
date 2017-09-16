@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.bean.BodyData;
 import com.xiaoxie.weightrecord.utils.CalculationUtils;
+import com.xiaoxie.weightrecord.utils.LogUtils;
 import com.xiaoxie.weightrecord.utils.SharePrefenceUtils;
 import com.xiaoxie.weightrecord.utils.Utils;
 
@@ -109,6 +110,7 @@ public class HistoryView extends LinearLayout {
     private void addOtherDataItem() {
         otherItemView = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.layout_history_other_item, null);
         otherItemView.setOrientation(LinearLayout.VERTICAL);
+        LogUtils.printBodyData("bodydata", "addOtherDataItem", bodyData);
 
         float amWeight = bodyData.getAmWeight();
         if (amWeight > 0) {
@@ -243,7 +245,6 @@ public class HistoryView extends LinearLayout {
         layoutParams.addRule(RelativeLayout.BELOW, weightItemView.getId());
         layoutParams.topMargin = 10;
         layoutParams.width = (screenWidth / 3) * 2;
-        layoutParams.height = screenHeight / 9;
         otherItemView.setLayoutParams(layoutParams);
         rl_history_items.addView(otherItemView);
     }

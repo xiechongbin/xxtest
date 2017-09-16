@@ -3,6 +3,7 @@ package com.xiaoxie.weightrecord.realm;
 import com.xiaoxie.weightrecord.application.BaseApplication;
 import com.xiaoxie.weightrecord.bean.BodyData;
 import com.xiaoxie.weightrecord.bean.Options;
+import com.xiaoxie.weightrecord.utils.LogUtils;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -91,6 +92,7 @@ public class RealmStorageHelper {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(data);
         realm.commitTransaction();
+        LogUtils.printBodyData("bodydata", "存储bodydata", data);
     }
 
     public RealmResults<Options> getOptions() {

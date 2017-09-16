@@ -38,6 +38,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import io.realm.RealmResults;
+
 /**
  * desc:对话框工具类
  * Created by xiaoxie on 2017/8/15.
@@ -1150,7 +1152,12 @@ public class CustomDialog extends Dialog {
         }
 
         private void initCheckBox() {
-            Options o = RealmStorageHelper.getInstance().getOptions().get(0);
+            RealmResults<Options> optionses = RealmStorageHelper.getInstance().getOptions();
+            Options o = null;
+            if (optionses != null && optionses.size() > 0) {
+                o = optionses.get(0);
+            }
+
             if (o == null) {
                 return;
             }

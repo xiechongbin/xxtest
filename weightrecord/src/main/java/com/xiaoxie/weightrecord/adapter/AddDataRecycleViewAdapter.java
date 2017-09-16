@@ -2,8 +2,11 @@ package com.xiaoxie.weightrecord.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ProviderInfo;
+import android.os.TransactionTooLargeException;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.bean.BodyData;
@@ -51,6 +55,7 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
     private BodyData bodyData;
     private HashMap<Integer, String> stringHashMap;
     private float height;
+    private float avWeitht = 0;
 
     public AddDataRecycleViewAdapter(Context context, Options options, BodyData bodyData) {
         inflater = LayoutInflater.from(context);
@@ -98,8 +103,7 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public void initData() {
-        if (options == null)
-            return;
+
         title = new ArrayList<>();
         contents = new ArrayList<>();
         title.clear();
@@ -111,13 +115,25 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
         otherCount = 0;
         anoCount = 0;
         title.add(context.getString(R.string.label_date));
+
         if (!TextUtils.isEmpty(bodyData.getDate())) {
             contents.add(bodyData.getDate());
         } else {
             contents.add(Utils.getCurrentDate());
         }
+        setBodyData(0, contents.get(0));//日期
         weightCount++;
 
+        if (options == null) {//当数据库没有保存选项丝信息的时候 默认显示 日期 平均体重 以及更多选择
+            title.add(context.getString(R.string.label_weight_avg));
+            if (bodyData.getAverageWeight() > 0) {
+                contents.add(String.valueOf(bodyData.getAverageWeight()));
+            } else {
+                contents.add("--kg");
+            }
+            weightCount++;
+            return;
+        }
         if (options.getAmWeightStatus() == 1) {
             title.add(context.getString(R.string.label_weight_morning));
             if (bodyData.getAmWeight() > 0) {
@@ -354,14 +370,39 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
         if (holder instanceof DataViewHolder) {
             ((DataViewHolder) holder).tv_title.setText(title.get(position));
             ((DataViewHolder) holder).tv_content.setText(contents.get(position));
-            if (title.get(position).equals(context.getString(R.string.label_avg))) {
-                int avaWeight = Integer.parseInt(contents.get(position));
-                if (avaWeight > 0) {
+            Log.d("bmishow", "--------title.get(position) = " + title.get(position));
+            if (title.get(position).equals(context.getString(R.string.label_weight_avg))) {
+                float avaWeight = 0;
+                try {
+                    avWeitht = Float.parseFloat(contents.get(position));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (avWeitht > 0) {
                     float bmi = CalculationUtils.calculateBMI(avaWeight, height);
                     ((DataViewHolder) holder).ll_input_tips.setVisibility(View.VISIBLE);
                     ((DataViewHolder) holder).tv_input_data_tips.setVisibility(View.VISIBLE);
                     ((DataViewHolder) holder).tv_bmi_values.setText(bmi + "");
                     ((DataViewHolder) holder).tv_input_data_tips.setText(CalculationUtils.getBmiConclusion(bmi));
+                }
+            } else if (title.get(position).equals(context.getString(R.string.label_fat)) ||
+                    title.get(position).equals(context.getString(R.string.label_visceral_fat)) ||
+                    title.get(position).equals(context.getString(R.string.label_muscle)) ||
+                    title.get(position).equals(context.getString(R.string.label_bones)) ||
+                    title.get(position).equals(context.getString(R.string.label_body_water))) {
+                float pecent = 0;
+                float fatWeight = 0;
+                try {
+                    pecent = Float.parseFloat(contents.get(position));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                fatWeight = pecent * avWeitht / 100;
+                if (pecent > 0) {
+                    ((DataViewHolder) holder).ll_input_tips.setVisibility(View.VISIBLE);
+                    ((DataViewHolder) holder).ll_bmi.setVisibility(View.INVISIBLE);
+                    ((DataViewHolder) holder).tv_input_data_tips.setVisibility(View.VISIBLE);
+                    ((DataViewHolder) holder).tv_input_data_tips.setText(fatWeight + "");
                 }
             }
             ((DataViewHolder) holder).rootView0.setOnClickListener(new View.OnClickListener() {
@@ -418,64 +459,6 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     public void setOnItemClickListener(OnItemClickListener clickListener) {
         this.clickListener = clickListener;
-    }
-
-    private class DataViewHolder extends RecyclerView.ViewHolder {
-        private TextView tv_title;
-        private TextView tv_content;
-        private RelativeLayout rootView0;
-
-        private LinearLayout ll_input_tips;
-        private LinearLayout ll_bmi;
-        private TextView tv_title_bmi;
-        private TextView tv_bmi_values;
-        private TextView tv_input_data_tips;
-
-        private DataViewHolder(View itemView) {
-            super(itemView);
-            tv_title = itemView.findViewById(R.id.tv_add_data_title);
-            tv_content = itemView.findViewById(R.id.tv_add_data_content);
-            rootView0 = itemView.findViewById(R.id.root_view0);
-            ll_input_tips = itemView.findViewById(R.id.ll_input_tips);
-            ll_bmi = itemView.findViewById(R.id.ll_bmi);
-            tv_title_bmi = itemView.findViewById(R.id.tv_title_bmi);
-            tv_bmi_values = itemView.findViewById(R.id.tv_bmi_values);
-            tv_input_data_tips = itemView.findViewById(R.id.tv_input_data_tips);
-        }
-
-    }
-
-    private class RatingViewHolder extends RecyclerView.ViewHolder {
-        private TextView tv_title;
-        private RatingBar ratingBar;
-
-        private RatingViewHolder(View itemView) {
-            super(itemView);
-            tv_title = itemView.findViewById(R.id.tv_add_data_title1);
-            ratingBar = itemView.findViewById(R.id.ratingBar);
-        }
-
-    }
-
-    private class EditViewHolder extends RecyclerView.ViewHolder {
-        private EditText editText;
-
-
-        private EditViewHolder(View itemView) {
-            super(itemView);
-            editText = itemView.findViewById(R.id.edit_ano);
-        }
-
-    }
-
-    private class MoreChoiceViewHolder extends RecyclerView.ViewHolder {
-        private LinearLayout rootView3;
-
-        private MoreChoiceViewHolder(View itemView) {
-            super(itemView);
-            rootView3 = itemView.findViewById(R.id.root_view3);
-        }
-
     }
 
     /**
@@ -548,30 +531,40 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
                 unit = "";
             }
         }
+        if (position <= avaPosition) {
+            float avaweight = calculateAvaWeight();
+            Log.d("bodydata", "avaweight =" + avaweight);
+            avaweight = (float) (Math.round(avaweight * 100)) / 100;//保留两位小数
+            String s = String.valueOf(avaweight);
+            contents.set(avaPosition, s);
+            setBodyData(avaPosition, s);
+        }
+        contents.set(position, str);
+
+        this.notifyDataSetChanged();
+    }
+
+    private float calculateAvaWeight() {
         float amWeight = bodyData.getAmWeight();
         float pmWeight = bodyData.getPmWeight();
         float nmWeight = bodyData.getNightWeight();
-        int count = 0;
-        if (amWeight > 0) {
-            count++;
+        if (amWeight > 0 && pmWeight > 0 && nmWeight > 0) {
+            return (amWeight + pmWeight + nmWeight) / 3;
+        } else if ((amWeight > 0 && pmWeight > 0 && nmWeight <= 0) || (amWeight > 0 && pmWeight <= 0 && nmWeight > 0) || (amWeight <= 0 && pmWeight > 0 && nmWeight > 0)) {
+            return (amWeight + pmWeight + nmWeight) / 2;
+        } else if ((amWeight > 0 && pmWeight <= 0 && nmWeight <= 0) || (amWeight <= 0 && pmWeight > 0 && nmWeight <= 0) || (amWeight <= 0 && pmWeight <= 0 && nmWeight > 0)) {
+            return (amWeight + pmWeight + nmWeight) / 1;
+        } else {
+            return 0;
         }
-        if (pmWeight > 0) {
-            count++;
-        }
-        if (nmWeight > 0) {
-            count++;
-        }
-        float avaWeight = (amWeight + pmWeight + nmWeight) / count;
-        avaWeight = (float) (Math.round(avaWeight * 100)) / 100;//保留两位小数
-        setBodyData(avaPosition, str);
-        contents.set(position, str + unit);
-        contents.set(avaPosition, String.valueOf(avaWeight));
-        this.notifyDataSetChanged();
     }
 
     public void setBodyData(int position, String str) {
         String tit = title.get(position);
+        Log.d("bodydata", "setBodyData:tit = " + tit + "position = " + position);
         if (TextUtils.isEmpty(tit))
+            return;
+        if (TextUtils.isEmpty(str))
             return;
         if (tit.equals(context.getString(R.string.label_date))) {
             bodyData.setDate(str);
@@ -582,6 +575,7 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
         } else if (tit.equals(context.getString(R.string.label_weight_night))) {
             bodyData.setNightWeight(Float.valueOf(str));
         } else if (tit.equals(context.getString(R.string.label_weight_avg))) {
+            Log.d("bodydata", "setBodyData:" + str);
             bodyData.setAverageWeight(Float.valueOf(str));
         } else if (tit.equals(context.getString(R.string.label_fat))) {
             bodyData.setBodyFat(Float.valueOf(str));
@@ -630,5 +624,125 @@ public class AddDataRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     public BodyData getBodyData() {
         return bodyData;
+    }
+
+    /**
+     * 通过bmi计算体脂
+     */
+    public void calculatebodyFatfromBmi(int pos) {
+        int index = title.indexOf("平均体重");
+        float currentWeight = 0;
+        try {
+            currentWeight = Float.valueOf(contents.get(index));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        float bmi = CalculationUtils.calculateBodyFat(context, currentWeight);
+        String sbmi = String.valueOf(bmi);
+        setBodyData(pos, sbmi);
+        contents.set(pos, sbmi);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 通过腰围计算体脂
+     */
+    public void calculateBodyFatFromWaist(int pos) {
+        int index = title.indexOf("平均体重");
+        int index1 = title.indexOf("腰");
+        float currentWeight = 0;
+        float currentWaist = 0;
+        try {
+            currentWeight = Float.valueOf(contents.get(index));
+            currentWaist = Float.valueOf(contents.get(index1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (currentWaist <= 0 || currentWeight <= 0) {
+            Toast.makeText(context, "腰围和体重为必填项", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        float fat = CalculationUtils.calculateBodyFatFromBodyData(context, currentWaist, currentWeight);
+        String sfat = String.valueOf(fat);
+        setBodyData(pos, sfat);
+        contents.set(pos, sfat);
+        notifyDataSetChanged();
+    }
+
+    public void calculateBmrAuto(int pos) {
+        int index = title.indexOf("平均体重");
+        float currentWeight = 0;
+        try {
+            currentWeight = Float.valueOf(contents.get(index));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (currentWeight <= 0) {
+            Toast.makeText(context, "体重为必填项", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        float bmr = CalculationUtils.calculateBmr(context, currentWeight);
+        String sbmr = String.valueOf(bmr);
+        setBodyData(pos, sbmr);
+        contents.set(pos, sbmr);
+        notifyDataSetChanged();
+    }
+
+    private class DataViewHolder extends RecyclerView.ViewHolder {
+        private TextView tv_title;
+        private TextView tv_content;
+        private RelativeLayout rootView0;
+
+        private LinearLayout ll_input_tips;
+        private LinearLayout ll_bmi;
+        private TextView tv_title_bmi;
+        private TextView tv_bmi_values;
+        private TextView tv_input_data_tips;
+
+        private DataViewHolder(View itemView) {
+            super(itemView);
+            tv_title = itemView.findViewById(R.id.tv_add_data_title);
+            tv_content = itemView.findViewById(R.id.tv_add_data_content);
+            rootView0 = itemView.findViewById(R.id.root_view0);
+            ll_input_tips = itemView.findViewById(R.id.ll_input_tips);
+            ll_bmi = itemView.findViewById(R.id.ll_bmi);
+            tv_title_bmi = itemView.findViewById(R.id.tv_title_bmi);
+            tv_bmi_values = itemView.findViewById(R.id.tv_bmi_values);
+            tv_input_data_tips = itemView.findViewById(R.id.tv_input_data_tips);
+        }
+
+    }
+
+    private class RatingViewHolder extends RecyclerView.ViewHolder {
+        private TextView tv_title;
+        private RatingBar ratingBar;
+
+        private RatingViewHolder(View itemView) {
+            super(itemView);
+            tv_title = itemView.findViewById(R.id.tv_add_data_title1);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
+        }
+
+    }
+
+    private class EditViewHolder extends RecyclerView.ViewHolder {
+        private EditText editText;
+
+
+        private EditViewHolder(View itemView) {
+            super(itemView);
+            editText = itemView.findViewById(R.id.edit_ano);
+        }
+
+    }
+
+    private class MoreChoiceViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout rootView3;
+
+        private MoreChoiceViewHolder(View itemView) {
+            super(itemView);
+            rootView3 = itemView.findViewById(R.id.root_view3);
+        }
+
     }
 }

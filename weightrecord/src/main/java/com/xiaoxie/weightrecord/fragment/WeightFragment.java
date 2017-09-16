@@ -20,6 +20,7 @@ import com.xiaoxie.weightrecord.charts.PlanRealLineChart;
 import com.xiaoxie.weightrecord.charts.TargetPlanRealLineChart;
 import com.xiaoxie.weightrecord.realm.RealmStorageHelper;
 import com.xiaoxie.weightrecord.utils.FragmentUtils;
+import com.xiaoxie.weightrecord.utils.LogUtils;
 import com.xiaoxie.weightrecord.view.CustomProgressBar;
 import com.xiaoxie.weightrecord.view.DashBoardView;
 import com.xiaoxie.weightrecord.view.HistoryView;
