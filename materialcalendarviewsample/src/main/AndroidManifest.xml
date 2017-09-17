@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.materialcalendarviewsample">
+
+    <application
+        android:supportsRtl="true"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        >
+        <activity
+            android:name="com.example.materialcalendarviewsample.MainActivity"
+            android:label="@string/app_name"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.OldCalendarViewActivity"
+            android:label="@string/title_activity_old_calendar"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.BasicActivity"
+            android:label="@string/title_activity_basic"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.BasicActivityDecorated"
+            android:label="@string/title_activity_decorators"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.SwappableBasicActivityDecorated"
+            android:label="@string/title_activity_basic_modes"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".DisableDaysActivity"
+            android:label="@string/title_activity_disable"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.CustomizeXmlActivity"
+            android:label="@string/title_activity_customize_xml"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.CustomizeCodeActivity"
+            android:label="@string/title_activity_customize_code"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.DynamicSettersActivity"
+            android:label="@string/title_activity_dynamic_setters"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".CustomTileDimensions"
+            android:label="@string/title_activity_custom_tile_size"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.DialogsActivity"
+            android:label="@string/title_activity_dialogs"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.MultipleViewActivity"
+            android:label="@string/title_activity_multiple_view"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.example.materialcalendarviewsample.MultipleSizeActivity"
+            android:label="@string/title_activity_multiple_size"
+            android:parentActivityName="com.example.materialcalendarviewsample.MainActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.materialcalendarviewsample.MainActivity"
+                />
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+                <category android:name="com.prolificinteractive.materialcalendarview.sample.SAMPLE" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

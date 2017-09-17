@@ -1,4 +1,4 @@
-package com.xiaoxie.weightrecord.view;
+package com.xiaoxie.weightrecord.view.calendar;
 
 import android.content.Context;
 import android.graphics.Canvas;
