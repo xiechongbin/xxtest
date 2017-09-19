@@ -392,6 +392,7 @@ public class introActivity extends Activity implements View.OnClickListener, Vie
 
             @Override
             public void OnCanceled() {
+                Log.d("test","pp");
             }
         });
         builder.create().show();
