@@ -28,6 +28,7 @@ import com.xiaoxie.weightrecord.R;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -218,7 +219,6 @@ public class Utils {
 
     public static String getCurrentDate() {
         Calendar calendar = Calendar.getInstance();
-
         return calendar.get(Calendar.YEAR) + "年" + (calendar.get(Calendar.MONTH) + 1) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日";
     }
 
@@ -261,6 +261,29 @@ public class Utils {
         } else {
             return "非法";
         }
+    }
+
+
+    /**
+     * 获取前n天日期、后n天日期
+     *
+     * @param distanceDay 前几天 如获取前7天日期则传-7即可；如果后7天则传7
+     * @return
+     */
+    public static String getOldDate(int distanceDay) {
+        java.text.SimpleDateFormat dft = new java.text.SimpleDateFormat("yyyy年MM月dd日");
+        Date beginDate = new Date();
+        Calendar date = Calendar.getInstance();
+        date.setTime(beginDate);
+        date.set(Calendar.DATE, date.get(Calendar.DATE) + distanceDay);
+        Date endDate = null;
+        try {
+            endDate = dft.parse(dft.format(date.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.d("results", "前7天==" + dft.format(endDate));
+        return dft.format(endDate);
     }
 
 }

@@ -1456,4 +1456,112 @@ public class CustomDialog extends Dialog {
             return bmrDialog;
         }
     }
+
+    /**
+     * 趋势分析显示项选择框
+     */
+    public static class TrendBuilder implements View.OnClickListener {
+        private CustomDialog trendDialog;
+        private Context context;
+        private DialogClickListener1 listener;
+        private TextView tv_trend_weight;
+        private TextView tv_trend_am_weight;
+        private TextView tv_trend_pm_weight;
+        private TextView tv_trend_night_weight;
+        private TextView tv_trend_internalOrgansFat;
+        private TextView tv_trend_muscle;
+        private TextView tv_trend_bone;
+        private TextView tv_trend_bodyMoisture;
+        private TextView tv_trend_heart_rate;
+        private TextView tv_trend_biceps;
+        private TextView tv_trend_bust;
+        private TextView tv_trend_waist;
+        private TextView tv_trend_buttocks;
+        private TextView tv_trend_neck;
+        private TextView tv_trend_chest;
+        private TextView tv_trend_wrist;
+        private TextView tv_trend_abdomen;
+        private TextView tv_trend_forearm;
+        private TextView tv_trend_thigh;
+
+        public TrendBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            this.context = context;
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            trendDialog = new CustomDialog(context, R.style.myDialog);
+            View layout = mInflater.inflate(R.layout.layout_trend_dialog, null);
+            trendDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            tv_trend_weight = layout.findViewById(R.id.tv_trend_weight);
+            tv_trend_am_weight = layout.findViewById(R.id.tv_trend_am_weight);
+            tv_trend_pm_weight = layout.findViewById(R.id.tv_trend_pm_weight);
+            tv_trend_night_weight = layout.findViewById(R.id.tv_trend_night_weight);
+            tv_trend_internalOrgansFat = layout.findViewById(R.id.tv_trend_internalOrgansFat);
+            tv_trend_muscle = layout.findViewById(R.id.tv_trend_muscle);
+            tv_trend_bone = layout.findViewById(R.id.tv_trend_bone);
+            tv_trend_heart_rate = layout.findViewById(R.id.tv_trend_heart_rate);
+            tv_trend_bodyMoisture = layout.findViewById(R.id.tv_trend_bodyMoisture);
+            tv_trend_biceps = layout.findViewById(R.id.tv_trend_biceps);
+            tv_trend_bust = layout.findViewById(R.id.tv_trend_bust);
+            tv_trend_waist = layout.findViewById(R.id.tv_trend_waist);
+            tv_trend_buttocks = layout.findViewById(R.id.tv_trend_buttocks);
+            tv_trend_thigh = layout.findViewById(R.id.tv_trend_thigh);
+            tv_trend_forearm = layout.findViewById(R.id.tv_trend_forearm);
+            tv_trend_abdomen = layout.findViewById(R.id.tv_trend_abdomen);
+            tv_trend_wrist = layout.findViewById(R.id.tv_trend_wrist);
+            tv_trend_chest = layout.findViewById(R.id.tv_trend_chest);
+            tv_trend_neck = layout.findViewById(R.id.tv_trend_neck);
+
+            tv_trend_weight.setOnClickListener(this);
+            tv_trend_am_weight.setOnClickListener(this);
+            tv_trend_pm_weight.setOnClickListener(this);
+            tv_trend_night_weight.setOnClickListener(this);
+            tv_trend_internalOrgansFat.setOnClickListener(this);
+            tv_trend_muscle.setOnClickListener(this);
+            tv_trend_bone.setOnClickListener(this);
+            tv_trend_bodyMoisture.setOnClickListener(this);
+            tv_trend_heart_rate.setOnClickListener(this);
+            tv_trend_biceps.setOnClickListener(this);
+            tv_trend_bust.setOnClickListener(this);
+            tv_trend_waist.setOnClickListener(this);
+            tv_trend_buttocks.setOnClickListener(this);
+            tv_trend_neck.setOnClickListener(this);
+            tv_trend_chest.setOnClickListener(this);
+            tv_trend_wrist.setOnClickListener(this);
+            tv_trend_abdomen.setOnClickListener(this);
+            tv_trend_forearm.setOnClickListener(this);
+            tv_trend_thigh.setOnClickListener(this);
+
+        }
+
+        public void setOnDialogClickListener(DialogClickListener1 listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            dismiss();
+            listener.OnConfirmed(view.getId());
+        }
+
+        private void dismiss() {
+            if (trendDialog != null && trendDialog.isShowing())
+                trendDialog.dismiss();
+        }
+
+        public Dialog create() {
+            return trendDialog;
+        }
+
+        public void show() {
+            trendDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return trendDialog;
+        }
+    }
 }

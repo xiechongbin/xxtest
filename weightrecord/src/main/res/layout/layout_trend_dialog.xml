@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_trend_weight"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_weight" />
+
+            <TextView
+                android:id="@+id/tv_trend_am_weight"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_weight_morning" />
+
+            <TextView
+                android:id="@+id/tv_trend_pm_weight"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_weight_noon" />
+
+            <TextView
+                android:id="@+id/tv_trend_night_weight"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_weight_night" />
+
+            <TextView
+                android:id="@+id/tv_trend_internalOrgansFat"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_visceral_fat" />
+
+            <TextView
+                android:id="@+id/tv_trend_muscle"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_muscle" />
+
+            <TextView
+                android:id="@+id/tv_trend_bone"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_bones" />
+
+            <TextView
+                android:id="@+id/tv_trend_bodyMoisture"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_body_water" />
+
+            <TextView
+                android:id="@+id/tv_trend_heart_rate"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_heart_rate" />
+
+            <TextView
+                android:id="@+id/tv_trend_biceps"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_bicep" />
+
+            <TextView
+                android:id="@+id/tv_trend_neck"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_neck" />
+
+            <TextView
+                android:id="@+id/tv_trend_waist"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_waist" />
+
+            <TextView
+                android:id="@+id/tv_trend_buttocks"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_hips" />
+
+            <TextView
+                android:id="@+id/tv_trend_forearm"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_forearm" />
+
+            <TextView
+                android:id="@+id/tv_trend_bust"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_bust" />
+
+            <TextView
+                android:id="@+id/tv_trend_chest"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_chest" />
+
+            <TextView
+                android:id="@+id/tv_trend_wrist"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_wrist" />
+
+            <TextView
+                android:id="@+id/tv_trend_abdomen"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_belly" />
+
+            <TextView
+                android:id="@+id/tv_trend_thigh"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_thighs" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

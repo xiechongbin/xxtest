@@ -223,7 +223,8 @@ public class AddDataFragment extends BaseFragment implements OnItemClickListener
             public void OnCanceled() {
             }
         });
-        Utils.setCostumeDialogStyle(builder.create(), activity, 1f, 0.2f, 0, 0, Gravity.BOTTOM, 0).show();
+        builder.create().show();
+        //Utils.setCostumeDialogStyle(builder.create(), activity, 0.5f, 1f, 0, 0, Gravity.BOTTOM, 0).show();
     }
 
     @Override

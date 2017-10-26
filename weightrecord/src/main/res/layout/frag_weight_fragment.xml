@@ -18,12 +18,6 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white">
 
-                <com.xiaoxie.weightrecord.view.DashBoardView
-                    android:id="@+id/weight_dashBoardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/color_theme_blue" />
-
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -405,6 +399,12 @@
 
                 </android.support.v7.widget.CardView>
 
+                <com.xiaoxie.weightrecord.view.DashBoardView
+                    android:id="@+id/weight_dashBoardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_theme_blue" />
+
             </FrameLayout>
 
             <!--历史-->
@@ -504,10 +504,13 @@
             <!--趋势分析-->
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/black">
+                android:layout_height="400dp"
+                android:layout_marginTop="20dp">
 
+
+                <com.xiaoxie.weightrecord.view.TrendAnalysisView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></com.xiaoxie.weightrecord.view.TrendAnalysisView>
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>

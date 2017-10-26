@@ -211,4 +211,31 @@ public class CalculationUtils {
             return diffYear;
         }
     }
+
+    public static long dateToLong(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return 0;
+        }
+        String year = "", month = "", day = "";
+        int indexYear = 0;
+        int indexMonth = 0;
+        if (str.contains("年")) {
+            indexYear = str.indexOf("年");
+            year = str.substring(0, indexYear);
+        }
+        if (str.contains("月")) {
+            indexMonth = str.indexOf("月");
+            month = str.substring(indexYear + 1, indexMonth);
+            if (Integer.valueOf(month) < 10) {
+                month = "0" + month;
+            }
+        }
+        if (str.contains("日")) {
+            day = str.substring(indexMonth + 1, str.length() - 1);
+            if (Integer.valueOf(day) < 10) {
+                day = "0" + day;
+            }
+        }
+        return Long.valueOf(year + month + day);
+    }
 }

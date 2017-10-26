@@ -1260,4 +1260,6 @@ Your idea weight is 0003."</string>
     <string name="healthy_weight">体重健康范围</string>
     <string name="delete">删除</string>
     <string name="save">保存</string>
+    <string name="zero">0</string>
+    <string name="img_up_or_down">描述数值上上升或者减少</string>
 </resources>

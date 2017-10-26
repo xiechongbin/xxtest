@@ -1,5 +1,9 @@
 package com.xiaoxie.weightrecord.bean;
 
+import android.util.Log;
+
+import com.xiaoxie.weightrecord.utils.CalculationUtils;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -10,6 +14,7 @@ import io.realm.annotations.PrimaryKey;
 public class BodyData extends RealmObject {
     @PrimaryKey
     private String date;//日期
+    private long timeStamp;
 
     private float amWeight;
     private float pmWeight;
@@ -37,12 +42,23 @@ public class BodyData extends RealmObject {
     private int activity;//活动 星级
     private String annotate;//注释
 
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     public String getDate() {
         return date;
     }
 
     public void setDate(String date) {
         this.date = date;
+        long tmp = CalculationUtils.dateToLong(date);
+        Log.d("results", "tmp = " + tmp);
+        setTimeStamp(tmp);
     }
 
     public float getAmWeight() {
@@ -60,7 +76,7 @@ public class BodyData extends RealmObject {
     public void setPmWeight(float pmWeight) {
         this.pmWeight = pmWeight;
     }
-    
+
     public float getNightWeight() {
         return nightWeight;
     }

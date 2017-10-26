@@ -50,11 +50,12 @@
     </style>
 
     <!--解决dialog 不能紧贴屏幕边缘问题-->
-    <style name="myDialog"  parent="android:Theme.Dialog">
+    <style name="myDialog" parent="android:Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:background">@android:color/white</item>
-        <item name="android:windowBackground">@android:color/transparent</item><!--必须还要再加上这一句才能看起来是满的-->
+        <item name="android:windowBackground">@android:color/transparent
+        </item><!--必须还要再加上这一句才能看起来是满的-->
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
@@ -67,5 +68,19 @@
         <item name="android:background">@drawable/overview_layer_list</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="style_trend_dialog_textView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="trend_animation_style">
+        <item name="android:windowEnterAnimation">@anim/anim_trend_dialog</item>
     </style>
 </resources>

@@ -107,6 +107,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.photoButton:
+                isTakePicture = true;
+                break;
+            case R.id.recoder:
+                isTakePicture = false;
+                break;
+            case R.id.start:
+                if (isTakePicture) {
+                    takePicture(getCurrentFocus());
+                } else {
+                    startRecording();
+                }
+        }
+    }
+
     private void startCameraThread() {
         mCameraThread = new HandlerThread("CameraThread");
         mCameraThread.start();
@@ -334,23 +352,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }, mCameraHandler);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.photoButton:
-                isTakePicture = true;
-                break;
-            case R.id.recoder:
-                isTakePicture = false;
-                break;
-            case R.id.start:
-                if (isTakePicture) {
-                    takePicture(getCurrentFocus());
-                } else {
-                    startRecording();
-                }
-        }
-    }
 
     /**
      * 调用内置相机录制视频
@@ -362,11 +363,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         startActivityForResult(intent, 9999);
     }
 
-    /**
-     * 自定义视频录制
-     */
-    private void startRecordingCustom() {
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
