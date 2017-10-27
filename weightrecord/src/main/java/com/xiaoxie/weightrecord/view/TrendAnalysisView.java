@@ -2,6 +2,7 @@ package com.xiaoxie.weightrecord.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,11 +13,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
 
 import com.xiaoxie.weightrecord.CustomDialog;
 import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.activity.MainActivity;
+import com.xiaoxie.weightrecord.activity.TrendDetailsActivity;
 import com.xiaoxie.weightrecord.bean.BodyData;
 import com.xiaoxie.weightrecord.interfaces.DialogClickListener1;
 import com.xiaoxie.weightrecord.realm.RealmStorageHelper;
@@ -835,9 +837,17 @@ public class TrendAnalysisView extends LinearLayout implements View.OnClickListe
                 showTrendTypeDialog();
                 break;
             case R.id.ll_open_details:
+                showTrendDetailsActivity();
                 addData();
                 break;
         }
+    }
+
+
+    public void showTrendDetailsActivity() {
+        Intent intent = new Intent();
+        intent.setClass(context, TrendDetailsActivity.class);
+        context.startActivity(intent);
     }
 
 

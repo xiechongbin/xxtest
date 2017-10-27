@@ -8,12 +8,14 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.activity.SettingsActivity;
+import com.xiaoxie.weightrecord.activity.TrendDetailsActivity;
 import com.xiaoxie.weightrecord.fragment.CalendarFragment;
 import com.xiaoxie.weightrecord.fragment.LogFragment;
 import com.xiaoxie.weightrecord.fragment.PhotoFragment;
@@ -146,6 +148,15 @@ public class ActionbarView extends LinearLayout implements View.OnClickListener 
             ll_actionbar_calendar.setVisibility(GONE);
             ll_actionbar_log.setVisibility(GONE);
             tv_title.setText(R.string.label_sb_setting);
+        } else if (fragmentName.equals(TrendDetailsActivity.class.getSimpleName())) {
+            ll_actionbar_weight.setVisibility(GONE);
+            ll_actionbar_calendar.setVisibility(GONE);
+            ll_actionbar_log.setVisibility(GONE);
+            tv_title.setText(R.string.label_trend_analysis);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(55, 55);
+            layoutParams.leftMargin = 15;
+            imageView_menu.setImageResource(R.drawable.ic_chacha);
+            imageView_menu.setLayoutParams(layoutParams);
         }
         invalidate();
     }

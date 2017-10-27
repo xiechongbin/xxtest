@@ -21,8 +21,9 @@
         <activity android:name=".activity.SettingsActivity" />
         <activity
             android:name=".activity.LockPatternActivity"
-            android:theme="@style/AppTheme"></activity>
-       <!-- <activity android:name=".activity.TestActivity"></activity>-->
+            android:theme="@style/AppTheme" />
+        <!-- <activity android:name=".activity.TestActivity"></activity> -->
+        <activity android:name=".activity.TrendDetailsActivity"></activity>
     </application>
 
 </manifest>

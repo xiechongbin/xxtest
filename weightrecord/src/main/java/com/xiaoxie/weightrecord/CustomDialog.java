@@ -1564,4 +1564,69 @@ public class CustomDialog extends Dialog {
             return trendDialog;
         }
     }
+
+    /**
+     * 区间选择显示项选择框
+     */
+    public static class IntervalBuilder implements View.OnClickListener {
+        private CustomDialog intervalDialog;
+        private Context context;
+        private DialogClickListener1 listener;
+        private TextView tv_week;
+        private TextView tv_month;
+        private TextView tv_year;
+        private TextView tv_custom;
+
+        public IntervalBuilder(Context context) {
+            initView(context);
+        }
+
+        private void initView(Context context) {
+            this.context = context;
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            intervalDialog = new CustomDialog(context, R.style.myDialog);
+            View layout = mInflater.inflate(R.layout.layout_interval_dialog, null);
+            intervalDialog.setContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            tv_week = layout.findViewById(R.id.tv_interval_week);
+            tv_month = layout.findViewById(R.id.tv_interval_month);
+            tv_year = layout.findViewById(R.id.tv_interval_year);
+            tv_custom = layout.findViewById(R.id.tv_interval_week);
+
+
+            tv_week.setOnClickListener(this);
+            tv_month.setOnClickListener(this);
+            tv_year.setOnClickListener(this);
+            tv_custom.setOnClickListener(this);
+
+
+        }
+
+        public void setOnDialogClickListener(DialogClickListener1 listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            dismiss();
+            listener.OnConfirmed(view.getId());
+        }
+
+        private void dismiss() {
+            if (intervalDialog != null && intervalDialog.isShowing())
+                intervalDialog.dismiss();
+        }
+
+        public Dialog create() {
+            return intervalDialog;
+        }
+
+        public void show() {
+            intervalDialog.show();
+        }
+
+        public CustomDialog getAlertDialog() {
+            return intervalDialog;
+        }
+    }
 }

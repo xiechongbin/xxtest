@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_interval_week"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_week" />
+
+            <TextView
+                android:id="@+id/tv_interval_month"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_month" />
+
+            <TextView
+                android:id="@+id/tv_interval_year"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_year" />
+
+            <TextView
+                android:id="@+id/tv_interval_custom"
+                style="@style/style_trend_dialog_textView"
+                android:text="@string/label_custom" />
+</LinearLayout>

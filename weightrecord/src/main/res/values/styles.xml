@@ -83,4 +83,8 @@
     <style name="trend_animation_style">
         <item name="android:windowEnterAnimation">@anim/anim_trend_dialog</item>
     </style>
+
+    <style name="interval_animation_style">
+        <item name="android:windowEnterAnimation">@anim/anim_interval_dialog</item>
+    </style>
 </resources>
