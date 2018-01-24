@@ -66,8 +66,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.xiaoxie.weightrecord.weather.view.TemperatureView
+        <LinearLayout
+            android:id="@+id/scrollView_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        </LinearLayout>
+
     </ScrollView>
 </LinearLayout>

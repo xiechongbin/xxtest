@@ -19,6 +19,7 @@ import com.xiaoxie.weightrecord.R;
 public class CircleView extends View {
     private Paint bPaint;
     private Paint pPaint;
+    private Paint tPaint;
     private int width, height;
     private float startAngle = 135;
     private float angleLength = 270;
@@ -28,6 +29,7 @@ public class CircleView extends View {
     private float borderWidth = 38f;
     //动画时长
     private int animationLength = 3000;
+
     public CircleView(Context context) {
         super(context);
         init();
@@ -58,6 +60,8 @@ public class CircleView extends View {
         RectF rectF = new RectF(0 + borderWidth, borderWidth, 2 * centerX - borderWidth, 2 * centerX - borderWidth);
         canvas.drawArc(rectF, startAngle, angleLength, false, bPaint);
         canvas.drawArc(rectF, startAngle, currentAngleLength, false, bPaint);
+        canvas.drawText("0", centerX, centerX, tPaint);
+        canvas.drawText("500", centerX, centerX, tPaint);
 
     }
 
@@ -66,7 +70,7 @@ public class CircleView extends View {
         bPaint.setStrokeJoin(Paint.Join.ROUND);
         bPaint.setStrokeCap(Paint.Cap.ROUND);
         bPaint.setStyle(Paint.Style.STROKE);
-        bPaint.setStrokeWidth(10);
+        bPaint.setStrokeWidth(15);
         bPaint.setAntiAlias(true);
         bPaint.setColor(getResources().getColor(R.color.color_9b9c9b, null));
 
@@ -74,9 +78,13 @@ public class CircleView extends View {
         pPaint.setStrokeJoin(Paint.Join.ROUND);
         pPaint.setStrokeCap(Paint.Cap.ROUND);
         pPaint.setStyle(Paint.Style.STROKE);
-        pPaint.setStrokeWidth(10);
+        pPaint.setStrokeWidth(15);
         pPaint.setAntiAlias(true);
         pPaint.setColor(getResources().getColor(R.color.color_27ae60, null));
+
+        tPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        tPaint.setAntiAlias(true);
+        tPaint.setColor(getResources().getColor(R.color.color_9b9c9b, null));
     }
 
     /**
@@ -86,7 +94,7 @@ public class CircleView extends View {
         if (value >= total) {
             value = total;
         }
-        float scale =  value / total;
+        float scale = value / total;
         float currentAngleLength = scale * angleLength;
         //开始执行动画
         setAnimation(0, currentAngleLength, animationLength);

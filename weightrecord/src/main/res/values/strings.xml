@@ -1262,4 +1262,14 @@ Your idea weight is 0003."</string>
     <string name="save">保存</string>
     <string name="zero">0</string>
     <string name="img_up_or_down">描述数值上上升或者减少</string>
+
+    <!--天气-->
+    <string name="weather_aqi">空气质量</string>
+    <string name="weather_aqi_value_title">污染指数</string>
+    <string name="weather_aqi_pm10">PM10</string>
+    <string name="weather_aqi_pm25">PM2.5</string>
+    <string name="weather_aqi_no2">NO2</string>
+    <string name="weather_aqi_o3">O3</string>
+    <string name="weather_aqi_so2">SO2</string>
+    <string name="weather_aqi_co">CO</string>
 </resources>

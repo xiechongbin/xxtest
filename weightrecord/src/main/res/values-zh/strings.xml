@@ -1140,4 +1140,14 @@
     <string name="draw">绘制解锁图案</string>
     <string name="draw_success">密码设置成功</string>
 
+    <!--天气-->
+    <string name="weather_aqi">空气质量</string>
+    <string name="weather_aqi_value_title">污染指数</string>
+    <string name="weather_aqi_pm10">PM10</string>
+    <string name="weather_aqi_pm25">PM2.5</string>
+    <string name="weather_aqi_no2">NO2</string>
+    <string name="weather_aqi_o3">O3</string>
+    <string name="weather_aqi_so2">SO2</string>
+    <string name="weather_aqi_co">CO</string>
+
 </resources>
