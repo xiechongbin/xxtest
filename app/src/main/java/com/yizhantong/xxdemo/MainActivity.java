@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         data.add("5");
         data.add("6");
         data.add("7");
-        layoutManager = new LinearLayoutManager(this);
+            layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new MyAdapter(data));
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.tcpdemo.ClientActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_connect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="连接" />
+
+        <EditText
+            android:id="@+id/ed_ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ip" />
+
+        <EditText
+            android:id="@+id/ed_port"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="端口" />
+
+        <EditText
+            android:id="@+id/ed_c_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入发送内容" />
+
+        <Button
+            android:id="@+id/bt_c_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发送" />
+
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

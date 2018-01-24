@@ -153,7 +153,7 @@ public class TrendDetailsActivity extends AppCompatActivity implements ActionBar
         }
         return month + " 月 1 --" + month + " 月 " + lastday;
     }
-xx
+
     private void queryData(long from, long to) {
         RealmResults<BodyData> results = RealmStorageHelper.getInstance()
                 .getRealm()

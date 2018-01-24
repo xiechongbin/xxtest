@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.yizhantong.xxtest.B;
 import com.yizhantong.xxtest.R;
 
 public class HandlerTestActivity extends AppCompatActivity {
@@ -21,6 +22,5 @@ public class HandlerTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_handler_test);
         handler.sendMessageDelayed(Message.obtain(),10000);
-        //finish();
     }
 }

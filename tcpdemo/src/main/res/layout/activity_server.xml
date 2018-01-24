@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.tcpdemo.ServerActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_create_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="创建服务端" />
+
+        <EditText
+            android:id="@+id/ed_s_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="服务端输入内容" />
+        <Button
+            android:id="@+id/bt_s_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发送"/>
+
+        <TextView
+            android:id="@+id/tv_s_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</LinearLayout>

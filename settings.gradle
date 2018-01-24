@@ -1,1 +1,1 @@
-include ':app', ':xxtest', ':weightrecord', ':mpandroid', ':camera', 'SlidingMenu_lib'
+include ':app', ':xxtest', ':weightrecord', ':mpandroid', ':camera', ':sweepgradientdemo', ':avatar', ':okhttp', ':tcpdemo', 'SlidingMenu_lib'
