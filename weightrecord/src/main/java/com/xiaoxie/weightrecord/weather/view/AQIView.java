@@ -20,6 +20,7 @@ import com.xiaoxie.weightrecord.R;
 
 public class AQIView extends LinearLayout {
     private TextView tv_title;
+    private CircleView circleView;
 
     public AQIView(Context context) {
         super(context);
@@ -38,6 +39,9 @@ public class AQIView extends LinearLayout {
 
     private void initView(Context context) {
         View v = LayoutInflater.from(context).inflate(R.layout.layout_aqi, null);
+        v.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         this.addView(v);
+        circleView = v.findViewById(R.id.aqi_progress);
+        circleView.setCenterInfo("污染指数", "优", "40%");
     }
 }

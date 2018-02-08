@@ -10,4 +10,18 @@
         <attr name="normalColor" format="color" />
         <attr name="wrongColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="circleView">
+        <attr name="centerValue" format="string" />
+        <attr name="centerTitle" format="string" />
+        <attr name="centerValueSize" format="dimension" />
+        <attr name="centerTitleSize" format="dimension" />
+        <attr name="centerValueColor" format="color" />
+        <attr name="centerTitleColor" format="color" />
+        <attr name="minScale" format="string" />
+        <attr name="maxScale" format="string" />
+        <attr name="ScaleSize" format="dimension" />
+        <attr name="ScaleColor" format="color" />
+        <attr name="progressWidth" format="dimension" />
+    </declare-styleable>
 </resources>

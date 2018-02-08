@@ -2,10 +2,7 @@ package com.xiaoxie.weightrecord.weather;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -19,8 +16,10 @@ import com.xcb.network.okhttp.callback.StringCallback;
 import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.weather.utils.GetWeatherUtils;
 import com.xiaoxie.weightrecord.weather.view.AQIView;
-import com.xiaoxie.weightrecord.weather.view.CircleView;
+import com.xiaoxie.weightrecord.weather.view.ComfortView;
+import com.xiaoxie.weightrecord.weather.view.SunRiseView;
 import com.xiaoxie.weightrecord.weather.view.TemperatureView;
+import com.xiaoxie.weightrecord.weather.view.WindView;
 
 import okhttp3.Call;
 
@@ -38,6 +37,9 @@ public class WeatherActivity extends Activity {
     private LinearLayout scrollView_container;
     private TemperatureView temperatureView;
     private AQIView aqiView;
+    private ComfortView comfortView;
+    private WindView windView;
+    private SunRiseView sunRiseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +68,36 @@ public class WeatherActivity extends Activity {
         footView.setBackgroundResource(R.drawable.ic_weather_bg_sunny);
         temperatureView = new TemperatureView(this);
         aqiView = new AQIView(this);
+        comfortView = new ComfortView(this);
+        windView = new WindView(this);
+        sunRiseView = new SunRiseView(this);
         scrollView_container.addView(temperatureView);
+        addDividingLine(scrollView_container);
         scrollView_container.addView(aqiView);
+        addDividingLine(scrollView_container);
+        scrollView_container.addView(comfortView);
+        addDividingLine(scrollView_container);
+        scrollView_container.addView(windView);
+        addDividingLine(scrollView_container);
+        scrollView_container.addView(sunRiseView);
+        addDividingLine(scrollView_container);
     }
 
+    /**
+     * 添加分割线
+     */
+    private void addDividingLine(LinearLayout container) {
+        View dividingLine = new View(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(getWidth() - 30, 1);
+        layoutParams.setMargins(15, 15, 15, 15);
+        dividingLine.setLayoutParams(layoutParams);
+        dividingLine.setBackgroundColor(getResources().getColor(R.color.color_9b9c9b, null));
+        container.addView(dividingLine);
+    }
+
+    /**
+     * 获取屏幕宽度
+     */
     private int getWidth() {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

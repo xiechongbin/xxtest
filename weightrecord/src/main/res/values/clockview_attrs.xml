@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="clockView">
+        <attr name="clock_antiAlias" format="boolean" /> <!--是否开启抗锯齿-->
+        <attr name="smooth" format="boolean" /> <!-- 是否平滑转动秒针 -->
+        <attr name="background" format="reference" />
+        <!--表盘的边距-->
+        <attr name="wb_padding" format="dimension" />
+        <!--表盘文字大小-->
+        <attr name="wb_text_size" format="dimension" />
+        <!--时针的宽度-->
+        <attr name="wb_hour_pointer_width" format="dimension" />
+        <!--分针的宽度-->
+        <attr name="wb_minute_pointer_width" format="dimension" />
+        <!--秒针的宽度-->
+        <attr name="wb_second_pointer_width" format="dimension" />
+        <!--时针的高度-->
+        <attr name="wb_hour_pointer_height" format="dimension" />
+        <!--分针的高度-->
+        <attr name="wb_minute_pointer_height" format="dimension" />
+        <!--秒针的高度-->
+        <attr name="wb_second_pointer_height" format="dimension" />
+        <!--指针圆角值-->
+        <attr name="wb_pointer_corner_radius" format="dimension" />
+        <!--指针超过中心点的长度-->
+        <attr name="wb_pointer_end_length" format="dimension" />
+        <!--时刻刻度颜色-->
+        <attr name="wb_scale_long_color" format="color" />
+        <!--非时刻刻度颜色-->
+        <attr name="wb_scale_short_color" format="color" />
+        <!--时针颜色-->
+        <attr name="wb_hour_pointer_color" format="color" />
+        <!--分针颜色-->
+        <attr name="wb_minute_pointer_color" format="color" />
+        <!--秒针颜色-->
+        <attr name="wb_second_pointer_color" format="color" />
+        <!--文字颜色-->
+        <attr name="wb_text_color" format="color" />
+        <!--时刻刻度线长度-->
+        <attr name="wb_scale_long_length" format="dimension" />
+        <!--非时刻刻度线长度-->
+        <attr name="wb_scale_short_length" format="dimension" />
+        <!--刻度线宽度-->
+        <attr name="wb_scale_width" format="dimension" />
+        <!--中心点的颜色-->
+        <attr name="centerPointColor" format="dimension" />
+        <!--中心点宽度-->
+        <attr name="centerPointStokeWidth" format="dimension" />
+    </declare-styleable>
+</resources>

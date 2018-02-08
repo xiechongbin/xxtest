@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="lineColor" format="color" />
+    <attr name="stokeWidth" format="dimension" />
+    <attr name="innerRadius" format="dimension" />
+    <attr name="outSideRadius" format="dimension" />
+    <attr name="minCalibration" format="dimension" /><!--刻度长度最小-->
+    <attr name="maxCalibration" format="dimension" /><!--刻度长度最大-->
+    <attr name="calibrationCount" format="integer" /><!--刻度数量-->
+    <declare-styleable name="BoardView">
+        <attr name="lineColor" />
+        <attr name="stokeWidth" />
+        <attr name="innerRadius" />
+        <attr name="outSideRadius" />
+        <attr name="minCalibration" />
+        <attr name="maxCalibration" />
+        <attr name="calibrationCount" />
+    </declare-styleable>
+</resources>
