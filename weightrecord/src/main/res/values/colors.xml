@@ -38,6 +38,9 @@
     <color name="color_e2e2e2">#e2e2e2</color>
     <color name="color_eaeaea">#eaeaea</color>
     <color name="color_ecfbf6">#ecfbf6</color>
+    <!--weather-->
+    <color name="color_898c8c">#898c8c</color>
+    <color name="color_52c5ea">#52c5ea</color>
 
 
     <declare-styleable name="SeekCircle">

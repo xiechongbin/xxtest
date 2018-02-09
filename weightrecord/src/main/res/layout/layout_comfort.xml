@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -15,7 +16,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -24,10 +25,33 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <com.xiaoxie.weightrecord.weather.view.CircleView
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/weather_air_wet"
+                android:textColor="@android:color/white" />
+
+            <com.xiaoxie.weightrecord.weather.view.CircleProgressView
                 android:id="@+id/air_wet"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                app:animTime="3000"
+                app:antiAlias="true"
+                app:arcColor1="@android:color/white"
+                app:bgArcColor="@color/color_898c8c"
+                app:customRadius="55dp"
+                app:hintColor="@android:color/white"
+                app:hintSize="16sp"
+                app:maxMinValueSize="10sp"
+                app:maxValue="100"
+                app:minValue="0"
+                app:showMinMaxValue="true"
+                app:startAngle="120"
+                app:sweepAngle="300"
+                app:valueColor="@android:color/white"
+                app:valueSize="23sp" />
         </LinearLayout>
 
         <LinearLayout

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import com.xiaoxie.weightrecord.R;
 
 public class AQIView extends LinearLayout {
     private TextView tv_title;
-    private CircleView circleView;
+    private CircleProgressView circleView;
 
     public AQIView(Context context) {
         super(context);
@@ -42,6 +43,7 @@ public class AQIView extends LinearLayout {
         v.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         this.addView(v);
         circleView = v.findViewById(R.id.aqi_progress);
-        circleView.setCenterInfo("污染指数", "优", "40%");
+        circleView.setHint("优");
+        circleView.setValue(50);
     }
 }

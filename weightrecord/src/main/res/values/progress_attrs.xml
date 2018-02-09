@@ -4,8 +4,13 @@
     <attr name="startAngle" format="float" /><!-- 圆弧起始角度，3点钟方向为0，顺时针递增，小于0或大于360进行取余 -->
     <attr name="sweepAngle" format="float" /><!--扫过的角度-->
     <attr name="animTime" format="integer" /><!--动画时间-->
+
     <attr name="maxValue" format="float" /><!--绘制的内容的数值的最大值-->
     <attr name="minValue" format="float" /><!--绘制的内容的数值的最小值-->
+    <attr name="showMinMaxValue" format="boolean" /><!--是否需要绘制最大最小值-->
+    <attr name="maxMinValueSize" format="dimension" /><!--最大最小值文字大小-->
+    <attr name="maxMinTextColor" format="color" /><!-- 最大最小值y颜色-->
+    <attr name="maxMinTextPaddingTop" format="dimension" /><!-- 最大最小值文字距離圓環的距離-->
 
     <attr name="unit" format="string|reference" /> <!-- 绘制内容的单位 -->
     <attr name="unitSize" format="dimension" />
@@ -27,13 +32,21 @@
     <attr name="arcWidth" format="dimension" />  <!-- 圆弧宽度 -->
     <attr name="arcColors" format="color|reference" /> <!-- 圆弧颜色， -->
     <attr name="textOffsetPercentInRadius" format="float" />  <!-- 文字的偏移量。相对于圆半径而言，默认三分之一 -->
+
+    <attr name="customRadius" format="dimension" />  <!--自定义圆环半径 -->
     <declare-styleable name="progressView">
         <attr name="antiAlias" />
         <attr name="startAngle" />
         <attr name="sweepAngle" />
         <attr name="animTime" />
+
         <attr name="maxValue" />
         <attr name="minValue" />
+        <attr name="showMinMaxValue" />
+        <attr name="maxMinValueSize" />
+        <attr name="maxMinTextColor" />
+        <attr name="maxMinTextPaddingTop" />
+
         <attr name="precision" />
         <attr name="valueSize" />
         <attr name="valueColor" />
@@ -46,7 +59,9 @@
         <attr name="unitColor" />
         <attr name="arcWidth" /> <!-- 圆弧宽度 -->
         <attr name="arcColors" />
+        <attr name="arcColor1" />
         <attr name="bgArcColor" /><!-- 背景圆弧颜色 -->
         <attr name="bgArcWidth" format="dimension" /><!-- 背景圆弧宽度 -->
+        <attr name="customRadius"/><!-- 自定义圆弧半径 -->
     </declare-styleable>
 </resources>

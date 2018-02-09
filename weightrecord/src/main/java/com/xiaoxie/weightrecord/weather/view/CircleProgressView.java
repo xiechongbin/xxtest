@@ -34,21 +34,37 @@ public class CircleProgressView extends View {
     private boolean antiAlias;
     //绘制提示
     private TextPaint mHintPaint;
-    private CharSequence mHint;
+    private TextPaint maxMinPaint;
+    private String mHint;
     private int mHintColor;
     private float mHintSize;
     private float mHintOffset;
 
     //绘制数值
     private TextPaint mValuePaint;
+
     private float minValue;
     private float maxValue;
+    private float maxMinValueSize;//最大值最小值的文字大小
+    private int maxMinTextColor;//最大值最小值的文字颜色
+    private boolean showMinMaxValue;
+    private float maxMinTextPaddingTop;
+
+    private float pointMinValueX;
+    private float pointMinValueY;
+    private float pointMaxValueX;
+    private float pointMaxValueY;
+
     private float mValueOffset;
     private int mPrecision;
     private String mPrecisionFormat;
     private int mValueColor;
     private float mValueSize;
     private int animationTime;
+
+    private int arcColor1;
+
+    private boolean hasGradientColor = false;//是否渐变
 
     //绘制单位
     private TextPaint mUnitPaint;
@@ -79,6 +95,7 @@ public class CircleProgressView extends View {
     //圆心坐标，半径
     private Point mCenterPoint;
     private float mRadius;
+    private float customRadius;//自定义半径
     private float mTextOffsetPercentInRadius;
 
     public CircleProgressView(Context context) {
@@ -109,6 +126,10 @@ public class CircleProgressView extends View {
         //求最小值作为实际值 //减去圆弧的宽度，否则会造成部分圆弧绘制在外围
         int minSize = Math.min(w - getPaddingLeft() - getPaddingRight() - 2 * (int) maxArcWidth, h - getPaddingTop() - getPaddingBottom() - 2 * (int) maxArcWidth);
         mRadius = minSize / 2;
+        //如果有自定义半径 且小于根据布局大小计算出来的半径，取自定义半径
+        if (customRadius > 0 && customRadius < mRadius) {
+            mRadius = customRadius;
+        }
         //获取圆的相关参数
         mCenterPoint.x = w / 2;
         mCenterPoint.y = h / 2;
@@ -123,6 +144,13 @@ public class CircleProgressView extends View {
         mValueOffset = mCenterPoint.y + getBaselineOffsetFromY(mValuePaint);
         mHintOffset = mCenterPoint.y - mRadius * mTextOffsetPercentInRadius + getBaselineOffsetFromY(mHintPaint);
         mUnitOffset = mCenterPoint.y + mRadius * mTextOffsetPercentInRadius + getBaselineOffsetFromY(mUnitPaint);
+
+        pointMinValueX = (float) (mCenterPoint.x - Math.sin((Math.PI * (((360 - mSweepAngle) / 2) / 180))) * mRadius);
+        pointMinValueY = mCenterPoint.y + mRadius + maxMinTextPaddingTop;
+
+        pointMaxValueX = (float) (mCenterPoint.x + Math.sin((Math.PI * (((360 - mSweepAngle) / 2) / 180))) * mRadius);
+        pointMaxValueY = mCenterPoint.y + mRadius + maxMinTextPaddingTop;
+
         updateArcPaint();
         Log.d(TAG, "onSizeChanged: 控件大小 = " + "(" + w + ", " + h + ")"
                 + "圆心坐标 = " + mCenterPoint.toString()
@@ -172,6 +200,11 @@ public class CircleProgressView extends View {
 
         minValue = typedArray.getFloat(R.styleable.progressView_minValue, Constant.DEFAULT_VALUE);
         maxValue = typedArray.getFloat(R.styleable.progressView_maxValue, Constant.DEFAULT_MAX_VALUE);
+        showMinMaxValue = typedArray.getBoolean(R.styleable.progressView_showMinMaxValue, false);
+        maxMinValueSize = typedArray.getDimension(R.styleable.progressView_maxMinValueSize, Constant.DEFAULT_MAX_MIN_TEXT_SIZE);
+        maxMinTextColor = typedArray.getColor(R.styleable.progressView_maxMinTextColor, getResources().getColor(R.color.color_898c8c, null));
+        maxMinTextPaddingTop = typedArray.getDimension(R.styleable.progressView_maxMinTextPaddingTop, Constant.DEFAULT_MAX_MIN_VALUE_PADDING_TOP);
+
         //内容数值精度格式
         mPrecision = typedArray.getInt(R.styleable.progressView_precision, 0);
         mPrecisionFormat = Utils.getPrecisionFormat(mPrecision);
@@ -182,6 +215,8 @@ public class CircleProgressView extends View {
         mUnitColor = typedArray.getColor(R.styleable.progressView_unitColor, Color.BLACK);
         mUnitSize = typedArray.getDimension(R.styleable.progressView_unitSize, Constant.DEFAULT_UNIT_SIZE);
 
+        customRadius = typedArray.getDimension(R.styleable.progressView_customRadius, 0);
+
         mArcWidth = typedArray.getDimension(R.styleable.progressView_arcWidth, Constant.DEFAULT_ARC_WIDTH);
         mStartAngle = typedArray.getFloat(R.styleable.progressView_startAngle, Constant.DEFAULT_START_ANGLE);
         mSweepAngle = typedArray.getFloat(R.styleable.progressView_sweepAngle, Constant.DEFAULT_SWEEP_ANGLE);
@@ -191,8 +226,10 @@ public class CircleProgressView extends View {
         mTextOffsetPercentInRadius = typedArray.getFloat(R.styleable.progressView_textOffsetPercentInRadius, 0.33f);
 
         animationTime = typedArray.getInt(R.styleable.progressView_animTime, Constant.DEFAULT_ANIM_TIME);
+        arcColor1 = typedArray.getColor(R.styleable.progressView_arcColor1, Color.BLUE);
         int gradientArcColors = typedArray.getResourceId(R.styleable.progressView_arcColors, 0);
         if (gradientArcColors != 0) {
+            hasGradientColor = true;
             try {
                 int[] gradientColors = getResources().getIntArray(gradientArcColors);
                 if (gradientColors.length == 0) {//如果渐变色为数组为0，则尝试以单色读取色值
@@ -210,6 +247,8 @@ public class CircleProgressView extends View {
             } catch (Resources.NotFoundException e) {
                 throw new Resources.NotFoundException("the give resource not found.");
             }
+        } else {
+            hasGradientColor = false;
         }
         typedArray.recycle();
     }
@@ -223,6 +262,12 @@ public class CircleProgressView extends View {
         mHintPaint.setTextSize(mHintSize);  // 设置绘制文字大小
         mHintPaint.setColor(mHintColor); // 设置画笔颜色
         mHintPaint.setTextAlign(Paint.Align.CENTER);   // 从中间向两边绘制，不需要再次计算文字
+
+        maxMinPaint = new TextPaint();
+        maxMinPaint.setAntiAlias(antiAlias); // 设置抗锯齿,会消耗较大资源，绘制图形速度会变慢。
+        maxMinPaint.setTextSize(maxMinValueSize);  // 设置绘制文字大小
+        maxMinPaint.setColor(maxMinTextColor); // 设置画笔颜色
+        maxMinPaint.setTextAlign(Paint.Align.CENTER);   // 从中间向两边绘制，不需要再次计算文字
 
         mValuePaint = new TextPaint();
         mValuePaint.setAntiAlias(antiAlias);
@@ -240,7 +285,6 @@ public class CircleProgressView extends View {
         mArcPaint = new Paint();
         mArcPaint.setAntiAlias(antiAlias);
         mArcPaint.setStyle(Paint.Style.STROKE);  // 设置画笔的样式，为FILL，FILL_OR_STROKE，或STROKE
-
         mArcPaint.setStrokeWidth(mArcWidth); // 设置画笔粗细
         mArcPaint.setStrokeCap(Paint.Cap.ROUND);// 当画笔样式为STROKE或FILL_OR_STROKE时，设置笔刷的图形样式，如圆形样式  // Cap.ROUND,或方形样式 Cap.SQUARE
 
@@ -260,13 +304,16 @@ public class CircleProgressView extends View {
         // float textWidth = mValuePaint.measureText(mValue.toString());
         // float x = mCenterPoint.x - textWidth / 2;
         canvas.drawText(String.format(mPrecisionFormat, minValue), mCenterPoint.x, mValueOffset, mValuePaint);
-
         if (mHint != null) {
             canvas.drawText(mHint.toString(), mCenterPoint.x, mHintOffset, mHintPaint);
         }
 
         if (mUnit != null) {
             canvas.drawText(mUnit.toString(), mCenterPoint.x, mUnitOffset, mUnitPaint);
+        }
+        if (showMinMaxValue) {
+            canvas.drawText("0", pointMinValueX, pointMinValueY, maxMinPaint);
+            canvas.drawText(String.valueOf((int) maxValue), pointMaxValueX, pointMaxValueY, maxMinPaint);
         }
     }
 
@@ -292,8 +339,12 @@ public class CircleProgressView extends View {
      */
     private void updateArcPaint() {
         // 设置渐变
-        mSweepGradient = new SweepGradient(mCenterPoint.x, mCenterPoint.y, mGradientColors, null);
-        mArcPaint.setShader(mSweepGradient);
+        if (hasGradientColor) {
+            mSweepGradient = new SweepGradient(mCenterPoint.x, mCenterPoint.y, mGradientColors, null);
+            mArcPaint.setShader(mSweepGradient);
+        } else {
+            mArcPaint.setColor(arcColor1);
+        }
     }
 
     private float getBaselineOffsetFromY(Paint paint) {
@@ -308,7 +359,7 @@ public class CircleProgressView extends View {
         return mHint;
     }
 
-    public void setHint(CharSequence hint) {
+    public void setHint(String hint) {
         mHint = hint;
     }
 
@@ -440,8 +491,10 @@ public class CircleProgressView extends View {
         static final int DEFAULT_VALUE_SIZE = 15;
 
         static final int DEFAULT_ARC_WIDTH = 15;
+        static final int DEFAULT_MAX_MIN_TEXT_SIZE = 15;
 
         public static final int DEFAULT_WAVE_HEIGHT = 40;
+        public static final int DEFAULT_MAX_MIN_VALUE_PADDING_TOP = 20;
     }
 
     private static class Utils {

@@ -48,7 +48,7 @@ public class WeatherActivity extends Activity {
         checkPermission();
         initView();
 
-        GetWeatherUtils.get6DaysInfo(null, new StringCallback() {
+       /* GetWeatherUtils.get6DaysInfo(null, new StringCallback() {
             @Override
             public void onError(Call call, Exception e, String id) {
                 Log.d("weather", e.toString());
@@ -58,7 +58,7 @@ public class WeatherActivity extends Activity {
             public void onResponse(String response, String id) {
                 Log.d("weather", response);
             }
-        });
+        });*/
     }
 
     private void initView() {

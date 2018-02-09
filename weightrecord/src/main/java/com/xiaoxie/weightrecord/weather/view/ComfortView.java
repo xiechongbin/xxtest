@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import com.xiaoxie.weightrecord.R;
  */
 
 public class ComfortView extends LinearLayout {
-    private CircleView circleView;
+    private CircleProgressView circleView;
 
     public ComfortView(Context context) {
         super(context);
@@ -35,8 +36,9 @@ public class ComfortView extends LinearLayout {
 
     private void initView(Context context) {
         View v = LayoutInflater.from(context).inflate(R.layout.layout_comfort, null);
+        v.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         this.addView(v);
         circleView = v.findViewById(R.id.air_wet);
-        circleView.setCenterInfo("空气湿度", "", "36%");
+        circleView.setValue(70);
     }
 }
