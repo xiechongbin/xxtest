@@ -93,22 +93,22 @@
 
                 <TextView
                     android:id="@+id/tv_body_temperature"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:gravity="left"
                     android:text="58"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/tv_ultraviolet"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
+                    android:gravity="left"
                     android:text="16"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

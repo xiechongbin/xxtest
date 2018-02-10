@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="sunRise">
+        <!--圆环距离四边的距离-->
+        <attr name="paddingLeft" format="dimension" />
+        <attr name="paddingTop" format="dimension" />
+        <attr name="paddingBottom" format="dimension" />
+        <attr name="paddingRight" format="dimension" />
+        <!--圆弧宽度-->
+        <attr name="runRiseCircleWidth" format="dimension" />
+        <!--圆弧虚线和实线的长度-->
+        <attr name="dashEffectLength" format="dimension" />
+        <!--图片大小-->
+        <attr name="pictureSize" format="dimension" />
+        <!--文字大小-->
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+</resources>

@@ -1267,6 +1267,7 @@ Your idea weight is 0003."</string>
     <string name="weather_aqi">空气质量</string>
     <string name="weather_comfort">舒适度</string>
     <string name="weather_wind">风向风力</string>
+    <string name="weather_sunrise">日出日落</string>
     <string name="weather_aqi_value_title">污染指数</string>
     <string name="weather_air_wet">空气湿度</string>
     <string name="weather_body_temperature">体感温度</string>

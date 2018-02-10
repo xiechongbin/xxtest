@@ -17,6 +17,7 @@ import com.xiaoxie.weightrecord.R;
 import com.xiaoxie.weightrecord.weather.utils.GetWeatherUtils;
 import com.xiaoxie.weightrecord.weather.view.AQIView;
 import com.xiaoxie.weightrecord.weather.view.ComfortView;
+import com.xiaoxie.weightrecord.weather.view.SunRiseDownView;
 import com.xiaoxie.weightrecord.weather.view.SunRiseView;
 import com.xiaoxie.weightrecord.weather.view.TemperatureView;
 import com.xiaoxie.weightrecord.weather.view.WindView;
@@ -39,7 +40,7 @@ public class WeatherActivity extends Activity {
     private AQIView aqiView;
     private ComfortView comfortView;
     private WindView windView;
-    private SunRiseView sunRiseView;
+    private SunRiseDownView sunRiseDownView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class WeatherActivity extends Activity {
         aqiView = new AQIView(this);
         comfortView = new ComfortView(this);
         windView = new WindView(this);
-        sunRiseView = new SunRiseView(this);
+        sunRiseDownView = new SunRiseDownView(this);
         scrollView_container.addView(temperatureView);
         addDividingLine(scrollView_container);
         scrollView_container.addView(aqiView);
@@ -79,7 +80,7 @@ public class WeatherActivity extends Activity {
         addDividingLine(scrollView_container);
         scrollView_container.addView(windView);
         addDividingLine(scrollView_container);
-        scrollView_container.addView(sunRiseView);
+        scrollView_container.addView(sunRiseDownView);
         addDividingLine(scrollView_container);
     }
 

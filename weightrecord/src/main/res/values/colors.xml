@@ -41,6 +41,7 @@
     <!--weather-->
     <color name="color_898c8c">#898c8c</color>
     <color name="color_52c5ea">#52c5ea</color>
+    <color name="color_ffdc1a">#ffdc1a</color>
 
 
     <declare-styleable name="SeekCircle">
