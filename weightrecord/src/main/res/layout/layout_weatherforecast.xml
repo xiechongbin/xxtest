@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--发布时间-->
+        <TextView
+            android:id="@+id/tv_release_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/weather_release_time"
+            android:textColor="@color/color_beb8c6" />
+        <!--发布单位-->
+        <TextView
+            android:id="@+id/tv_release_institution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/weather_release_institution"
+            android:textColor="@color/color_beb8c6" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_9b9c9b" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/hour_weather_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_9b9c9b" />
+
+    <!--明天-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_tomorrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:text="2月12日明天" />
+
+        <ImageView
+            android:id="@+id/iv_tomorrow_weather_icon"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/weather_sun"/>
+
+        <TextView
+            android:id="@+id/tv_tomorrow_temperature_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:text="19℃/8℃" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_9b9c9b" />
+    <!--未来第二天-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_future_2th_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:text="2月12日明天" />
+
+        <ImageView
+            android:id="@+id/iv_future_2th_day_weather_icon"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/weather_sun"/>
+
+        <TextView
+            android:id="@+id/tv_future_2th_day_temperature_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:text="19℃/8℃" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_9b9c9b" />
+    <!--未来第三天-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_future_3th_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:text="2月12日明天" />
+
+        <ImageView
+            android:id="@+id/iv_future_3th_day_weather_icon"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/weather_sun"/>
+
+        <TextView
+            android:id="@+id/tv_future_3th_day_temperature_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:text="19℃/8℃" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_9b9c9b" />
+    <!--未来第四天-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_future_4th_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:text="2月12日明天" />
+
+        <ImageView
+            android:id="@+id/iv_future_4th_day_weather_icon"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/weather_sun"/>
+
+        <TextView
+            android:id="@+id/tv_future_4th_day_temperature_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:text="19℃/8℃" />
+    </RelativeLayout>
+</LinearLayout>

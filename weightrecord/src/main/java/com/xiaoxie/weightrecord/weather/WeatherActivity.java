@@ -2,6 +2,7 @@ package com.xiaoxie.weightrecord.weather;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,8 +10,10 @@ import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Switch;
 
 import com.xcb.network.okhttp.callback.StringCallback;
 import com.xiaoxie.weightrecord.R;
@@ -20,6 +23,7 @@ import com.xiaoxie.weightrecord.weather.view.ComfortView;
 import com.xiaoxie.weightrecord.weather.view.SunRiseDownView;
 import com.xiaoxie.weightrecord.weather.view.SunRiseView;
 import com.xiaoxie.weightrecord.weather.view.TemperatureView;
+import com.xiaoxie.weightrecord.weather.view.WeatherForecast;
 import com.xiaoxie.weightrecord.weather.view.WindView;
 
 import okhttp3.Call;
@@ -28,7 +32,7 @@ import okhttp3.Call;
  * Created by xcb on 2018/1/12.
  */
 
-public class WeatherActivity extends Activity {
+public class WeatherActivity extends Activity implements View.OnClickListener {
     private static final String[] PERMISSION_ACCESS_FINE_LOCATION = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
     private static final String[] PERMISSION_ACCESS_COARSE_LOCATION = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
     private static final int F_REQUESTCODE = 1000;
@@ -41,6 +45,9 @@ public class WeatherActivity extends Activity {
     private ComfortView comfortView;
     private WindView windView;
     private SunRiseDownView sunRiseDownView;
+    private WeatherForecast weatherForecast;
+
+    private ImageView iv_setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,9 @@ public class WeatherActivity extends Activity {
     }
 
     private void initView() {
+        iv_setting = findViewById(R.id.iv_setting);
+        iv_setting.setOnClickListener(this);
+
         footView = findViewById(R.id.weather_foot);
         mScrollView = findViewById(R.id.scrollView);
         scrollView_container = findViewById(R.id.scrollView_container);
@@ -72,7 +82,9 @@ public class WeatherActivity extends Activity {
         comfortView = new ComfortView(this);
         windView = new WindView(this);
         sunRiseDownView = new SunRiseDownView(this);
+        weatherForecast = new WeatherForecast(this);
         scrollView_container.addView(temperatureView);
+        scrollView_container.addView(weatherForecast);
         addDividingLine(scrollView_container);
         scrollView_container.addView(aqiView);
         addDividingLine(scrollView_container);
@@ -116,6 +128,18 @@ public class WeatherActivity extends Activity {
         }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, PERMISSION_ACCESS_FINE_LOCATION, F_REQUESTCODE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_setting:
+                Intent intent = new Intent();
+                intent.setClass(this, WeatherSettingActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_activity_in, R.anim.anim_activity_out);
+                break;
         }
     }
 }

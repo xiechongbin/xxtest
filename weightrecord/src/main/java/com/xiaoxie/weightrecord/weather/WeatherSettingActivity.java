@@ -1,0 +1,230 @@
+package com.xiaoxie.weightrecord.weather;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.xiaoxie.weightrecord.R;
+import com.xiaoxie.weightrecord.utils.Utils;
+import com.xiaoxie.weightrecord.view.RecycleViewDivider;
+import com.xiaoxie.weightrecord.weather.dialog.WeatherDialog;
+import com.xiaoxie.weightrecord.weather.interfaces.OnItemClickListener;
+import com.xiaoxie.weightrecord.weather.utils.Constant;
+
+public class WeatherSettingActivity extends AppCompatActivity implements OnItemClickListener {
+    private RecyclerView setting_recycleView;
+    private SettingAdapter adapter;
+    private ActionBar actionBar;
+    private View dividing_line;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_weather_setting);
+        initActionBar();
+        initView();
+    }
+
+    private void initView() {
+        setting_recycleView = (RecyclerView) findViewById(R.id.setting_recycleView);
+        dividing_line = findViewById(R.id.dividing_line);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        layoutParams.leftMargin = Utils.dip2px(this, 15);
+        layoutParams.rightMargin = Utils.dip2px(this, 15);
+        setting_recycleView.setLayoutParams(layoutParams);
+        setting_recycleView.setLayoutManager(layoutManager);
+
+        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.dip2px(this, 2));
+        layoutParams1.topMargin = getActionBarHeight() + Utils.dip2px(this, 20);
+        dividing_line.setLayoutParams(layoutParams1);
+
+        int color = getResources().getColor(R.color.color_divider_line, null);
+        setting_recycleView.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, 2, color));
+        adapter = new SettingAdapter(this);
+        adapter.setOnItemClickListener(this);
+        setting_recycleView.setAdapter(adapter);
+    }
+
+    private int getActionBarHeight() {
+        TypedArray array = this.obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
+        int height = array.getDimensionPixelOffset(0, 0);
+        array.recycle();
+        return height;
+    }
+
+    private void initActionBar() {
+        actionBar = getSupportActionBar();
+        Drawable drawable = getDrawable(android.R.color.transparent);
+        actionBar.setDisplayHomeAsUpEnabled(true); //显示返回的箭头，并可通过onOptionsItemSelected()进行监听，其资源ID为android.R.id.home。
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setBackgroundDrawable(drawable);
+        actionBar.setTitle(R.string.setting);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        switch (position) {
+            case 0:
+                showTemperatureDialog();
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+    }
+
+    private void showTemperatureDialog() {
+        WeatherDialog.TemperatureUnitBuilder builder = new WeatherDialog.TemperatureUnitBuilder(this);
+        final Dialog dialog = builder.create();
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+          /*
+         * 将对话框的大小按屏幕大小的百分比设置
+         */
+        WindowManager m = getWindowManager();
+        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
+
+        WindowManager.LayoutParams p = window.getAttributes(); // 获取对话框当前的参数值
+        p.height = (int) (d.getHeight() * 0.35); // 高度设置为屏幕的0.35
+        p.width = (int) (d.getWidth() * 0.9); // 宽度设置为屏幕的0.9
+        window.setAttributes(p);
+
+
+        builder.setOnTemperatureUnitDialogOnClickListener(new WeatherDialog.TemperatureUnitBuilder.TemperatureUnitDialogOnClickListener() {
+            @Override
+            public void onClicked(String unit) {
+                adapter.notifyDataSetChanged();
+            }
+        });
+        dialog.show();
+    }
+
+    private class SettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        private int count = 4;
+        private int ViewTypeText = 1;
+        private int ViewTypeSwitch = 2;
+        private Context context;
+        private OnItemClickListener listener;
+        private String unit;
+        private SharedPreferences sharedPreferences;
+
+        SettingAdapter(Context context) {
+            this.context = context;
+            sharedPreferences = context.getSharedPreferences(Constant.CONFIG_TEMPERATURE_UNIT, MODE_PRIVATE);
+        }
+
+        public void setOnItemClickListener(OnItemClickListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            if (viewType == ViewTypeText) {
+                return new ViewHolder1(LayoutInflater.from(context).inflate(R.layout.layout_weather_setting_item1, parent, false));
+            } else {
+                return new ViewHolder2(LayoutInflater.from(context).inflate(R.layout.layout_weather_setting_item2, parent, false));
+            }
+
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onItemClick(position);
+                    }
+                }
+            });
+
+            if (holder instanceof ViewHolder1) {
+                ViewHolder1 holder1 = (ViewHolder1) holder;
+                if (position == 0) {
+                    holder1.tv_title.setText(R.string.weather_temperature_unit);
+                    holder1.tv_value.setText(sharedPreferences.getString(Constant.TEMPERATURE_UNIT, getResources().getString(R.string.weather_temperature_unit_auto)));
+                } else if (position == 3) {
+                    holder1.tv_title.setText(R.string.weather_update_every_time);
+                    holder1.tv_value.setText(R.string.weather_update_every_time_one_hour);
+                }
+            } else if (holder instanceof ViewHolder2) {
+                ViewHolder2 holder2 = (ViewHolder2) holder;
+                if (position == 1) {
+                    holder2.tv_title.setText(R.string.weather_sound);
+                } else if (position == 2) {
+                    holder2.tv_title.setText(R.string.weather_auto_update);
+                }
+            }
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (position == 0 || position == 3) {
+                return ViewTypeText;
+            } else {
+                return ViewTypeSwitch;
+            }
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return count;
+        }
+    }
+
+    private class ViewHolder1 extends RecyclerView.ViewHolder {
+        private TextView tv_title;
+        private TextView tv_value;
+
+        ViewHolder1(View itemView) {
+            super(itemView);
+            tv_title = itemView.findViewById(R.id.setting_title1);
+            tv_value = itemView.findViewById(R.id.setting_value1);
+        }
+    }
+
+    private class ViewHolder2 extends RecyclerView.ViewHolder {
+        private TextView tv_title;
+
+        ViewHolder2(View itemView) {
+            super(itemView);
+            tv_title = itemView.findViewById(R.id.setting_title2);
+        }
+    }
+
+}

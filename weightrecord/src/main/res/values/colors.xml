@@ -42,6 +42,11 @@
     <color name="color_898c8c">#898c8c</color>
     <color name="color_52c5ea">#52c5ea</color>
     <color name="color_ffdc1a">#ffdc1a</color>
+    <color name="color_beb8c6">#beb8c6</color>
+    <color name="color_divider_line">#506887</color>
+    <color name="color_007df5">#007df5</color>
+    <color name="color_e1e1e1">#e1e1e1</color>
+    <color name="color_f7f7f7">#f7f7f7</color>
 
 
     <declare-styleable name="SeekCircle">

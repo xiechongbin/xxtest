@@ -1280,4 +1280,16 @@ Your idea weight is 0003."</string>
     <string name="weather_aqi_o3">O3</string>
     <string name="weather_aqi_so2">SO2</string>
     <string name="weather_aqi_co">CO</string>
+    <string name="weather_release_time">46分钟前发布</string>
+    <string name="weather_release_institution">阿里天气</string>
+
+    <string name="weather_temperature_unit">温度单位</string>
+    <string name="weather_temperature_unit_auto">自动(°C)</string>
+    <string name="weather_temperature_unit_c">°C</string>
+    <string name="weather_temperature_unit_f">°F</string>
+    <string name="weather_sound">天气声音</string>
+    <string name="weather_auto_update">自动更新</string>
+    <string name="weather_update_every_time">更新间隔</string>
+    <string name="weather_update_every_time_one_hour">1小时</string>
+    <string name="setting">设置</string>
 </resources>

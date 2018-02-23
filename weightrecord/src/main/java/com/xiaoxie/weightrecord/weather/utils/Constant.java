@@ -4,7 +4,8 @@ package com.xiaoxie.weightrecord.weather.utils;
  * Created by xcb on 2018/1/12.
  */
 
-public class AddressConstant {
+public class Constant {
+
     public static final String APP_KEY = "24763776";
     public static final String APP_SECRET = "89294b2a91e2bb974e9138bb6fa4cded";
     public static final String APP_CODE = "0dbc997399dc40509e3727bd0847a7ee";
@@ -26,4 +27,6 @@ public class AddressConstant {
     public static final String TOKEN_BRIEF_CONDITION = "a231972c3e7ba6b33d8ec71fd4774f5e";
     public static final String TOKEN_AQI = "6e9a127c311094245fc1b2aa6d0a54fd";
 
+    public static final String CONFIG_TEMPERATURE_UNIT = "config_temperature_unit";
+    public static final String TEMPERATURE_UNIT = "temperature_unit";
 }
