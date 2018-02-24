@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -20,7 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.xiaoxie.weightrecord.R;
@@ -99,10 +102,13 @@ public class WeatherSettingActivity extends AppCompatActivity implements OnItemC
                 showTemperatureDialog();
                 break;
             case 1:
+                adapter.notifyDataSetChanged();
                 break;
             case 2:
+                adapter.notifyDataSetChanged();
                 break;
             case 3:
+                showUpdateIntervalDialog();
                 break;
         }
     }
@@ -133,6 +139,31 @@ public class WeatherSettingActivity extends AppCompatActivity implements OnItemC
         dialog.show();
     }
 
+    private void showUpdateIntervalDialog() {
+        WeatherDialog.UpdateIntervalBuilder builder = new WeatherDialog.UpdateIntervalBuilder(this);
+        final Dialog dialog = builder.create();
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+          /*
+         * 将对话框的大小按屏幕大小的百分比设置
+         */
+        WindowManager m = getWindowManager();
+        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
+
+        WindowManager.LayoutParams p = window.getAttributes(); // 获取对话框当前的参数值
+        p.height = (int) (d.getHeight() * 0.55); // 高度设置为屏幕的0.55
+        p.width = (int) (d.getWidth() * 0.9); // 宽度设置为屏幕的0.9
+        window.setAttributes(p);
+
+        builder.setOnUpdateIntervalClickListener(new WeatherDialog.UpdateIntervalBuilder.UpdateIntervalBuilderClickListener() {
+            @Override
+            public void onClicked(String unit) {
+                adapter.notifyDataSetChanged();
+            }
+        });
+        dialog.show();
+    }
+
     private class SettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private int count = 4;
         private int ViewTypeText = 1;
@@ -141,10 +172,14 @@ public class WeatherSettingActivity extends AppCompatActivity implements OnItemC
         private OnItemClickListener listener;
         private String unit;
         private SharedPreferences sharedPreferences;
+        private boolean weather_sound;
+        private boolean auto_update;
 
         SettingAdapter(Context context) {
             this.context = context;
             sharedPreferences = context.getSharedPreferences(Constant.CONFIG_TEMPERATURE_UNIT, MODE_PRIVATE);
+            weather_sound = sharedPreferences.getBoolean(Constant.WEATHER_SOUND, false);
+            auto_update = sharedPreferences.getBoolean(Constant.AUTO_UPDATE, false);
         }
 
         public void setOnItemClickListener(OnItemClickListener listener) {
@@ -163,21 +198,31 @@ public class WeatherSettingActivity extends AppCompatActivity implements OnItemC
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        listener.onItemClick(position);
-                    }
-                }
-            });
-
             if (holder instanceof ViewHolder1) {
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (listener != null) {
+                            if (position == 3 && !auto_update) {
+                                return;
+                            }
+                            listener.onItemClick(position);
+                        }
+                    }
+                });
                 ViewHolder1 holder1 = (ViewHolder1) holder;
                 if (position == 0) {
                     holder1.tv_title.setText(R.string.weather_temperature_unit);
                     holder1.tv_value.setText(sharedPreferences.getString(Constant.TEMPERATURE_UNIT, getResources().getString(R.string.weather_temperature_unit_auto)));
                 } else if (position == 3) {
+                    if (!sharedPreferences.getBoolean(Constant.AUTO_UPDATE, false)) {
+                        holder1.tv_title.setTextColor(context.getResources().getColor(R.color.color_beb8c6, null));
+                        holder1.tv_value.setTextColor(context.getResources().getColor(R.color.color_beb8c6, null));
+
+                    } else {
+                        holder1.tv_title.setTextColor(Color.WHITE);
+                    }
                     holder1.tv_title.setText(R.string.weather_update_every_time);
                     holder1.tv_value.setText(R.string.weather_update_every_time_one_hour);
                 }
@@ -185,9 +230,26 @@ public class WeatherSettingActivity extends AppCompatActivity implements OnItemC
                 ViewHolder2 holder2 = (ViewHolder2) holder;
                 if (position == 1) {
                     holder2.tv_title.setText(R.string.weather_sound);
+                    holder2.aSwitch.setChecked(sharedPreferences.getBoolean(Constant.WEATHER_SOUND, false));
                 } else if (position == 2) {
                     holder2.tv_title.setText(R.string.weather_auto_update);
+                    holder2.aSwitch.setChecked(sharedPreferences.getBoolean(Constant.AUTO_UPDATE, false));
                 }
+                holder2.aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (position == 1) {
+                            weather_sound = isChecked;
+                            sharedPreferences.edit().putBoolean(Constant.WEATHER_SOUND, isChecked).apply();
+                        } else if (position == 2) {
+                            auto_update = isChecked;
+                            sharedPreferences.edit().putBoolean(Constant.AUTO_UPDATE, isChecked).apply();
+                        }
+                        if (listener != null) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                });
             }
         }
 
@@ -220,10 +282,12 @@ public class WeatherSettingActivity extends AppCompatActivity implements OnItemC
 
     private class ViewHolder2 extends RecyclerView.ViewHolder {
         private TextView tv_title;
+        private Switch aSwitch;
 
         ViewHolder2(View itemView) {
             super(itemView);
             tv_title = itemView.findViewById(R.id.setting_title2);
+            aSwitch = itemView.findViewById(R.id.switch_bar);
         }
     }
 

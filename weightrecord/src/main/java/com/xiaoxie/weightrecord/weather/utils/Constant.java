@@ -29,4 +29,7 @@ public class Constant {
 
     public static final String CONFIG_TEMPERATURE_UNIT = "config_temperature_unit";
     public static final String TEMPERATURE_UNIT = "temperature_unit";
+    public static final String WEATHER_SOUND = "weather_sound";
+    public static final String AUTO_UPDATE = "auto_update";
+    public static final String UPDATE_INTERVAL = "update_interval";
 }

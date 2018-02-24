@@ -1292,4 +1292,10 @@ Your idea weight is 0003."</string>
     <string name="weather_update_every_time">更新间隔</string>
     <string name="weather_update_every_time_one_hour">1小时</string>
     <string name="setting">设置</string>
+
+    <string name="one_hour">1小时</string>
+    <string name="two_hour">2小时</string>
+    <string name="six_hour">6小时</string>
+    <string name="twelve_hour">12小时</string>
+    <string name="twenty_four_hour">24小时</string>
 </resources>
